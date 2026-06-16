@@ -1,0 +1,28 @@
+# Environment files — never commit these
+.env
+.env.local
+.env.*.local
+
+# Node
+node_modules/
+dist/
+.vite/
+
+# Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+.pytest_cache/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/settings.json
+.idea/
+
+# Build outputs
+build/
+*.egg-info/
