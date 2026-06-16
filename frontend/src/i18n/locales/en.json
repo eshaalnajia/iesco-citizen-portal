@@ -1,0 +1,36 @@
+{
+  "nav": {
+    "home": "Home",
+    "schedule": "Load Shedding",
+    "billing": "Bill Payment",
+    "tariffs": "Tariff Rates",
+    "services": "Services",
+    "locations": "Locations",
+    "map": "Live Map"
+  },
+  "home": {
+    "title": "IESCO Citizen Portal",
+    "subtitle": "Your electricity information, all in one place"
+  },
+  "schedule": {
+    "title": "Load Shedding Schedule",
+    "filterArea": "Filter by area",
+    "type": "Type",
+    "duration": "Duration",
+    "restoration": "Expected restoration"
+  },
+  "billing": {
+    "title": "Bill Payment",
+    "enterRef": "Enter reference number",
+    "viewBill": "View Bill",
+    "payNow": "Pay Now"
+  },
+  "status": {
+    "on": "Electricity ON",
+    "shedding": "Shedding soon",
+    "active": "Load shedding",
+    "fault": "Fault / Outage",
+    "maintenance": "Maintenance",
+    "nodata": "No data"
+  }
+}

@@ -1,0 +1,77 @@
+import { Link, useLocation } from "react-router-dom"
+import { useTranslation } from "react-i18next"
+import { Zap, Menu } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+
+const navLinks = [
+  { path: "/schedule",  key: "nav.schedule" },
+  { path: "/billing",   key: "nav.billing" },
+  { path: "/tariffs",   key: "nav.tariffs" },
+  { path: "/services",  key: "nav.services" },
+  { path: "/locations", key: "nav.locations" },
+  { path: "/map",       key: "nav.map" },
+]
+
+export default function Navbar() {
+  const { t, i18n } = useTranslation()
+  const location = useLocation()
+
+  const toggleLanguage = () => {
+    i18n.changeLanguage(i18n.language === "en" ? "ur" : "en")
+  }
+
+  return (
+    <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur">
+      <div className="container mx-auto px-4 max-w-7xl flex h-14 items-center justify-between">
+        <Link to="/" className="flex items-center gap-2 font-semibold text-lg">
+          <Zap className="h-5 w-5 text-iesco-teal" />
+          <span className="text-iesco-navy dark:text-white">IESCO Portal</span>
+        </Link>
+
+        <nav className="hidden md:flex items-center gap-1">
+          {navLinks.map((link) => (
+            <Link
+              key={link.path}
+              to={link.path}
+              className={`px-3 py-1.5 rounded-md text-sm transition-colors
+                ${location.pathname === link.path
+                  ? "bg-iesco-teal/10 text-iesco-teal font-medium"
+                  : "text-muted-foreground hover:text-foreground hover:bg-accent"
+                }`}
+            >
+              {t(link.key)}
+            </Link>
+          ))}
+        </nav>
+
+        <div className="flex items-center gap-2">
+          <Button variant="outline" size="sm" onClick={toggleLanguage}>
+            {i18n.language === "en" ? "????" : "English"}
+          </Button>
+
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon" className="md:hidden">
+                <Menu className="h-5 w-5" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right">
+              <nav className="flex flex-col gap-3 mt-6">
+                {navLinks.map((link) => (
+                  <Link
+                    key={link.path}
+                    to={link.path}
+                    className="text-sm font-medium py-2 border-b border-border"
+                  >
+                    {t(link.key)}
+                  </Link>
+                ))}
+              </nav>
+            </SheetContent>
+          </Sheet>
+        </div>
+      </div>
+    </header>
+  )
+}
