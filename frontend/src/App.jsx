@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router-dom"
 import Layout from "@/components/layout/Layout"
+import ProtectedRoute from "@/components/auth/ProtectedRoute"
 
 import HomePage        from "@/pages/HomePage"
 import SchedulePage    from "@/pages/SchedulePage"
@@ -16,7 +17,7 @@ export default function App() {
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
-        <Route index          element={<HomePage />} />
+        <Route index element={<HomePage />} />
         <Route path="schedule"  element={<SchedulePage />} />
         <Route path="billing"   element={<BillingPage />} />
         <Route path="tariffs"   element={<TariffsPage />} />
@@ -26,7 +27,16 @@ export default function App() {
       </Route>
 
       <Route path="/login" element={<LoginPage />} />
-      <Route path="/admin/*" element={<AdminPage />} />
+
+      <Route
+        path="/admin/*"
+        element={
+          <ProtectedRoute>
+            <AdminPage />
+          </ProtectedRoute>
+        }
+      />
+
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   )
