@@ -1,4 +1,4 @@
-import { useState } from "react"
+ï»¿import { useState } from "react"
 import { useNavigate, useLocation, Navigate } from "react-router-dom"
 import { supabase } from "@/lib/supabase"
 import { useAuth } from "@/context/AuthContext"
@@ -91,7 +91,7 @@ export default function LoginPage() {
               id="password"
               type="password"
               autoComplete="current-password"
-              placeholder="••••••••"
+              placeholder="--------"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
@@ -103,7 +103,7 @@ export default function LoginPage() {
             {loading ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Signing in…
+                Signing in...
               </>
             ) : (
               "Sign in"
@@ -112,7 +112,7 @@ export default function LoginPage() {
         </form>
 
         <p className="text-xs text-center text-slate-400">
-          IESCO Smart Citizen Portal — Admin access only
+          IESCO Smart Citizen Portal - Admin access only
         </p>
       </div>
     </div>

@@ -1,5 +1,4 @@
-import { Zap } from "lucide-react"
-
+ï»¿import { Zap } from "lucide-react"
 export default function Footer() {
   return (
     <footer className="border-t py-6 mt-auto">
@@ -7,11 +6,11 @@ export default function Footer() {
                       justify-between items-center gap-4 text-sm text-muted-foreground">
         <div className="flex items-center gap-2">
           <Zap className="h-4 w-4 text-iesco-teal" />
-          <span>IESCO Citizen Portal — Digital Transformation Initiative 2025</span>
+          <span>IESCO Citizen Portal - Digital Transformation Initiative 2025</span>
         </div>
         <div className="flex gap-4">
           <a href="tel:051-9252148" className="hover:text-foreground">Helpline: 051-9252148</a>
-          <span>·</span>
+          <span>.</span>
           <span>Islamabad Electric Supply Company</span>
         </div>
       </div>

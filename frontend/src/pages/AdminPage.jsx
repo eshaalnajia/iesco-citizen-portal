@@ -1,4 +1,4 @@
-import { Routes, Route, NavLink, useNavigate } from "react-router-dom"
+ï»¿import { Routes, Route, NavLink, useNavigate } from "react-router-dom"
 import { useAuth } from "@/context/AuthContext"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
@@ -17,7 +17,7 @@ function DashboardHome() {
         {[
           { label: "Active feeders",     value: "12" },
           { label: "Scheduled outages",  value: "4"  },
-          { label: "Citizen reports",    value: "—"  },
+          { label: "Citizen reports",    value: "-"  },
         ].map((stat) => (
           <div key={stat.label} className="border rounded-lg p-4 bg-slate-50">
             <p className="text-2xl font-bold text-iesco-navy">{stat.value}</p>
