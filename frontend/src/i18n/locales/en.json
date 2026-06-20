@@ -1,4 +1,4 @@
-{
+﻿{
   "nav": {
     "home": "Home",
     "schedule": "Load Shedding",
@@ -14,9 +14,35 @@
   },
   "schedule": {
     "title": "Load Shedding Schedule",
+    "allAreas": "All areas",
+    "selectArea": "Select your area",
+    "today": "Today",
+    "thisWeek": "This week",
+    "noOutages": "No outages scheduled today",
+    "noOutagesArea": "No load shedding scheduled in {{area}} today",
+    "outageCount": "{{count}} outage scheduled today",
+    "outageCount_plural": "{{count}} outages scheduled today",
+    "activeNow": "Load shedding active right now",
+    "activeFeeders": "{{count}} feeder currently without power",
+    "activeFeeders_plural": "{{count}} feeders currently without power",
+    "types": {
+      "scheduled": "Scheduled",
+      "unplanned": "Unplanned",
+      "maintenance": "Maintenance"
+    },
+    "timeWindow": "Time window",
+    "duration": "Duration",
+    "feeder": "Feeder",
+    "sector": "Sector",
+    "status": "Status",
+    "upcoming": "Upcoming",
+    "liveNow": "NOW",
+    "autoRefresh": "Auto-refreshes every 5 minutes",
+    "clear": "Clear",
+    "cuts": "{{count}} cut",
+    "cuts_plural": "{{count}} cuts",
     "filterArea": "Filter by area",
     "type": "Type",
-    "duration": "Duration",
     "restoration": "Expected restoration"
   },
   "billing": {
