@@ -29,7 +29,7 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur">
       <div className="container mx-auto px-4 max-w-7xl flex h-14 items-center justify-between">
         <Link to="/" className="flex items-center gap-2 font-semibold text-lg">
-          <img src={iescoLogo} alt="IESCO" className="h-8 w-auto" />
+          <img src={iescoLogo} alt="IESCO" className="h-9 w-auto object-contain" />
           <span className="text-iesco-navy dark:text-white">IESCO Portal</span>
         </Link>
         <nav className="hidden md:flex items-center gap-1">

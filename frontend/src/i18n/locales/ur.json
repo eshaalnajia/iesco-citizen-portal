@@ -1,55 +1,84 @@
 ﻿{
-  "nav": {
-    "home": "ہوم",
-    "schedule": "لوڈ شیڈنگ",
-    "billing": "بل ادائیگی",
-    "tariffs": "ٹیرف",
-    "services": "خدمات",
-    "locations": "مقامات",
-    "map": "لائیو نقشہ"
-  },
-  "home": {
-    "title": "آئی ای ایس سی او سٹیزن پورٹل",
-    "subtitle": "آپ کی بجلی کی معلومات، ایک جگہ"
-  },
-  "schedule": {
-    "title": "لوڈ شیڈنگ شیڈول",
-    "allAreas": "تمام علاقے",
-    "selectArea": "اپنا علاقہ منتخب کریں",
-    "today": "آج",
-    "thisWeek": "اس ہفتے",
-    "noOutages": "آج کوئی لوڈ شیڈنگ نہیں",
-    "noOutagesArea": "آج {{area}} میں کوئی لوڈ شیڈنگ نہیں",
-    "outageCount": "آج {{count}} لوڈ شیڈنگ",
-    "activeNow": "ابھی لوڈ شیڈنگ جاری ہے",
-    "activeFeeders": "ابھی {{count}} فیڈر بند ہیں",
-    "types": {
-      "scheduled": "طے شدہ",
-      "unplanned": "غیر متوقع",
-      "maintenance": "مرمت"
-    },
-    "timeWindow": "وقت",
-    "duration": "مدت",
-    "feeder": "فیڈر",
-    "sector": "سیکٹر",
-    "status": "حالت",
-    "upcoming": "آنے والی",
-    "liveNow": "ابھی",
-    "clear": "صاف",
-    "cuts": "{{count}} کٹ"
-  },
-  "billing": {
-    "title": "بل ادائیگی",
-    "enterRef": "ریفرنس نمبر درج کریں",
-    "viewBill": "بل دیکھیں",
-    "payNow": "ابھی ادا کریں"
-  },
-  "status": {
-    "on": "بجلی موجود",
-    "shedding": "جلد لوڈ شیڈنگ",
-    "active": "لوڈ شیڈنگ",
-    "fault": "خرابی",
-    "maintenance": "مرمت",
-    "nodata": "کوئی معلومات نہیں"
-  }
+    "nav":  {
+                "home":  "ہوم",
+                "schedule":  "لوڈ شیڈنگ",
+                "billing":  "بل ادائیگی",
+                "tariffs":  "ٹیرف",
+                "services":  "خدمات",
+                "locations":  "مقامات",
+                "map":  "لائیو نقشہ"
+            },
+    "home":  {
+                 "title":  "آئی ای ایس سی او سٹیزن پورٹل",
+                 "subtitle":  "آپ کی بجلی کی معلومات، ایک جگہ"
+             },
+    "schedule":  {
+                     "title":  "لوڈ شیڈنگ شیڈول",
+                     "allAreas":  "تمام علاقے",
+                     "selectArea":  "اپنا علاقہ منتخب کریں",
+                     "today":  "آج",
+                     "thisWeek":  "اس ہفتے",
+                     "noOutages":  "آج کوئی لوڈ شیڈنگ نہیں",
+                     "noOutagesArea":  "آج {{area}} میں کوئی لوڈ شیڈنگ نہیں",
+                     "outageCount":  "آج {{count}} لوڈ شیڈنگ",
+                     "activeNow":  "ابھی لوڈ شیڈنگ جاری ہے",
+                     "activeFeeders":  "ابھی {{count}} فیڈر بند ہیں",
+                     "types":  {
+                                   "scheduled":  "طے شدہ",
+                                   "unplanned":  "غیر متوقع",
+                                   "maintenance":  "مرمت"
+                               },
+                     "timeWindow":  "وقت",
+                     "duration":  "مدت",
+                     "feeder":  "فیڈر",
+                     "sector":  "سیکٹر",
+                     "status":  "حالت",
+                     "upcoming":  "آنے والی",
+                     "liveNow":  "ابھی",
+                     "clear":  "صاف",
+                     "cuts":  "{{count}} کٹ"
+                 },
+    "billing":  {
+                    "title":  "بل ادائیگی",
+                    "enterRef":  "ریفرنس نمبر درج کریں",
+                    "viewBill":  "بل دیکھیں",
+                    "payNow":  "ابھی ادا کریں"
+                },
+    "status":  {
+                   "on":  "بجلی موجود",
+                   "shedding":  "جلد لوڈ شیڈنگ",
+                   "active":  "لوڈ شیڈنگ",
+                   "fault":  "خرابی",
+                   "maintenance":  "مرمت",
+                   "nodata":  "کوئی معلومات نہیں"
+               },
+    "tariffs":  {
+                    "title":  "بجلی کے ٹیرف",
+                    "selectType":  "صارف کی قسم منتخب کریں",
+                    "currentRates":  "موجودہ نرخ",
+                    "perUnit":  "فی یونٹ (روپے)",
+                    "calculator":  "بل کیلکولیٹر",
+                    "unitsLabel":  "اس مہینے استعمال شدہ یونٹ",
+                    "unitsPlaceholder":  "مثال: 350",
+                    "peakLabel":  "پیک گھنٹوں میں متوقع استعمال",
+                    "energyCharges":  "بجلی کے اخراجات",
+                    "fixedCharge":  "ماہانہ مقررہ چارج",
+                    "fcSurcharge":  "ایندھن کی اضافی قیمت (FC)",
+                    "trSurcharge":  "ٹیرف ریشنلائزیشن سرچارج (TR)",
+                    "subtotal":  "ذیلی کل",
+                    "gst":  "جی ایس ٹی ({{rate}}%)",
+                    "totalPayable":  "قابل ادائیگی کل",
+                    "averageRate":  "اوسط نرخ: {{rate}} روپے / یونٹ",
+                    "slabBreakdown":  "سلیب کی تفصیل",
+                    "rateHistory":  "نرخوں کی تاریخ",
+                    "effectiveFrom":  "نفاذ کی تاریخ {{date}}",
+                    "currentRevision":  "موجودہ",
+                    "nepraNote":  "نیپرا سے منظور شدہ نرخ · 17% جی ایس ٹی لاگو ہوگا",
+                    "peakHours":  "پیک گھنٹے: شام 5 سے رات 11 بجے تک",
+                    "yourUsage":  "آپ کا استعمال",
+                    "unitRange":  "یونٹ کی حد",
+                    "peakRate":  "پیک ریٹ",
+                    "offPeakRate":  "آف پیک ریٹ",
+                    "fixedChargeHeader":  "مقررہ / ماہانہ"
+                }
 }

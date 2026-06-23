@@ -1,62 +1,91 @@
 ﻿{
-  "nav": {
-    "home": "Home",
-    "schedule": "Load Shedding",
-    "billing": "Bill Payment",
-    "tariffs": "Tariff Rates",
-    "services": "Services",
-    "locations": "Locations",
-    "map": "Live Map"
-  },
-  "home": {
-    "title": "IESCO Citizen Portal",
-    "subtitle": "Your electricity information, all in one place"
-  },
-  "schedule": {
-    "title": "Load Shedding Schedule",
-    "allAreas": "All areas",
-    "selectArea": "Select your area",
-    "today": "Today",
-    "thisWeek": "This week",
-    "noOutages": "No outages scheduled today",
-    "noOutagesArea": "No load shedding scheduled in {{area}} today",
-    "outageCount": "{{count}} outage scheduled today",
-    "outageCount_plural": "{{count}} outages scheduled today",
-    "activeNow": "Load shedding active right now",
-    "activeFeeders": "{{count}} feeder currently without power",
-    "activeFeeders_plural": "{{count}} feeders currently without power",
-    "types": {
-      "scheduled": "Scheduled",
-      "unplanned": "Unplanned",
-      "maintenance": "Maintenance"
-    },
-    "timeWindow": "Time window",
-    "duration": "Duration",
-    "feeder": "Feeder",
-    "sector": "Sector",
-    "status": "Status",
-    "upcoming": "Upcoming",
-    "liveNow": "NOW",
-    "autoRefresh": "Auto-refreshes every 5 minutes",
-    "clear": "Clear",
-    "cuts": "{{count}} cut",
-    "cuts_plural": "{{count}} cuts",
-    "filterArea": "Filter by area",
-    "type": "Type",
-    "restoration": "Expected restoration"
-  },
-  "billing": {
-    "title": "Bill Payment",
-    "enterRef": "Enter reference number",
-    "viewBill": "View Bill",
-    "payNow": "Pay Now"
-  },
-  "status": {
-    "on": "Electricity ON",
-    "shedding": "Shedding soon",
-    "active": "Load shedding",
-    "fault": "Fault / Outage",
-    "maintenance": "Maintenance",
-    "nodata": "No data"
-  }
+    "nav":  {
+                "home":  "Home",
+                "schedule":  "Load Shedding",
+                "billing":  "Bill Payment",
+                "tariffs":  "Tariff Rates",
+                "services":  "Services",
+                "locations":  "Locations",
+                "map":  "Live Map"
+            },
+    "home":  {
+                 "title":  "IESCO Citizen Portal",
+                 "subtitle":  "Your electricity information, all in one place"
+             },
+    "schedule":  {
+                     "title":  "Load Shedding Schedule",
+                     "allAreas":  "All areas",
+                     "selectArea":  "Select your area",
+                     "today":  "Today",
+                     "thisWeek":  "This week",
+                     "noOutages":  "No outages scheduled today",
+                     "noOutagesArea":  "No load shedding scheduled in {{area}} today",
+                     "outageCount":  "{{count}} outage scheduled today",
+                     "outageCount_plural":  "{{count}} outages scheduled today",
+                     "activeNow":  "Load shedding active right now",
+                     "activeFeeders":  "{{count}} feeder currently without power",
+                     "activeFeeders_plural":  "{{count}} feeders currently without power",
+                     "types":  {
+                                   "scheduled":  "Scheduled",
+                                   "unplanned":  "Unplanned",
+                                   "maintenance":  "Maintenance"
+                               },
+                     "timeWindow":  "Time window",
+                     "duration":  "Duration",
+                     "feeder":  "Feeder",
+                     "sector":  "Sector",
+                     "status":  "Status",
+                     "upcoming":  "Upcoming",
+                     "liveNow":  "NOW",
+                     "autoRefresh":  "Auto-refreshes every 5 minutes",
+                     "clear":  "Clear",
+                     "cuts":  "{{count}} cut",
+                     "cuts_plural":  "{{count}} cuts",
+                     "filterArea":  "Filter by area",
+                     "type":  "Type",
+                     "restoration":  "Expected restoration"
+                 },
+    "billing":  {
+                    "title":  "Bill Payment",
+                    "enterRef":  "Enter reference number",
+                    "viewBill":  "View Bill",
+                    "payNow":  "Pay Now"
+                },
+    "status":  {
+                   "on":  "Electricity ON",
+                   "shedding":  "Shedding soon",
+                   "active":  "Load shedding",
+                   "fault":  "Fault / Outage",
+                   "maintenance":  "Maintenance",
+                   "nodata":  "No data"
+               },
+    "tariffs":  {
+                    "title":  "Electricity Tariff Rates",
+                    "selectType":  "Select consumer type",
+                    "currentRates":  "Current rates",
+                    "perUnit":  "Per unit (PKR)",
+                    "calculator":  "Bill calculator",
+                    "unitsLabel":  "Units consumed this month",
+                    "unitsPlaceholder":  "e.g. 350",
+                    "peakLabel":  "Estimated peak hour usage",
+                    "energyCharges":  "Energy charges",
+                    "fixedCharge":  "Fixed monthly charge",
+                    "fcSurcharge":  "Fuel cost surcharge (FC)",
+                    "trSurcharge":  "Tariff rationalisation surcharge (TR)",
+                    "subtotal":  "Subtotal",
+                    "gst":  "GST ({{rate}}%)",
+                    "totalPayable":  "Total payable",
+                    "averageRate":  "Average rate: PKR {{rate}} / unit",
+                    "slabBreakdown":  "Slab breakdown",
+                    "rateHistory":  "Rate history",
+                    "effectiveFrom":  "Effective {{date}}",
+                    "currentRevision":  "Current",
+                    "nepraNote":  "NEPRA-approved rates · 17% GST applies",
+                    "peakHours":  "Peak hours: 5 PM - 11 PM",
+                    "yourUsage":  "Your usage",
+                    "unitRange":  "Unit range",
+                    "peakRate":  "Peak rate",
+                    "offPeakRate":  "Off-peak rate",
+                    "fixedChargeHeader":  "Fixed / month"
+                }
 }
