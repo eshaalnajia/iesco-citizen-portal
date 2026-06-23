@@ -87,5 +87,30 @@
                     "peakRate":  "Peak rate",
                     "offPeakRate":  "Off-peak rate",
                     "fixedChargeHeader":  "Fixed / month"
-                }
+                },
+    "locations":  {
+                      "title":  "Location Directory",
+                      "searchPlaceholder":  "Search area, sector, or town...",
+                      "allAreas":  "All areas",
+                      "sectors":  "Sectors",
+                      "satelliteTowns":  "Satellite towns",
+                      "cantonments":  "Cantonments",
+                      "rural":  "Rural",
+                      "noResults":  "No locations found",
+                      "noResultsSearch":  "No results for \"{{term}}\"",
+                      "nearMe":  "Near me",
+                      "findNearest":  "Find offices near me",
+                      "refreshLocation":  "Refresh location",
+                      "nearest3":  "Showing nearest 3 offices to your location",
+                      "kmAway":  "{{km}} km away",
+                      "officePhone":  "Office",
+                      "complaintPhone":  "Complaints",
+                      "officeHours":  "Hours",
+                      "todaySchedule":  "Today\u0027s load shedding",
+                      "noOutagesToday":  "No outages today",
+                      "powerOn":  "Power ON",
+                      "locationPermissionDenied":  "Location permission denied. Enable it in your browser settings.",
+                      "locationUnavailable":  "Your location could not be determined.",
+                      "locationTimeout":  "Location request timed out."
+                  }
 }

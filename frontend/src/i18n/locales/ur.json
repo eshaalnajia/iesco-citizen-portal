@@ -80,5 +80,19 @@
                     "peakRate":  "پیک ریٹ",
                     "offPeakRate":  "آف پیک ریٹ",
                     "fixedChargeHeader":  "مقررہ / ماہانہ"
-                }
+                },
+    "locations":  {
+                      "title":  "مقامات کی فہرست",
+                      "searchPlaceholder":  "علاقہ، سیکٹر یا قصبہ تلاش کریں...",
+                      "allAreas":  "تمام علاقے",
+                      "sectors":  "سیکٹر",
+                      "satelliteTowns":  "سیٹلائٹ ٹاؤن",
+                      "noResults":  "کوئی مقام نہیں ملا",
+                      "findNearest":  "قریبی دفتر تلاش کریں",
+                      "kmAway":  "{{km}} کلومیٹر دور",
+                      "officePhone":  "دفتر",
+                      "complaintPhone":  "شکایات",
+                      "noOutagesToday":  "آج کوئی لوڈ شیڈنگ نہیں",
+                      "powerOn":  "بجلی چالو"
+                  }
 }
