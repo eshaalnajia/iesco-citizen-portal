@@ -1,7 +1,9 @@
-﻿import { useEffect, useCallback } from "react"
+﻿import { useEffect, useCallback, useRef } from "react"
 import { STATUS_COLORS } from "@/lib/mapConstants"
 
 export function useFeederLayer(map, ready, feeders, onFeederClick) {
+  const hoveredIdRef = useRef(null)
+
   const colorExpression = [
     "match",
     ["get", "status"],
@@ -13,7 +15,11 @@ export function useFeederLayer(map, ready, feeders, onFeederClick) {
     if (map.getSource("feeders")) {
       map.getSource("feeders").setData(geojson)
     } else {
-      map.addSource("feeders", { type: "geojson", data: geojson })
+      map.addSource("feeders", {
+        type: "geojson",
+        data: geojson,
+        generateId: true,
+      })
     }
 
     if (!map.getLayer("feeder-fill")) {
@@ -23,7 +29,12 @@ export function useFeederLayer(map, ready, feeders, onFeederClick) {
         source: "feeders",
         paint: {
           "fill-color":   colorExpression,
-          "fill-opacity": 0.55,
+          "fill-opacity": [
+            "case",
+            ["boolean", ["feature-state", "hover"], false],
+            0.8,
+            0.55,
+          ],
         },
       })
     }
@@ -44,10 +55,32 @@ export function useFeederLayer(map, ready, feeders, onFeederClick) {
     map.on("mousemove", "feeder-fill", (e) => {
       if (e.features.length === 0) return
       map.getCanvas().style.cursor = "pointer"
+
+      const newId = e.features[0].id
+      if (hoveredIdRef.current !== null && hoveredIdRef.current !== newId) {
+        map.setFeatureState(
+          { source: "feeders", id: hoveredIdRef.current },
+          { hover: false }
+        )
+      }
+      if (newId !== undefined && hoveredIdRef.current !== newId) {
+        map.setFeatureState(
+          { source: "feeders", id: newId },
+          { hover: true }
+        )
+        hoveredIdRef.current = newId
+      }
     })
 
     map.on("mouseleave", "feeder-fill", () => {
       map.getCanvas().style.cursor = ""
+      if (hoveredIdRef.current !== null) {
+        map.setFeatureState(
+          { source: "feeders", id: hoveredIdRef.current },
+          { hover: false }
+        )
+        hoveredIdRef.current = null
+      }
     })
 
     map.on("click", "feeder-fill", (e) => {
@@ -59,7 +92,6 @@ export function useFeederLayer(map, ready, feeders, onFeederClick) {
 
   useEffect(() => {
     if (!map || !ready) return
-
     fetch(`${import.meta.env.VITE_API_URL}/feeders/map/geojson`)
       .then((r) => r.json())
       .then((geojson) => {
