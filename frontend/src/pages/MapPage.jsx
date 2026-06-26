@@ -76,12 +76,13 @@ export default function MapPage() {
   }, [map, ready, heatmap])
 
   useEffect(() => {
+    if (loading) return
     const code = searchParams.get("feeder")
     if (code && feeders.length > 0 && !selectedFeeder) {
       const feeder = feeders.find((f) => f.feeder_code === code)
       if (feeder) setSelected(feeder)
     }
-  }, [feeders, searchParams, selectedFeeder])
+  }, [feeders, searchParams, selectedFeeder, loading])
 
   useEffect(() => {
     if (!map || !ready) return
@@ -175,4 +176,5 @@ export default function MapPage() {
     </div>
   )
 }
+
 

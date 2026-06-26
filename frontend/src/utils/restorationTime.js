@@ -102,3 +102,4 @@ function formatMinutes(mins) {
   const m = absMin % 60
   return m > 0 ? `${h}h ${m}m` : `${h}h`
 }
+
