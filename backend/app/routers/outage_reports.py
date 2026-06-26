@@ -1,4 +1,4 @@
-﻿from fastapi import APIRouter, Depends, HTTPException, Request
+﻿from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 from typing import Optional
 from datetime import datetime, timedelta, timezone
@@ -7,63 +7,59 @@ from supabase import Client
 
 router = APIRouter(prefix="/outage-reports", tags=["Outage Reports"])
 
-
 class OutageReportCreate(BaseModel):
-    feeder_id: str
-    lat: Optional[float] = None
-    lng: Optional[float] = None
+    feeder_id: Optional[str] = None
+    lat:       Optional[float] = None
+    lng:       Optional[float] = None
 
-
-@router.post("/")
-def submit_report(
+@router.post("/", status_code=201)
+def submit_outage_report(
     body: OutageReportCreate,
-    request: Request,
-    db: Client = Depends(get_supabase),
+    db:   Client = Depends(get_supabase),
 ):
-    # Anonymous citizens can submit outage reports, no login required.
-    # reporter_ip is used only for same-IP dedup within a 30-minute window.
-    reporter_ip = request.client.host if request.client else "unknown"
-    cutoff = (datetime.now(timezone.utc) - timedelta(minutes=30)).isoformat()
-
-    existing = db.table("outage_reports").select("id").eq(
-        "feeder_id", body.feeder_id
-    ).eq("reporter_ip", reporter_ip).gte("created_at", cutoff).execute()
-
-    if existing.data:
-        raise HTTPException(
-            status_code=429,
-            detail="You have already reported this feeder recently"
-        )
-
-    result = db.table("outage_reports").insert({
+    """
+    Any citizen can submit an outage report.
+    When 3+ reports arrive for the same feeder within 30 minutes,
+    this updates the feeder status automatically.
+    """
+    db.table("outage_reports").insert({
         "feeder_id": body.feeder_id,
-        "lat": body.lat,
-        "lng": body.lng,
-        "reporter_ip": reporter_ip,
+        "lat":       body.lat,
+        "lng":       body.lng,
+        "confirmed": False,
     }).execute()
 
-    recent = db.table("outage_reports").select("id").eq(
-        "feeder_id", body.feeder_id
-    ).gte("created_at", cutoff).execute()
+    if body.feeder_id:
+        cutoff = (datetime.now(timezone.utc) - timedelta(minutes=30)).isoformat()
 
-    if len(recent.data) >= 3:
-        db.table("outage_reports").update({"confirmed": True}).eq(
-            "feeder_id", body.feeder_id
-        ).gte("created_at", cutoff).execute()
+        recent = db.table("outage_reports").select(
+            "id", count="exact"
+        ).eq("feeder_id", body.feeder_id).eq(
+            "confirmed", False
+        ).gte(
+            "created_at", cutoff
+        ).execute()
 
-    return {"submitted": True, "report_id": result.data[0]["id"]}
+        if (recent.count or 0) >= 3:
+            db.table("feeders").update({
+                "status":       "fault",
+                "last_updated": datetime.now(timezone.utc).isoformat(),
+            }).eq("id", body.feeder_id).execute()
 
+            db.table("outage_reports").update({
+                "confirmed": True
+            }).eq("feeder_id", body.feeder_id).eq(
+                "confirmed", False
+            ).execute()
 
-@router.get("/{feeder_id}")
-def get_feeder_reports(
-    feeder_id: str,
-    db: Client = Depends(get_supabase),
-):
-    # Public endpoint - returns recent reports for a feeder (last 24h)
-    cutoff = (datetime.now(timezone.utc) - timedelta(hours=24)).isoformat()
-    result = db.table("outage_reports").select(
-        "id, lat, lng, confirmed, created_at"
-    ).eq("feeder_id", feeder_id).gte("created_at", cutoff).order(
-        "created_at", desc=True
-    ).execute()
-    return {"data": result.data}
+            return {
+                "recorded": True,
+                "confirmed": True,
+                "message": "Outage confirmed - feeder status updated on the map",
+            }
+
+    return {
+        "recorded":  True,
+        "confirmed": False,
+        "message":   "Report received. 2 more reports needed to update the map.",
+    }
