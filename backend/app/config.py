@@ -41,3 +41,12 @@ JAZZCASH_BASE_URL = (
     if JAZZCASH_SANDBOX
     else 'https://payments.jazzcash.com.pk/ApplicationAPI/API/2.0/Purchase/'
 )
+
+EASYPAISA_STORE_ID   = os.environ.get('EASYPAISA_STORE_ID', '')
+EASYPAISA_HASH_KEY   = os.environ.get('EASYPAISA_HASH_KEY', '')
+EASYPAISA_USERNAME   = os.environ.get('EASYPAISA_USERNAME', '')
+EASYPAISA_PASSWORD   = os.environ.get('EASYPAISA_PASSWORD', '')
+EASYPAISA_SANDBOX    = os.environ.get('EASYPAISA_SANDBOX', 'true').lower() == 'true'
+EASYPAISA_RETURN_URL = os.environ.get('EASYPAISA_RETURN_URL', 'http://localhost:5173/billing/payment-complete')
+
+EASYPAISA_BASE_URL = 'https://easypay.easypaisa.com.pk/tpay/'

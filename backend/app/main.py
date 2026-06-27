@@ -1,7 +1,7 @@
 ﻿from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.config import ENVIRONMENT
-from app.routers import feeders, schedules, tariffs, locations, services, bills, outage_reports, jazzcash
+from app.routers import feeders, schedules, tariffs, locations, services, bills, outage_reports, jazzcash, easypaisa
 
 app = FastAPI(
     title="IESCO Citizen Portal API",
@@ -57,6 +57,7 @@ app.include_router(services.router)
 app.include_router(bills.router)
 app.include_router(outage_reports.router)
 app.include_router(jazzcash.router)
+app.include_router(easypaisa.router)
 
 @app.get("/", tags=["Health"])
 def health_check():
@@ -86,6 +87,8 @@ def test_cache():
     return {
         "redis": "connected" if value == "ok" else "error",
     }
+
+
 
 
 
