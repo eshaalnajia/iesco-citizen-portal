@@ -30,3 +30,14 @@ def get_supabase() -> Client:
 
 def get_redis() -> redis.Redis:
     return redis_client
+
+JAZZCASH_MERCHANT_ID    = os.environ.get('JAZZCASH_MERCHANT_ID', '')
+JAZZCASH_PASSWORD       = os.environ.get('JAZZCASH_PASSWORD', '')
+JAZZCASH_INTEGRITY_SALT = os.environ.get('JAZZCASH_INTEGRITY_SALT', '')
+JAZZCASH_SANDBOX        = os.environ.get('JAZZCASH_SANDBOX', 'true').lower() == 'true'
+
+JAZZCASH_BASE_URL = (
+    'https://sandbox.jazzcash.com.pk/ApplicationAPI/API/2.0/Purchase/'
+    if JAZZCASH_SANDBOX
+    else 'https://payments.jazzcash.com.pk/ApplicationAPI/API/2.0/Purchase/'
+)
