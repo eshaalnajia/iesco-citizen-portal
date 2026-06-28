@@ -11,6 +11,7 @@ import ServicesPage    from "@/pages/ServicesPage"
 import LocationsPage   from "@/pages/LocationsPage"
 import MapPage         from "@/pages/MapPage"
 import AdminPage       from "@/pages/AdminPage"
+import LoginPage       from "@/pages/LoginPage"
 import NotFoundPage    from "@/pages/NotFoundPage"
 import SelfServicePage from "@/pages/SelfServicePage"
 
