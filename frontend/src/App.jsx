@@ -11,8 +11,8 @@ import ServicesPage    from "@/pages/ServicesPage"
 import LocationsPage   from "@/pages/LocationsPage"
 import MapPage         from "@/pages/MapPage"
 import AdminPage       from "@/pages/AdminPage"
-import LoginPage       from "@/pages/LoginPage"
 import NotFoundPage    from "@/pages/NotFoundPage"
+import SelfServicePage from "@/pages/SelfServicePage"
 
 export default function App() {
   return (
@@ -26,6 +26,7 @@ export default function App() {
         <Route path="services"  element={<ServicesPage />} />
         <Route path="locations" element={<LocationsPage />} />
         <Route path="map"       element={<MapPage />} />
+        <Route path="self-service" element={<SelfServicePage />} />
       </Route>
 
       <Route path="/login" element={<LoginPage />} />

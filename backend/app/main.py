@@ -1,7 +1,7 @@
 ﻿from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.config import ENVIRONMENT
-from app.routers import feeders, schedules, tariffs, locations, services, bills, outage_reports, jazzcash, easypaisa, onebill
+from app.routers import feeders, schedules, tariffs, locations, services, bills, outage_reports, jazzcash, easypaisa, onebill, service_requests
 
 app = FastAPI(
     title="IESCO Citizen Portal API",
@@ -93,3 +93,4 @@ def test_cache():
 
 
 app.include_router(onebill.router)
+app.include_router(service_requests.router)

@@ -6,7 +6,8 @@
                 "tariffs":  "Tariff Rates",
                 "services":  "Services",
                 "locations":  "Locations",
-                "map":  "Live Map"
+                "map":  "Live Map",
+        "selfService": "Self-Service"
             },
     "home":  {
                  "title":  "IESCO Citizen Portal",
@@ -153,3 +154,4 @@
         "reviews_other": "{{count}} reviews"
     }
 }
+

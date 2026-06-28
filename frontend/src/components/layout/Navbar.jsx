@@ -14,6 +14,7 @@ const navLinks = [
   { path: "/services",  key: "nav.services"  },
   { path: "/locations", key: "nav.locations" },
   { path: "/map",       key: "nav.map"       },
+  { path: "/self-service", key: "nav.selfService" },
 ]
 
 export default function Navbar() {
