@@ -1,4 +1,4 @@
-from supabase import create_client, Client
+﻿from supabase import create_client, Client
 from dotenv import load_dotenv
 import redis
 import os
@@ -50,3 +50,8 @@ EASYPAISA_SANDBOX    = os.environ.get('EASYPAISA_SANDBOX', 'true').lower() == 't
 EASYPAISA_RETURN_URL = os.environ.get('EASYPAISA_RETURN_URL', 'http://localhost:5173/billing/payment-complete')
 
 EASYPAISA_BASE_URL = 'https://easypay.easypaisa.com.pk/tpay/'
+
+ONEBILL_BILLER_ID              = os.environ.get('ONEBILL_BILLER_ID', '')
+ONEBILL_SECRET_KEY             = os.environ.get('ONEBILL_SECRET_KEY', '')
+ONEBILL_SANDBOX                = os.environ.get('ONEBILL_SANDBOX', 'true').lower() == 'true'
+ONEBILL_CONSUMER_NUMBER_LENGTH = int(os.environ.get('ONEBILL_CONSUMER_NUMBER_LENGTH', '14'))

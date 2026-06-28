@@ -46,7 +46,7 @@ function BillSummaryCard({ bill }) {
                 })
               : "-"
           },
-          { label: "Status",         value: isPaid ? "Paid" : isOverdue ? "Overdue" : "Unpaid" },
+          { label: "Status", value: isPaid ? "Paid" : isOverdue ? "Overdue" : "Unpaid" },
         ].map(({ label, value }) => (
           <div key={label}>
             <p className="text-xs text-slate-400">{label}</p>
@@ -67,7 +67,7 @@ function BillSummaryCard({ bill }) {
       {isPaid && bill.transaction_ref && (
         <div className="bg-green-100 rounded-lg px-3 py-2">
           <p className="text-xs text-green-700">
-            Paid - Transaction ref:{" "}
+            Paid · Transaction ref:{" "}
             <span className="font-mono font-medium">{bill.transaction_ref}</span>
           </p>
         </div>

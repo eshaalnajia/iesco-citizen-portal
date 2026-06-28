@@ -1,4 +1,4 @@
-@import "./tailwind.css";
+﻿@import "./tailwind.css";
 
 @layer base {
   :root {
@@ -44,4 +44,29 @@
   font-family: "Noto Nastaliq Urdu", serif;
   direction: rtl;
   text-align: right;
+}
+
+@media print {
+  body :not(.print-slip):not(.print-slip *):not(:has(.print-slip)) { display: none !important; }
+  .print-slip { display: block !important; }
+  .print-channel-steps { display: block !important; }
+  .payment-slip-print {
+    width: 100%;
+    max-width: none;
+    padding: 2rem;
+    font-size: 14pt;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+  .payment-slip-print .reference-number {
+    font-size: 28pt;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    font-family: monospace;
+  }
+  * {
+    box-shadow: none !important;
+    border-radius: 0 !important;
+  }
+  .no-print { display: none !important; }
 }
