@@ -94,5 +94,30 @@
                       "complaintPhone":  "شکایات",
                       "noOutagesToday":  "آج کوئی لوڈ شیڈنگ نہیں",
                       "powerOn":  "بجلی چالو"
-                  }
+                  },
+    "services": {
+        "title": "خدمات کی فہرست",
+        "allTypes": "سب",
+        "electricians": "الیکٹریشن",
+        "repairCentres": "مرمت مراکز",
+        "meterAgents": "میٹر ایجنٹ",
+        "newConnection": "نئا کنکشن",
+        "typeElectrician": "الیکٹریشن",
+        "typeRepairCentre": "مرمت مرکز",
+        "typeMeterAgent": "میٹر ایجنٹ",
+        "typeNewConnectionAgent": "نئا کنکشن",
+        "areaPlaceholder": "علاقے کے ذریعے تلاش کریں...",
+        "verified": "آئی ای ایس سی او تصدیق شدہ",
+        "available": "دستیاب",
+        "call": "کال کریں",
+        "whatsapp": "واٹس ایپ",
+        "rateProvider": "درجہ بندی کریں",
+        "noProviders": "کوئی فراہم کنندہ نہیں ملا",
+        "excellent": "بہترین",
+        "providersCount_other": "{{count}} فراہم کنندہ",
+        "updating": "تجدید ہو رہی ہے...",
+        "veryGood": "بہت اچھا",
+        "good": "اچھا",
+        "average": "اوسط"
+    }
 }
