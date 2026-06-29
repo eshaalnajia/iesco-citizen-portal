@@ -19,13 +19,13 @@ export default function TariffsPage() {
           {t("tariffs.title", "Electricity Tariff Rates")}
         </h1>
         <p className="text-slate-500 mt-1 text-sm">
-          NEPRA-approved rates for Islamabad · Calculate your estimated bill
+          {t("tariffs.subtitle")}
         </p>
       </div>
 
       <div className="space-y-3">
         <h2 className="text-sm font-semibold text-slate-600 uppercase tracking-wide">
-          Select consumer type
+          {t("tariffs.selectType")}
         </h2>
         <ConsumerTypeSelector value={consumerType} onChange={setConsumerType} />
       </div>
@@ -35,14 +35,14 @@ export default function TariffsPage() {
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
         <div className="lg:col-span-3 space-y-3">
           <div className="flex items-center justify-between">
-            <h2 className="text-base font-semibold text-slate-800">Current rates</h2>
-            <span className="text-xs text-slate-400">Per unit (PKR)</span>
+            <h2 className="text-base font-semibold text-slate-800">{t("tariffs.currentRates")}</h2>
+            <span className="text-xs text-slate-400">{t("tariffs.perUnit")}</span>
           </div>
           <RateSlabTable consumerType={consumerType} highlightUnits={calcUnits} />
         </div>
 
         <div className="lg:col-span-2 space-y-3">
-          <h2 className="text-base font-semibold text-slate-800">Bill calculator</h2>
+          <h2 className="text-base font-semibold text-slate-800">{t("tariffs.calculator")}</h2>
           <BillCalculator consumerType={consumerType} onUnitsChange={setCalcUnits} />
         </div>
       </div>
@@ -51,9 +51,9 @@ export default function TariffsPage() {
 
       <div className="space-y-3">
         <div>
-          <h2 className="text-base font-semibold text-slate-800">Rate history</h2>
+          <h2 className="text-base font-semibold text-slate-800">{t("tariffs.rateHistory")}</h2>
           <p className="text-xs text-slate-400 mt-0.5">
-            Past NEPRA rate revisions for {consumerType} consumers
+            {t("tariffs.effectiveFrom", { date: consumerType })}
           </p>
         </div>
         <RateHistory consumerType={consumerType} />
@@ -62,3 +62,4 @@ export default function TariffsPage() {
     </div>
   )
 }
+

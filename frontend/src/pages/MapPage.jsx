@@ -14,6 +14,7 @@ import { ZoneSearch }             from "@/components/map/ZoneSearch"
 import { getRestorationInfo }     from "@/utils/restorationTime"
 import { useQuery }               from "@tanstack/react-query"
 import { Loader2 }                from "lucide-react"
+import { useTranslation }        from "react-i18next"
 import api                        from "@/services/api"
 
 function useIsMobile() {
@@ -45,6 +46,7 @@ function RealtimeIndicator({ status }) {
 }
 
 export default function MapPage() {
+  const { t } = useTranslation()
   const containerRef                    = useRef(null)
   const [searchParams, setSearchParams] = useSearchParams()
   const [selectedFeeder, setSelected]   = useState(null)
@@ -132,7 +134,7 @@ export default function MapPage() {
   if (error) {
     return (
       <div className="flex items-center justify-center h-96 text-slate-500">
-        <p className="text-sm">Could not load feeder data: {error}</p>
+        <p className="text-sm">{t("common.error")}</p>
       </div>
     )
   }
@@ -144,7 +146,7 @@ export default function MapPage() {
         <div className="absolute inset-0 z-30 flex items-center justify-center bg-slate-100">
           <div className="flex flex-col items-center gap-3 text-slate-500">
             <Loader2 className="h-8 w-8 animate-spin text-iesco-teal" />
-            <p className="text-sm">Loading map...</p>
+            <p className="text-sm">{t("map.loading")}</p>
           </div>
         </div>
       )}
@@ -195,5 +197,6 @@ export default function MapPage() {
     </div>
   )
 }
+
 
 

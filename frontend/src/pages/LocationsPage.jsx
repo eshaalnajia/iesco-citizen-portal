@@ -33,7 +33,7 @@ export default function LocationsPage() {
           {t("locations.title", "Location Directory")}
         </h1>
         <p className="text-slate-500 mt-1 text-sm">
-          IESCO office contacts and electricity status for 20+ Islamabad areas
+          {t("locations.subtitle")}
         </p>
       </div>
 
@@ -41,11 +41,11 @@ export default function LocationsPage() {
         <TabsList>
           <TabsTrigger value="directory" className="flex items-center gap-1.5">
             <List className="h-3.5 w-3.5" />
-            All locations
+            {t("locations.directory")}
           </TabsTrigger>
           <TabsTrigger value="nearest" className="flex items-center gap-1.5">
             <MapPin className="h-3.5 w-3.5" />
-            Near me
+            {t("locations.nearMe")}
           </TabsTrigger>
         </TabsList>
 
@@ -64,11 +64,10 @@ export default function LocationsPage() {
         <TabsContent value="nearest" className="mt-4">
           <div className="space-y-2 mb-4">
             <p className="text-sm text-slate-600">
-              Find the three closest IESCO offices to your current location.
+              {t("locations.findNearest")}
             </p>
             <p className="text-xs text-slate-400">
-              Your GPS coordinates are only used for this calculation and
-              are never stored.
+            {t("locations.locationDenied")}
             </p>
           </div>
           <NearestOffices />
@@ -79,3 +78,4 @@ export default function LocationsPage() {
     </div>
   )
 }
+

@@ -6,17 +6,18 @@ import { EnergyAuditForm }         from "@/components/modules/requests/EnergyAud
 import { SafetyInspectionForm }    from "@/components/modules/requests/SafetyInspectionForm"
 import { RequestTracker }          from "@/components/modules/requests/RequestTracker"
 import { Button }                  from "@/components/ui/button"
+import { useTranslation }          from "react-i18next"
 import { Tabs, TabsList,
          TabsTrigger, TabsContent} from "@/components/ui/tabs"
 import { CheckCircle, Loader2,
          Zap, Gauge, Leaf,
          ShieldAlert, Search }     from "lucide-react"
 
-const FORM_TYPES = [
-  { value: "new_connection",    label: "New Connection", icon: Zap         },
-  { value: "meter_change",      label: "Meter Change",   icon: Gauge       },
-  { value: "energy_audit",      label: "Energy Audit",   icon: Leaf        },
-  { value: "safety_inspection", label: "Safety Issue",   icon: ShieldAlert },
+const FORM_TYPE_KEYS = [
+  { value: "new_connection",    tKey: "selfService.types.new_connection",    icon: Zap         },
+  { value: "meter_change",      tKey: "selfService.types.meter_change",      icon: Gauge       },
+  { value: "energy_audit",      tKey: "selfService.types.energy_audit",      icon: Leaf        },
+  { value: "safety_inspection", tKey: "selfService.types.safety_inspection", icon: ShieldAlert },
 ]
 
 const FORM_COMPONENTS = {
@@ -62,6 +63,7 @@ function buildDetails(type, values) {
 }
 
 export default function SelfServicePage() {
+  const { t } = useTranslation()
   const [formType, setFormType]   = useState("new_connection")
   const [values, setValues]       = useState({})
   const [submitted, setSubmitted] = useState(null)
@@ -120,24 +122,24 @@ export default function SelfServicePage() {
   return (
     <div className="space-y-6 max-w-2xl mx-auto">
       <div>
-        <h1 className="text-2xl font-bold text-slate-900">Self-Service Requests</h1>
+        <h1 className="text-2xl font-bold text-slate-900">{t("selfService.title")}</h1>
         <p className="text-slate-500 mt-1 text-sm">
-          Submit IESCO service requests online - no office visit needed
+          {t("selfService.subtitle")}
         </p>
       </div>
 
       <Tabs defaultValue="submit">
         <TabsList>
-          <TabsTrigger value="submit">Submit a request</TabsTrigger>
+          <TabsTrigger value="submit">{t("selfService.submitTab")}</TabsTrigger>
           <TabsTrigger value="track" className="flex items-center gap-1.5">
             <Search className="h-3.5 w-3.5" />
-            Track my request
+            {t("selfService.trackTab")}
           </TabsTrigger>
         </TabsList>
 
         <TabsContent value="submit" className="space-y-5 mt-4">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-            {FORM_TYPES.map((type) => {
+            {FORM_TYPE_KEYS.map((type) => {
               const Icon     = type.icon
               const selected = formType === type.value
               return (
@@ -155,7 +157,7 @@ export default function SelfServicePage() {
                   <Icon className={`h-5 w-5 ${selected ? "text-iesco-teal" : "text-slate-400"}`} />
                   <span className={`text-xs font-medium
                                    ${selected ? "text-iesco-teal" : "text-slate-700"}`}>
-                    {type.label}
+                    {t(type.tKey)}
                   </span>
                 </button>
               )
@@ -166,24 +168,22 @@ export default function SelfServicePage() {
             <div className="bg-green-50 border border-green-200 rounded-2xl p-6 space-y-4 text-center">
               <CheckCircle className="h-12 w-12 text-green-500 mx-auto" />
               <div>
-                <p className="font-bold text-lg text-slate-900">Request submitted</p>
+                <p className="font-bold text-lg text-slate-900">{t("selfService.successTitle")}</p>
                 <p className="text-slate-500 text-sm mt-1">{submitted.message}</p>
               </div>
               <div className="bg-white rounded-xl p-4 space-y-2">
-                <p className="text-xs text-slate-400">Your ticket number</p>
+                <p className="text-xs text-slate-400">{t("selfService.ticketLabel")}</p>
                 <p className="font-mono text-2xl font-bold text-iesco-teal">
                   {submitted.ticket_number}
                 </p>
-                <p className="text-xs text-slate-500">
-                  Estimated time: {submitted.estimated_time}
-                </p>
+                <p className="text-xs text-slate-500">{t("selfService.estimatedTime")}: {submitted.estimated_time}</p>
               </div>
               <Button
                 variant="outline"
                 className="w-full"
                 onClick={() => setSubmitted(null)}
               >
-                Submit another request
+                {t("selfService.submitAnother")}
               </Button>
             </div>
           ) : (
@@ -199,8 +199,8 @@ export default function SelfServicePage() {
                 disabled={isPending}
               >
                 {isPending
-                  ? <><Loader2 className="h-4 w-4 mr-2 animate-spin" />Submitting...</>
-                  : "Submit request"
+                  ? <><Loader2 className="h-4 w-4 mr-2 animate-spin" />{t("selfService.submitting")}</>
+                  : t("selfService.submit")
                 }
               </Button>
             </form>
@@ -220,3 +220,5 @@ export default function SelfServicePage() {
     </div>
   )
 }
+
+

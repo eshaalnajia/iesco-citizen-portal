@@ -24,7 +24,7 @@ export default function ServicesPage() {
           {t("services.title", "Services Directory")}
         </h1>
         <p className="text-slate-500 mt-1 text-sm">
-          IESCO-verified electricians, repair centres, and agents across Islamabad
+          {t("services.subtitle")}
         </p>
       </div>
 
@@ -43,3 +43,4 @@ export default function ServicesPage() {
     </div>
   )
 }
+

@@ -9,6 +9,10 @@ import { JazzCashForm }              from "@/components/modules/billing/JazzCash
 import { EasypaisaButton }           from "@/components/modules/billing/EasypaisaButton"
 import { BankTransferSlip }          from "@/components/modules/billing/BankTransferSlip"
 import { AlertTriangle, CheckCircle, Receipt } from "lucide-react"
+import { useTranslation } from "react-i18next"
+import { formatPKR, formatDate } from "@/utils/formatters"
+import { useTranslation } from "react-i18next"
+import { formatPKR, formatDate } from "@/utils/formatters"
 import api                           from "@/services/api"
 
 async function lookupBill(ref) {
@@ -17,6 +21,7 @@ async function lookupBill(ref) {
 }
 
 function BillSummaryCard({ bill }) {
+  const { t } = useTranslation()
   const isPaid    = bill.payment_status === "paid"
   const isOverdue = bill.is_overdue
 
@@ -38,15 +43,15 @@ function BillSummaryCard({ bill }) {
 
       <div className="grid grid-cols-2 gap-3 text-sm">
         {[
-          { label: "Billing month",  value: bill.billing_month },
+          { label: t("billing.billingMonth"),  value: bill.billing_month },
           { label: "Units consumed", value: `${bill.units_consumed} kWh` },
-          { label: "Due date",       value: bill.due_date
+          { label: t("billing.dueDate"),       value: bill.due_date
               ? new Date(bill.due_date).toLocaleDateString("en-PK", {
                   day: "numeric", month: "long", year: "numeric",
                 })
               : "-"
           },
-          { label: "Status",         value: isPaid ? "Paid" : isOverdue ? "Overdue" : "Unpaid" },
+          { label: t("billing.status.unpaid"),  value: isPaid ? t("billing.status.paid") : isOverdue ? t("billing.status.overdue") : t("billing.status.unpaid") },
         ].map(({ label, value }) => (
           <div key={label}>
             <p className="text-xs text-slate-400">{label}</p>
@@ -56,18 +61,16 @@ function BillSummaryCard({ bill }) {
       </div>
 
       <div className="border-t border-slate-200 pt-3 flex justify-between items-baseline">
-        <span className="text-sm text-slate-500">Total payable</span>
+        <span className="text-sm text-slate-500">{t("billing.totalPayable")}</span>
         <span className="text-2xl font-bold text-slate-900">
-          PKR {Number(bill.total_payable).toLocaleString("en-PK", {
-            minimumFractionDigits: 2
-          })}
+          {formatPKR(bill.total_payable)}
         </span>
       </div>
 
       {isPaid && bill.transaction_ref && (
         <div className="bg-green-100 rounded-lg px-3 py-2">
           <p className="text-xs text-green-700">
-            Paid - Transaction ref:{" "}
+            {t("billing.txnRef")}{" "}
             <span className="font-mono font-medium">{bill.transaction_ref}</span>
           </p>
         </div>
@@ -77,6 +80,8 @@ function BillSummaryCard({ bill }) {
 }
 
 export default function BillingPage() {
+  const { t } = useTranslation()
+  const { t } = useTranslation()
   const [refInput, setRefInput]      = useState("")
   const [submittedRef, setSubmitted] = useState(null)
   const [payMethod, setPayMethod]    = useState("jazzcash")
@@ -102,9 +107,9 @@ export default function BillingPage() {
     <div className="space-y-6 max-w-2xl mx-auto">
 
       <div>
-        <h1 className="text-2xl font-bold text-slate-900">Bill Payment</h1>
+        <h1 className="text-2xl font-bold text-slate-900">{t("billing.title")}</h1>
         <p className="text-slate-500 mt-1 text-sm">
-          Enter your 14-digit IESCO reference number to look up and pay your bill
+          {t("billing.subtitle")}
         </p>
       </div>
 
@@ -135,7 +140,7 @@ export default function BillingPage() {
 
       {isError && (
         <div className="bg-red-50 border border-red-200 rounded-xl p-4">
-          <p className="text-sm font-medium text-red-800">Bill not found</p>
+          <p className="text-sm font-medium text-red-800">{t("billing.notFound")}</p>
           <p className="text-sm text-red-600 mt-1">
             {error?.response?.data?.detail ||
               "No bill found for this reference number. Check the number on your paper bill and try again."}
@@ -151,7 +156,7 @@ export default function BillingPage() {
             <div className="space-y-4">
               <div className="space-y-2">
                 <Label className="text-sm font-semibold text-slate-700">
-                  Choose payment method
+                  {t("billing.payWith")}
                 </Label>
                 <PaymentMethodSelector
                   value={payMethod}
@@ -176,3 +181,8 @@ export default function BillingPage() {
     </div>
   )
 }
+
+
+
+
+
