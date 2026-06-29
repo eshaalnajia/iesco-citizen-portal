@@ -4,8 +4,10 @@ import { DurationDisplay }   from "./DurationBar"
 import { LiveBadge }         from "./LiveBadge"
 import { Skeleton }          from "@/components/ui/skeleton"
 import { CalendarX }         from "lucide-react"
+import { useTranslation }       from "react-i18next"
 
 export function ScheduleTable({ sector }) {
+  const { t } = useTranslation()
   const { data, isLoading, isError } = useTodaySchedule(sector)
 
   if (isLoading) return <ScheduleTableSkeleton />
@@ -13,7 +15,7 @@ export function ScheduleTable({ sector }) {
   if (isError) {
     return (
       <div className="text-center py-12 text-slate-500">
-        <p className="text-sm">Could not load today's schedule. Please try again.</p>
+        <p className="text-sm">{t("common.error")}</p>
       </div>
     )
   }
@@ -24,11 +26,11 @@ export function ScheduleTable({ sector }) {
     return (
       <div className="text-center py-16 space-y-3">
         <CalendarX className="h-10 w-10 text-slate-300 mx-auto" />
-        <p className="font-medium text-slate-600">No outages scheduled today</p>
+        <p className="font-medium text-slate-600">{t("schedule.noOutages")}</p>
         <p className="text-sm text-slate-400">
           {sector
-            ? `No load shedding is scheduled for ${sector} today.`
-            : "No load shedding is scheduled across Islamabad today."}
+            ? t("schedule.noOutagesArea", { area: sector })
+            : t("schedule.noOutages")}
         </p>
       </div>
     )
@@ -40,10 +42,10 @@ export function ScheduleTable({ sector }) {
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-slate-100">
-              <th className="text-left text-xs font-medium text-slate-400 uppercase tracking-wide pb-3 pr-4">Area / Feeder</th>
-              <th className="text-left text-xs font-medium text-slate-400 uppercase tracking-wide pb-3 pr-4">Time window</th>
-              <th className="text-left text-xs font-medium text-slate-400 uppercase tracking-wide pb-3 pr-4">Type</th>
-              <th className="text-left text-xs font-medium text-slate-400 uppercase tracking-wide pb-3">Status</th>
+              <th className="text-left text-xs font-medium text-slate-400 uppercase tracking-wide pb-3 pr-4">{t("schedule.columns.area")}</th>
+              <th className="text-left text-xs font-medium text-slate-400 uppercase tracking-wide pb-3 pr-4">{t("schedule.columns.time")}</th>
+              <th className="text-left text-xs font-medium text-slate-400 uppercase tracking-wide pb-3 pr-4">{t("schedule.columns.type")}</th>
+              <th className="text-left text-xs font-medium text-slate-400 uppercase tracking-wide pb-3">{t("schedule.columns.status")}</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-50">
@@ -68,7 +70,7 @@ export function ScheduleTable({ sector }) {
                   {s.is_active ? (
                     <LiveBadge />
                   ) : (
-                    <span className="text-xs text-slate-400">Upcoming</span>
+                    <span className="text-xs text-slate-400">{t("schedule.upcoming")}</span>
                   )}
                 </td>
               </tr>
@@ -103,9 +105,7 @@ export function ScheduleTable({ sector }) {
       </div>
 
       <p className="text-xs text-slate-400 pt-2">
-        {schedules.length} outage{schedules.length !== 1 ? "s" : ""} scheduled today
-        {sector ? ` in ${sector}` : " across Islamabad"}
-        {" · "}auto-refreshes every 5 minutes
+        {t("schedule.outageCount", { count: schedules.length })}{sector ? ` — ${sector}` : ""}{" · "}{t("schedule.autoRefresh")}
       </p>
     </div>
   )
@@ -125,3 +125,5 @@ function ScheduleTableSkeleton() {
     </div>
   )
 }
+
+

@@ -22,7 +22,7 @@ export default function SchedulePage() {
           {t("schedule.title")}
         </h1>
         <p className="text-slate-500 mt-1 text-sm">
-          Load shedding timetables for Islamabad — updated by IESCO in real time
+          {t("schedule.subtitle")}
         </p>
       </div>
 
@@ -35,7 +35,7 @@ export default function SchedulePage() {
             onClick={() => setSector(null)}
             className="text-sm text-iesco-teal hover:underline"
           >
-            Show all areas
+            {t("schedule.clear")}
           </button>
         )}
       </div>
@@ -44,11 +44,11 @@ export default function SchedulePage() {
         <TabsList>
           <TabsTrigger value="today" className="flex items-center gap-1.5">
             <Clock className="h-3.5 w-3.5" />
-            Today
+            {t("schedule.today")}
           </TabsTrigger>
           <TabsTrigger value="week" className="flex items-center gap-1.5">
             <CalendarDays className="h-3.5 w-3.5" />
-            This week
+            {t("schedule.thisWeek")}
           </TabsTrigger>
         </TabsList>
 
@@ -67,3 +67,4 @@ export default function SchedulePage() {
     </div>
   )
 }
+

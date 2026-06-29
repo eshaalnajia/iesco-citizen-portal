@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Badge } from "@/components/ui/badge"
 import iescoLogo from "@/assets/iesco-logo.png"
+import { LanguageSwitcher } from "./LanguageSwitcher"
 
 const navLinks = [
   { path: "/schedule",  key: "nav.schedule"  },
@@ -18,13 +19,10 @@ const navLinks = [
 ]
 
 export default function Navbar() {
-  const { t, i18n } = useTranslation()
+  const { t } = useTranslation()
   const location = useLocation()
   const { isAdmin } = useAuth()
 
-  const toggleLanguage = () => {
-    i18n.changeLanguage(i18n.language === "en" ? "ur" : "en")
-  }
 
   return (
     <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur">
@@ -49,9 +47,7 @@ export default function Navbar() {
           ))}
         </nav>
         <div className="flex items-center gap-2">
-          <Button variant="outline" size="sm" onClick={toggleLanguage}>
-            {i18n.language === "en" ? "English" : "اردو"}
-          </Button>
+          <LanguageSwitcher />
           {isAdmin && (
             <Button variant="ghost" size="sm" asChild>
               <Link to="/admin" className="flex items-center gap-1.5">
@@ -92,3 +88,9 @@ export default function Navbar() {
     </header>
   )
 }
+
+
+
+
+
+

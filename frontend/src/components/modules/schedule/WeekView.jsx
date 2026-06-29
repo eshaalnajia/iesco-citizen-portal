@@ -1,8 +1,8 @@
 ﻿import { useSectorSchedule } from "@/hooks/useSchedule"
 import { Skeleton }           from "@/components/ui/skeleton"
 import { cn }                 from "@/lib/utils"
+import { useTranslation }     from "react-i18next"
 
-const DAY_NAMES = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
 const TYPE_COLORS = {
   scheduled:   "bg-blue-400",
   unplanned:   "bg-red-400",
@@ -18,14 +18,25 @@ function getNextSevenDays() {
 }
 
 export function WeekView({ sector }) {
+  const { t }               = useTranslation()
   const { data, isLoading } = useSectorSchedule(sector, 7)
   const days   = getNextSevenDays()
   const byDate = data?.by_date ?? {}
 
+  const DAY_NAMES = [
+    t("common.sun") || "Sun",
+    t("common.mon") || "Mon",
+    t("common.tue") || "Tue",
+    t("common.wed") || "Wed",
+    t("common.thu") || "Thu",
+    t("common.fri") || "Fri",
+    t("common.sat") || "Sat",
+  ]
+
   if (!sector) {
     return (
       <p className="text-sm text-slate-400 py-4">
-        Select an area above to see the weekly forecast for your neighbourhood.
+        {t("schedule.selectArea")}
       </p>
     )
   }
@@ -63,7 +74,7 @@ export function WeekView({ sector }) {
                 "text-xs font-medium",
                 isToday ? "text-iesco-teal" : "text-slate-500"
               )}>
-                {isToday ? "Today" : DAY_NAMES[day.getDay()]}
+                {isToday ? t("schedule.today") : DAY_NAMES[day.getDay()]}
               </p>
 
               <p className={cn(
@@ -86,11 +97,13 @@ export function WeekView({ sector }) {
                     />
                   ))}
                   <p className="text-[10px] text-slate-500 mt-1">
-                    {entries.length} cut{entries.length !== 1 ? "s" : ""}
+                    {t("schedule.cuts", { count: entries.length })}
                   </p>
                 </div>
               ) : (
-                <p className="text-[10px] text-green-500 font-medium">Clear</p>
+                <p className="text-[10px] text-green-500 font-medium">
+                  {t("schedule.noOutages")}
+                </p>
               )}
             </div>
           )
@@ -100,15 +113,15 @@ export function WeekView({ sector }) {
       <div className="flex gap-4 text-xs text-slate-500">
         <span className="flex items-center gap-1.5">
           <span className="w-2.5 h-2.5 rounded-full bg-blue-400" />
-          Scheduled
+          {t("schedule.types.scheduled")}
         </span>
         <span className="flex items-center gap-1.5">
           <span className="w-2.5 h-2.5 rounded-full bg-red-400" />
-          Unplanned
+          {t("schedule.types.unplanned")}
         </span>
         <span className="flex items-center gap-1.5">
           <span className="w-2.5 h-2.5 rounded-full bg-amber-400" />
-          Maintenance
+          {t("schedule.types.maintenance")}
         </span>
       </div>
     </div>

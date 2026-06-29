@@ -70,3 +70,20 @@
   }
   .no-print { display: none !important; }
 }
+
+/* RTL / Urdu language styles */
+[dir="rtl"] body {
+  font-family: "Noto Nastaliq Urdu", serif;
+  line-height: 2;
+}
+
+[dir="rtl"] .font-mono {
+  font-family: "Courier New", Courier, monospace;
+  direction: ltr;
+  display: inline-block;
+}
+
+[dir="rtl"] .numeric {
+  direction: ltr;
+  display: inline-block;
+}
