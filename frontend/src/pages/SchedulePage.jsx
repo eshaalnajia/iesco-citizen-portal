@@ -6,8 +6,11 @@ import { ScheduleTable }        from "@/components/modules/schedule/ScheduleTabl
 import { WeekView }             from "@/components/modules/schedule/WeekView"
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import { CalendarDays, Clock }  from "lucide-react"
+import { useRealtimeSchedules } from "@/hooks/useRealtimeSchedules"
+import { SMSSubscribeForm }     from "@/components/alerts/SMSSubscribeForm"
 
 export default function SchedulePage() {
+  useRealtimeSchedules()
   const { t }               = useTranslation()
   const [sector, setSector] = useState(null)
 
@@ -58,6 +61,9 @@ export default function SchedulePage() {
         </TabsContent>
       </Tabs>
 
+      <div className="pt-4">
+        <SMSSubscribeForm />
+      </div>
     </div>
   )
 }

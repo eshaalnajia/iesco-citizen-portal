@@ -26,6 +26,24 @@ function useIsMobile() {
   return isMobile
 }
 
+function RealtimeIndicator({ status }) {
+  const config = {
+    connected:    { dot: "bg-green-500 animate-pulse", label: "Live"          },
+    connecting:   { dot: "bg-amber-400 animate-pulse", label: "Connecting..." },
+    reconnecting: { dot: "bg-amber-400 animate-pulse", label: "Reconnecting..." },
+    disconnected: { dot: "bg-red-500",                 label: "Offline"       },
+  }[status] ?? { dot: "bg-slate-400", label: "" }
+
+  return (
+    <div className="absolute top-4 right-14 z-10 flex items-center gap-1.5
+                    bg-white/90 backdrop-blur-sm border border-slate-200
+                    rounded-full px-2.5 py-1 text-xs text-slate-500 shadow-sm">
+      <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${config.dot}`} />
+      {config.label}
+    </div>
+  )
+}
+
 export default function MapPage() {
   const containerRef                    = useRef(null)
   const [searchParams, setSearchParams] = useSearchParams()
@@ -34,7 +52,7 @@ export default function MapPage() {
   const [userLocation, setUserLocation] = useState(null)
   const isMobile                        = useIsMobile()
 
-  const { feeders, loading, error } = useRealtimeFeeders()
+  const { feeders, loading, error, realtimeStatus } = useRealtimeFeeders()
   const { map, ready, style, toggleStyle } = useMapbox(containerRef)
 
   const today = new Date().toLocaleDateString("en-CA", { timeZone: "Asia/Karachi" })
@@ -140,6 +158,7 @@ export default function MapPage() {
       />
 
       <ZoneSearch map={map} />
+      <RealtimeIndicator status={realtimeStatus} />
 
       <MapLegend heatmap={heatmap} />
 

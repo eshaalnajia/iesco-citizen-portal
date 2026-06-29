@@ -4,6 +4,11 @@ from typing import Optional
 from datetime import datetime, timezone
 from app.config import get_supabase, get_redis
 from app.dependencies import require_admin
+from app.utils.sms import (
+    build_status_change_message,
+    send_sms,
+    should_send_sms,
+)
 from app.cache import cache_get, cache_set, cache_delete_pattern, TTL_FEEDERS
 import redis as redis_lib
 from supabase import Client
@@ -63,7 +68,7 @@ def get_feeder(
 
 
 @router.patch("/{feeder_id}/status")
-def update_feeder_status(
+async def update_feeder_status(
     feeder_id: str,
     body: StatusUpdate,
     admin: dict = Depends(require_admin),
@@ -87,14 +92,23 @@ def update_feeder_status(
 
     cache_delete_pattern(cache, "feeders:*")
 
+    SMS_TRIGGER_STATUSES = {"fault", "load_shedding", "maintenance", "on"}
+    if body.status in SMS_TRIGGER_STATUSES:
+        try:
+            await _send_feeder_sms_alerts(
+                db         = db,
+                feeder     = result.data[0],
+                new_status = body.status,
+            )
+        except Exception as e:
+            print(f"SMS alert error for feeder {feeder_id}: {e}")
+
     return {
         "updated": True,
         "feeder_id": feeder_id,
         "new_status": body.status,
         "updated_by": admin["email"],
     }
-
-
 @router.get("/map/geojson")
 def get_feeders_map(
     db: Client = Depends(get_supabase),
@@ -110,3 +124,54 @@ def get_feeders_map(
 
     cache_set(cache, cache_key, geojson, TTL_FEEDERS)
     return geojson
+
+async def _send_feeder_sms_alerts(db, feeder: dict, new_status: str):
+    feeder_id = feeder["id"]
+
+    from app.utils.timezone import today_pkt
+    schedule_result = (
+        db.table("schedules")
+        .select("end_time, type")
+        .eq("feeder_id", feeder_id)
+        .eq("schedule_date", str(today_pkt()))
+        .eq("type", "scheduled")
+        .order("start_time")
+        .limit(1)
+        .execute()
+    )
+    end_time = schedule_result.data[0]["end_time"] if schedule_result.data else None
+
+    message = build_status_change_message(
+        feeder_name = feeder.get("name", ""),
+        feeder_code = feeder.get("feeder_code", ""),
+        new_status  = new_status,
+        sector      = feeder.get("sector", ""),
+        end_time    = end_time,
+    )
+
+    subs = (
+        db.table("sms_subscriptions")
+        .select("phone, last_sms_at")
+        .eq("feeder_id", feeder_id)
+        .eq("is_active", True)
+        .execute()
+    )
+
+    sent = 0
+    for sub in (subs.data or []):
+        if not should_send_sms(sub.get("last_sms_at")):
+            continue
+        result = await send_sms(
+            to_number = sub["phone"],
+            message   = message,
+            feeder_id = feeder_id,
+            trigger   = f"status_change:{new_status}",
+            db        = db,
+        )
+        if result["success"]:
+            db.table("sms_subscriptions").update(
+                {"last_sms_at": "now()"}
+            ).eq("phone", sub["phone"]).eq("feeder_id", feeder_id).execute()
+            sent += 1
+
+    print(f"SMS alerts sent for feeder {feeder_id} status={new_status}: {sent}/{len(subs.data or [])}")

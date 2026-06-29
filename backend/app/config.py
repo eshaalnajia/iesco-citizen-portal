@@ -55,3 +55,8 @@ ONEBILL_BILLER_ID              = os.environ.get('ONEBILL_BILLER_ID', '')
 ONEBILL_SECRET_KEY             = os.environ.get('ONEBILL_SECRET_KEY', '')
 ONEBILL_SANDBOX                = os.environ.get('ONEBILL_SANDBOX', 'true').lower() == 'true'
 ONEBILL_CONSUMER_NUMBER_LENGTH = int(os.environ.get('ONEBILL_CONSUMER_NUMBER_LENGTH', '14'))
+
+TWILIO_ENABLED      = os.environ.get('TWILIO_ENABLED', 'false').lower() == 'true'
+TWILIO_ACCOUNT_SID  = os.environ.get('TWILIO_ACCOUNT_SID', '')
+TWILIO_AUTH_TOKEN   = os.environ.get('TWILIO_AUTH_TOKEN', '')
+TWILIO_FROM_NUMBER  = os.environ.get('TWILIO_FROM_NUMBER', '')
