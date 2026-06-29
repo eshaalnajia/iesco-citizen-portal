@@ -1,5 +1,6 @@
 ﻿import { useState }    from "react"
 import { useMutation } from "@tanstack/react-query"
+import { useTranslation } from "react-i18next"
 import { Input }       from "@/components/ui/input"
 import { Button }      from "@/components/ui/button"
 import { Label }       from "@/components/ui/label"
@@ -26,6 +27,7 @@ const SECTORS = [
 ]
 
 export function SMSSubscribeForm({ feeders = [] }) {
+  const { t }           = useTranslation()
   const [phone, setPhone]   = useState("")
   const [sector, setSector] = useState("")
   const [done, setDone]     = useState(false)
@@ -41,10 +43,9 @@ export function SMSSubscribeForm({ feeders = [] }) {
                       border-green-200 rounded-xl p-4">
         <CheckCircle className="h-5 w-5 text-green-500 flex-shrink-0 mt-0.5" />
         <div>
-          <p className="font-medium text-green-800">Alerts activated</p>
+          <p className="font-medium text-green-800">{t("alerts.subscribed")}</p>
           <p className="text-sm text-green-700 mt-0.5">
-            You will receive an SMS when power goes out in your area.
-            Reply <span className="font-mono font-bold">STOP</span> to any message to unsubscribe.
+            {t("alerts.subscribedDetail")}
           </p>
         </div>
       </div>
@@ -55,17 +56,16 @@ export function SMSSubscribeForm({ feeders = [] }) {
     <div className="bg-white border border-slate-200 rounded-xl p-5 space-y-4">
       <div className="flex items-center gap-2">
         <Bell className="h-5 w-5 text-iesco-teal" />
-        <h3 className="font-semibold text-slate-800">Get outage SMS alerts</h3>
+        <h3 className="font-semibold text-slate-800">{t("alerts.title")}</h3>
       </div>
 
       <p className="text-sm text-slate-500">
-        Enter your mobile number to receive an SMS the moment power goes out
-        in your area. Free service - reply STOP to cancel anytime.
+        {t("alerts.subtitle")} {t("alerts.freeService")}
       </p>
 
       <div className="space-y-3">
         <div className="space-y-1.5">
-          <Label htmlFor="alert-phone">Mobile number</Label>
+          <Label htmlFor="alert-phone">{t("alerts.phoneLabel")}</Label>
           <Input
             id="alert-phone"
             type="tel"
@@ -77,10 +77,10 @@ export function SMSSubscribeForm({ feeders = [] }) {
         </div>
 
         <div className="space-y-1.5">
-          <Label>Your area</Label>
+          <Label>{t("alerts.areaLabel")}</Label>
           <Select value={sector} onValueChange={setSector}>
             <SelectTrigger>
-              <SelectValue placeholder="Select your sector" />
+              <SelectValue placeholder={t("schedule.selectArea")} />
             </SelectTrigger>
             <SelectContent>
               {SECTORS.map((s) => (
@@ -92,7 +92,7 @@ export function SMSSubscribeForm({ feeders = [] }) {
 
         {isError && (
           <p className="text-sm text-red-600">
-            {error?.response?.data?.detail || "Could not subscribe. Try again."}
+            {error?.response?.data?.detail || t("common.error")}
           </p>
         )}
 
@@ -102,15 +102,14 @@ export function SMSSubscribeForm({ feeders = [] }) {
           disabled={!phone || !sector || isPending}
         >
           {isPending
-            ? <><Loader2 className="h-4 w-4 mr-2 animate-spin" />Subscribing...</>
-            : <><Bell className="h-4 w-4 mr-2" />Subscribe to alerts</>
+            ? <><Loader2 className="h-4 w-4 mr-2 animate-spin" />{t("alerts.subscribing") || "..."}</>
+            : <><Bell className="h-4 w-4 mr-2" />{t("alerts.subscribe")}</>
           }
         </Button>
       </div>
 
       <p className="text-xs text-slate-400">
-        A confirmation SMS will be sent to verify your number.
-        Standard messaging rates from your carrier may apply.
+        {t("alerts.freeService")}
       </p>
     </div>
   )

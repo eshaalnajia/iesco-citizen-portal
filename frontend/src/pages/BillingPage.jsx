@@ -11,7 +11,6 @@ import { BankTransferSlip }          from "@/components/modules/billing/BankTran
 import { AlertTriangle, CheckCircle, Receipt } from "lucide-react"
 import { useTranslation } from "react-i18next"
 import { formatPKR, formatDate } from "@/utils/formatters"
-import { useTranslation } from "react-i18next"
 import { formatPKR, formatDate } from "@/utils/formatters"
 import api                           from "@/services/api"
 
@@ -181,6 +180,7 @@ export default function BillingPage() {
     </div>
   )
 }
+
 
 
 
