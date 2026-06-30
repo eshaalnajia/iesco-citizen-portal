@@ -8,6 +8,7 @@ import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
 import { CalendarDays, Clock }  from "lucide-react"
 import { useRealtimeSchedules } from "@/hooks/useRealtimeSchedules"
 import { SMSSubscribeForm }     from "@/components/alerts/SMSSubscribeForm"
+import { StaleDataBadge }       from "@/components/pwa/StaleDataBadge"
 
 export default function SchedulePage() {
   useRealtimeSchedules()
@@ -30,6 +31,7 @@ export default function SchedulePage() {
 
       <div className="flex items-center justify-between gap-4 flex-wrap">
         <SectorFilter value={sector} onChange={setSector} />
+        <StaleDataBadge lastUpdated={new Date().toISOString()} />
         {sector && (
           <button
             onClick={() => setSector(null)}
@@ -67,4 +69,5 @@ export default function SchedulePage() {
     </div>
   )
 }
+
 

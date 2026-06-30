@@ -11,7 +11,6 @@ import { BankTransferSlip }          from "@/components/modules/billing/BankTran
 import { AlertTriangle, CheckCircle, Receipt } from "lucide-react"
 import { useTranslation } from "react-i18next"
 import { formatPKR, formatDate } from "@/utils/formatters"
-import { formatPKR, formatDate } from "@/utils/formatters"
 import api                           from "@/services/api"
 
 async function lookupBill(ref) {
@@ -79,7 +78,6 @@ function BillSummaryCard({ bill }) {
 }
 
 export default function BillingPage() {
-  const { t } = useTranslation()
   const { t } = useTranslation()
   const [refInput, setRefInput]      = useState("")
   const [submittedRef, setSubmitted] = useState(null)

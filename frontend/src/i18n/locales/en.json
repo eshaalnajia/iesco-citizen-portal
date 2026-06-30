@@ -1,4 +1,4 @@
-﻿{
+{
   "nav": {
     "schedule":    "Load Shedding",
     "billing":     "Pay Bill",
@@ -50,8 +50,8 @@
     "findOffice":    "Find IESCO office"
   },
   "schedule": {
-    "title":    "Load Shedding Schedule",
-    "subtitle": "Load shedding timetables for Islamabad - updated by IESCO in real time",
+    "title":              "Load Shedding Schedule",
+    "subtitle":           "Load shedding timetables for Islamabad - updated by IESCO in real time",
     "allAreas":           "All areas",
     "selectArea":         "Select your area",
     "today":              "Today",
@@ -146,7 +146,7 @@
     "jazzcash":        "JazzCash",
     "easypaisa":       "EasyPaisa",
     "bank":            "Bank / ATM",
-    "txnRef":          "Transaction ref",
+    "txnRef":          "Paid - Transaction ref:",
     "paymentDate":     "Payment date",
     "paymentMethod":   "Payment method",
     "keepReceipt":     "Screenshot this receipt for your records"
@@ -297,6 +297,14 @@
     "confirmation":    "A confirmation SMS will be sent to verify your number",
     "freeService":     "Free service - reply STOP to cancel anytime"
   },
+  "pwa": {
+    "offline":          "You are offline. Showing last saved data - may not be current.",
+    "backOnline":       "Back online - data is up to date",
+    "lastUpdated":      "Last updated",
+    "newVersion":       "New version available",
+    "newVersionDetail": "Refresh to get the latest IESCO portal updates",
+    "refreshNow":       "Refresh now"
+  },
   "auth": {
     "login":           "Sign in",
     "email":           "Email address",
@@ -313,4 +321,3 @@
     "validation":      "Please check the highlighted fields and try again."
   }
 }
-
