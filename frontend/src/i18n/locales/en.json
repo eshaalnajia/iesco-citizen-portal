@@ -303,7 +303,10 @@
     "lastUpdated":      "Last updated",
     "newVersion":       "New version available",
     "newVersionDetail": "Refresh to get the latest IESCO portal updates",
-    "refreshNow":       "Refresh now"
+    "refreshNow":       "Refresh now",
+    "installTitle":     "Install the IESCO app",
+    "installDetail":    "Check schedules even when offline",
+    "install":          "Install"
   },
   "auth": {
     "login":           "Sign in",
