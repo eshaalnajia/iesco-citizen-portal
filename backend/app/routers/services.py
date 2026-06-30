@@ -1,4 +1,5 @@
-﻿from fastapi import APIRouter, Depends, HTTPException, Query, Path
+from fastapi import APIRouter, Depends, HTTPException, Query, Path, Request
+from app.rate_limit import limiter
 from typing import Optional
 
 from app.config       import get_supabase, get_redis
@@ -192,7 +193,9 @@ def get_provider(
     summary="Submit a rating for a provider",
     status_code=201,
 )
+@limiter.limit("3/day")
 def submit_rating(
+    request: Request,
     provider_id: str = Path(...),
     body:        RatingSubmit = ...,
     db:          Client          = Depends(get_supabase),

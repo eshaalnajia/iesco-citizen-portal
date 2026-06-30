@@ -1,4 +1,4 @@
-﻿import { useState }             from "react"
+import { useState }             from "react"
 import { useTranslation }       from "react-i18next"
 import { ActiveOutageBanner }   from "@/components/modules/schedule/ActiveOutageBanner"
 import { SectorFilter }         from "@/components/modules/schedule/SectorFilter"
@@ -9,11 +9,13 @@ import { CalendarDays, Clock }  from "lucide-react"
 import { useRealtimeSchedules } from "@/hooks/useRealtimeSchedules"
 import { SMSSubscribeForm }     from "@/components/alerts/SMSSubscribeForm"
 import { StaleDataBadge }       from "@/components/pwa/StaleDataBadge"
+import { useLastSync }          from "@/hooks/useLastSync"
 
 export default function SchedulePage() {
   useRealtimeSchedules()
   const { t }               = useTranslation()
   const [sector, setSector] = useState(null)
+  const lastSync             = useLastSync()
 
   return (
     <div className="space-y-6 max-w-5xl mx-auto">
@@ -31,7 +33,7 @@ export default function SchedulePage() {
 
       <div className="flex items-center justify-between gap-4 flex-wrap">
         <SectorFilter value={sector} onChange={setSector} />
-        <StaleDataBadge lastUpdated={new Date().toISOString()} />
+        <StaleDataBadge lastUpdated={lastSync} />
         {sector && (
           <button
             onClick={() => setSector(null)}

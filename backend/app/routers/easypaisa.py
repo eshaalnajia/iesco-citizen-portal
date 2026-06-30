@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, Request, Form
+from app.rate_limit import limiter
 from fastapi.responses import HTMLResponse, RedirectResponse
 from pydantic import BaseModel, field_validator
 from typing import Optional
@@ -62,7 +63,9 @@ class EasypaisaInitiateRequest(BaseModel):
     "/initiate",
     summary="Initiate EasyPaisa payment - returns checkout URL or OTP flow",
 )
+@limiter.limit("3/minute")
 async def initiate_payment(
+    request: Request,
     body:  EasypaisaInitiateRequest,
     db:    Client          = Depends(get_supabase),
     cache: redis_lib.Redis = Depends(get_redis),
@@ -201,6 +204,18 @@ async def payment_callback(
         cache_delete_pattern(cache, f"ep:pending:{order_ref}")
         return RedirectResponse(
             url=f"/billing/payment-complete?status=failed&message={error_msg}",
+            status_code=303,
+        )
+
+    existing_txn = (
+        db.table("bills")
+        .select("id")
+        .eq("transaction_ref", txn_ref)
+        .execute()
+    )
+    if existing_txn.data:
+        return RedirectResponse(
+            url=f"/billing/payment-complete?status=paid&txn_ref={txn_ref}&order_ref={order_ref}",
             status_code=303,
         )
 

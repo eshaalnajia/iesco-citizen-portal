@@ -1,4 +1,5 @@
-﻿from pydantic import BaseModel, field_validator
+from pydantic import BaseModel, field_validator
+from app.utils.sanitize import sanitize_text
 from typing import Optional
 
 
@@ -38,10 +39,8 @@ class ServiceProviderCreate(BaseModel):
     @field_validator("phone")
     @classmethod
     def validate_phone(cls, v):
-        digits = "".join(filter(str.isdigit, v))
-        if len(digits) < 10:
-            raise ValueError("Phone number must have at least 10 digits")
-        return v.strip()
+        from app.utils.validators import normalize_pakistan_mobile
+        return normalize_pakistan_mobile(v)
 
     @field_validator("name")
     @classmethod
@@ -75,6 +74,9 @@ class RatingSubmit(BaseModel):
     @field_validator("comment")
     @classmethod
     def validate_comment(cls, v):
-        if v and len(v) > 500:
+        if v is None:
+            return v
+        cleaned = sanitize_text(v)
+        if len(cleaned) > 500:
             raise ValueError("Comment cannot exceed 500 characters")
-        return v
+        return cleaned

@@ -1,4 +1,4 @@
-﻿from fastapi import APIRouter, Depends, HTTPException, Query, Path
+from fastapi import APIRouter, Depends, HTTPException, Query, Path
 from typing import Optional
 
 from app.config       import get_supabase, get_redis
@@ -72,27 +72,12 @@ def find_nearest(
     limit: int   = Query(3,   ge=1,    le=10,  description="Number of results"),
     db:    Client = Depends(get_supabase),
 ):
-    query = f"""
-        SELECT
-            l.*,
-            f.feeder_code,
-            f.name AS feeder_name,
-            f.status AS feeder_status,
-            ROUND(
-                ST_Distance(
-                    ST_MakePoint(l.lng::float8, l.lat::float8)::geography,
-                    ST_MakePoint({lng}, {lat})::geography
-                ) / 1000.0,
-                2
-            ) AS distance_km
-        FROM locations l
-        LEFT JOIN feeders f ON f.id = l.feeder_id
-        ORDER BY distance_km ASC
-        LIMIT {limit};
-    """
-
     try:
-        result = db.rpc("exec_sql", {"query": query}).execute()
+        result = db.rpc("nearest_locations", {
+            "user_lat":     lat,
+            "user_lng":     lng,
+            "result_limit": limit,
+        }).execute()
     except Exception:
         all_locations = (
             db.table("locations")

@@ -1,4 +1,5 @@
-﻿from fastapi import APIRouter, Depends, HTTPException, Query, Path
+from fastapi import APIRouter, Depends, HTTPException, Query, Path, Request
+from app.rate_limit import limiter
 from typing  import Optional
 from datetime import datetime
 import pytz
@@ -6,6 +7,7 @@ import pytz
 from app.config       import get_supabase, get_redis
 from app.dependencies import require_admin
 from app.cache        import cache_delete_pattern
+from app.utils.sanitize import sanitize_text
 from app.schemas.service_request import (
     ServiceRequestCreate, StatusUpdate, VALID_REQUEST_TYPES
 )
@@ -37,7 +39,9 @@ TURNAROUND = {
     status_code=201,
     summary="Submit a new service request",
 )
+@limiter.limit("5/hour")
 def submit_request(
+    request: Request,
     body: ServiceRequestCreate,
     db:   Client = Depends(get_supabase),
 ):
@@ -50,7 +54,7 @@ def submit_request(
         "address":          body.address,
         "sector":           body.sector,
         "reference_number": body.reference_number,
-        "details":          body.details,
+        "details":          {k: sanitize_text(v) if isinstance(v, str) else v for k, v in (body.details or {}).items()},
         "status":           "pending",
     }).execute()
 

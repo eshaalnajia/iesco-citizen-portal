@@ -1,4 +1,5 @@
-﻿from pydantic import BaseModel, field_validator
+from pydantic import BaseModel, field_validator
+from app.utils.sanitize import sanitize_text
 from typing import Optional
 
 
@@ -25,6 +26,11 @@ class LocationCreate(BaseModel):
                 f"area_type must be one of: {sorted(VALID_AREA_TYPES)}"
             )
         return v
+
+    @field_validator("office_address")
+    @classmethod
+    def validate_office_address(cls, v):
+        return sanitize_text(v)
 
     @field_validator("lat")
     @classmethod

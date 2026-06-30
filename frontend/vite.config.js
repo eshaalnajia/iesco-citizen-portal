@@ -1,4 +1,4 @@
-﻿import { defineConfig } from "vite"
+import { defineConfig } from "vite"
 import react from "@vitejs/plugin-react"
 import { fileURLToPath, URL } from "node:url"
 import { VitePWA } from "vite-plugin-pwa"
@@ -128,12 +128,18 @@ export default defineConfig({
 
         clientsClaim: true,
         skipWaiting:  true,
+
+        navigateFallback: "/index.html",
+        navigateFallbackDenylist: [/^\/api/],
       },
       devOptions: {
         enabled: true,
       },
     }),
   ],
+  esbuild: {
+    drop: process.env.NODE_ENV === "production" ? ["console", "debugger"] : [],
+  },
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),

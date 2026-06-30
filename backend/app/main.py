@@ -1,7 +1,18 @@
-﻿from fastapi import FastAPI
+from fastapi import FastAPI
+from starlette.middleware.base import BaseHTTPMiddleware
+from starlette.middleware.httpsredirect import HTTPSRedirectMiddleware
+from starlette.requests import Request
+from starlette.responses import Response
+from starlette.middleware.httpsredirect import HTTPSRedirectMiddleware
+from starlette.requests import Request
+from starlette.responses import Response
 from fastapi.middleware.cors import CORSMiddleware
 from app.config import ENVIRONMENT
 from app.routers import feeders, schedules, tariffs, locations, services, bills, outage_reports, jazzcash, easypaisa, onebill, service_requests, sms
+from slowapi import _rate_limit_exceeded_handler
+from slowapi.errors import RateLimitExceeded
+from slowapi.middleware import SlowAPIMiddleware
+from app.rate_limit import limiter, rate_limit_handler
 
 app = FastAPI(
     title="IESCO Citizen Portal API",
@@ -41,13 +52,31 @@ ALLOWED_ORIGINS = (
     else ["https://portal.iesco.gov.pk"]
 )
 
+class SecurityHeadersMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request: Request, call_next) -> Response:
+        response = await call_next(request)
+        response.headers["X-Content-Type-Options"] = "nosniff"
+        response.headers["X-Frame-Options"] = "DENY"
+        response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
+        if ENVIRONMENT == "production":
+            response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
+        return response
+
+if ENVIRONMENT == "production":
+    app.add_middleware(HTTPSRedirectMiddleware)
+
+app.add_middleware(SecurityHeadersMiddleware)
+
 app.add_middleware(
     CORSMiddleware,
     allow_origins=ALLOWED_ORIGINS,
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST", "PATCH", "DELETE"],
+    allow_headers=["Authorization", "Content-Type"],
 )
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, rate_limit_handler)
+app.add_middleware(SlowAPIMiddleware)
 
 app.include_router(feeders.router)
 app.include_router(schedules.router)

@@ -1,0 +1,46 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>IESCO Portal - Offline</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      background: #0D1B3E;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      text-align: center;
+      padding: 1.5rem;
+    }
+    .icon { font-size: 3rem; margin-bottom: 1rem; }
+    h1 { font-size: 1.25rem; margin: 0 0 0.5rem; }
+    p { color: #9FC6D8; font-size: 0.875rem; max-width: 320px; }
+    button {
+      margin-top: 1.5rem;
+      background: #00C2A8;
+      color: white;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0.5rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="icon">📡</div>
+  <h1>You are offline</h1>
+  <p>
+    This page has not been saved for offline use yet.
+    Connect to the internet and visit it once, then it will
+    be available offline next time.
+  </p>
+  <button onclick="window.location.reload()">Try again</button>
+</body>
+</html>

@@ -51,7 +51,7 @@
   },
   "schedule": {
     "title":              "Load Shedding Schedule",
-    "subtitle":           "Load shedding timetables for Islamabad - updated by IESCO in real time",
+    "subtitle":           "Load shedding timetables for Islamabad - updated by IESCO in real time (v3)",
     "allAreas":           "All areas",
     "selectArea":         "Select your area",
     "today":              "Today",

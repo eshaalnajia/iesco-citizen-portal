@@ -1,4 +1,5 @@
-﻿from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Request
+from app.rate_limit import limiter
 from pydantic import BaseModel
 from typing import Optional
 from datetime import datetime, timedelta, timezone
@@ -13,7 +14,9 @@ class OutageReportCreate(BaseModel):
     lng:       Optional[float] = None
 
 @router.post("/", status_code=201)
+@limiter.limit("3/hour")
 def submit_outage_report(
+    request: Request,
     body: OutageReportCreate,
     db:   Client = Depends(get_supabase),
 ):

@@ -95,17 +95,8 @@ def build_ma_payload(
 
 
 def clean_mobile_number(mobile: str) -> str:
-    digits = "".join(filter(str.isdigit, mobile))
-    if digits.startswith("92") and len(digits) == 12:
-        digits = "0" + digits[2:]
-    elif digits.startswith("3") and len(digits) == 10:
-        digits = "0" + digits
-    if not (digits.startswith("03") and len(digits) == 11):
-        raise ValueError(
-            f"Invalid Pakistani mobile number: {mobile}. "
-            "Expected format: 03XXXXXXXXX"
-        )
-    return digits
+    from app.utils.validators import normalize_pakistan_mobile
+    return normalize_pakistan_mobile(mobile)
 
 
 def verify_callback_hash(params: dict) -> bool:

@@ -1,4 +1,5 @@
-﻿from fastapi import APIRouter, Depends, HTTPException, Header, Request
+from fastapi import APIRouter, Depends, HTTPException, Header, Request
+from app.rate_limit import limiter
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 from typing import Optional
@@ -27,7 +28,9 @@ PKT    = pytz.timezone("Asia/Karachi")
     "/inquiry",
     summary="Bill inquiry -- called by banks/1Bill to look up a bill",
 )
+@limiter.limit("30/minute")
 async def bill_inquiry(
+    request: Request,
     consumer_number:  str    = None,
     ConsumerNumber:   str    = None,
     consumer_id:      str    = None,

@@ -17,7 +17,10 @@ api.interceptors.request.use(async (config) => {
 })
 
 api.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    localStorage.setItem("iesco-last-sync", new Date().toISOString())
+    return response
+  },
   (error) => {
     if (error.response?.status === 401) {
       supabase.auth.signOut().then(() => {

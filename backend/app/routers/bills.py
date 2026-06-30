@@ -1,4 +1,5 @@
-﻿from fastapi import APIRouter, Depends, HTTPException, Query, Path
+from fastapi import APIRouter, Depends, HTTPException, Query, Path, Request
+from app.rate_limit import limiter
 from typing import Optional
 from datetime import datetime
 import pytz
@@ -24,7 +25,9 @@ BILL_CACHE_TTL = 120
     "/{reference_number}",
     summary="Look up a bill by IESCO reference number",
 )
+@limiter.limit("10/minute")
 def get_bill(
+    request: Request,
     reference_number: str = Path(
         ...,
         description="14-digit IESCO reference number printed on your bill"
@@ -155,7 +158,9 @@ def get_bill_history(
     "/payment-callback",
     summary="Record a completed payment from a gateway callback",
 )
+@limiter.limit("5/minute")
 def record_payment(
+    request: Request,
     body: PaymentCallbackRequest,
     db:   Client          = Depends(get_supabase),
     cache: redis_lib.Redis = Depends(get_redis),

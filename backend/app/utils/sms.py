@@ -1,4 +1,4 @@
-﻿import re
+import re
 from datetime import datetime, timedelta
 from typing   import Optional
 import pytz
@@ -15,14 +15,8 @@ SMS_COOLDOWN_MINUTES = 60
 
 
 def clean_pakistan_number(phone: str) -> Optional[str]:
-    digits = re.sub(r"[-\s+()]", "", phone.strip())
-    if digits.startswith("92") and len(digits) == 12:
-        return "+" + digits
-    if digits.startswith("0") and len(digits) == 11 and digits[1] == "3":
-        return "+92" + digits[1:]
-    if digits.startswith("3") and len(digits) == 10:
-        return "+92" + digits
-    return None
+    from app.utils.validators import normalize_pakistan_mobile_e164
+    return normalize_pakistan_mobile_e164(phone)
 
 
 def build_status_change_message(

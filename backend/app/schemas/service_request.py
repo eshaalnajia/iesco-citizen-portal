@@ -1,4 +1,5 @@
-﻿from pydantic import BaseModel, field_validator, EmailStr
+from pydantic import BaseModel, field_validator, EmailStr
+from app.utils.sanitize import sanitize_text
 from typing   import Optional
 from datetime import date
 import re
@@ -95,9 +96,10 @@ class SafetyInspectionDetails(BaseModel):
     @field_validator("description")
     @classmethod
     def validate_desc(cls, v):
-        if len(v.strip()) < 20:
+        cleaned = sanitize_text(v)
+        if len(cleaned.strip()) < 20:
             raise ValueError("Please describe the hazard in at least 20 characters")
-        return v.strip()
+        return cleaned
 
 
 class ServiceRequestCreate(BaseModel):
@@ -131,16 +133,18 @@ class ServiceRequestCreate(BaseModel):
     @field_validator("full_name")
     @classmethod
     def validate_name(cls, v):
-        if len(v.strip()) < 3:
+        cleaned = sanitize_text(v)
+        if len(cleaned.strip()) < 3:
             raise ValueError("Full name must be at least 3 characters")
-        return v.strip()
+        return cleaned
 
     @field_validator("address")
     @classmethod
     def validate_address(cls, v):
-        if len(v.strip()) < 10:
+        cleaned = sanitize_text(v)
+        if len(cleaned.strip()) < 10:
             raise ValueError("Please provide a complete address (at least 10 characters)")
-        return v.strip()
+        return cleaned
 
 
 class StatusUpdate(BaseModel):

@@ -1,4 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, Request
+from app.rate_limit import limiter
 from pydantic import BaseModel, field_validator
 from typing import Optional
 import re
@@ -57,7 +58,9 @@ class JazzCashInitiateRequest(BaseModel):
     "/initiate",
     summary="Initiate a JazzCash MWALLET payment",
 )
+@limiter.limit("3/minute")
 async def initiate_payment(
+    request: Request,
     body:  JazzCashInitiateRequest,
     db:    Client          = Depends(get_supabase),
     cache: redis_lib.Redis = Depends(get_redis),
@@ -132,7 +135,9 @@ async def initiate_payment(
     "/confirm",
     summary="Confirm payment after citizen enters OTP",
 )
+@limiter.limit("5/minute")
 async def confirm_payment(
+    request: Request,
     txn_ref: str,
     otp:     str,
     db:      Client          = Depends(get_supabase),
@@ -175,6 +180,19 @@ async def confirm_payment(
         raise HTTPException(status_code=422, detail=message)
 
     payment_txn_ref = response.get("pp_TxnRefNo", txn_ref)
+
+    existing_txn = (
+        db.table("bills")
+        .select("id")
+        .eq("transaction_ref", payment_txn_ref)
+        .execute()
+    )
+    if existing_txn.data:
+        return {
+            "status":  "already_recorded",
+            "txn_ref": payment_txn_ref,
+            "message": "This transaction was already recorded — idempotent no-op",
+        }
 
     update_result = (
         db.table("bills")

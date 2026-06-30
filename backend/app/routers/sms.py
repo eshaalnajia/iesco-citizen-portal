@@ -1,4 +1,5 @@
-﻿from fastapi import APIRouter, Depends, HTTPException, Query, Request
+from fastapi import APIRouter, Depends, HTTPException, Query, Request
+from app.rate_limit import limiter
 from fastapi.responses import Response
 from pydantic import BaseModel, field_validator
 from typing   import Optional
@@ -35,7 +36,9 @@ class SubscribeRequest(BaseModel):
     status_code=201,
     summary="Subscribe a mobile number to outage alerts for an area",
 )
+@limiter.limit("5/hour")
 async def subscribe(
+    request: Request,
     body: SubscribeRequest,
     db:   Client = Depends(get_supabase),
 ):
