@@ -140,6 +140,11 @@ export default defineConfig({
   esbuild: {
     drop: process.env.NODE_ENV === "production" ? ["console", "debugger"] : [],
   },
+  test: {
+    environment: "jsdom",
+    setupFiles:  "./src/test/setup.js",
+    globals:     true,
+  },
   resolve: {
     alias: {
       "@": fileURLToPath(new URL("./src", import.meta.url)),

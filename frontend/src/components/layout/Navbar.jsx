@@ -1,4 +1,4 @@
-﻿import { Link, useLocation } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 import { useAuth } from "@/context/AuthContext"
 import { Menu, Settings } from "lucide-react"
@@ -60,7 +60,7 @@ export default function Navbar() {
           )}
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="md:hidden">
+              <Button variant="ghost" size="icon" className="md:hidden" aria-label="Menu" data-testid="mobile-menu-trigger">
                 <Menu className="h-5 w-5" />
               </Button>
             </SheetTrigger>

@@ -1,4 +1,4 @@
-﻿import { useState }                  from "react"
+import { useState }                  from "react"
 import { Input }                     from "@/components/ui/input"
 import { Button }                    from "@/components/ui/button"
 import { Label }                     from "@/components/ui/label"
@@ -122,7 +122,7 @@ export default function BillingPage() {
             className="font-mono"
           />
         </div>
-        <Button type="submit" disabled={refInput.replace(/\s/g, "").length !== 14}>
+        <Button type="submit" disabled={refInput.replace(/\s/g, "").length !== 14} data-testid="billing-lookup-btn">
           <Receipt className="h-4 w-4 mr-2" />
           Look up
         </Button>

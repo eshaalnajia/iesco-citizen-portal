@@ -1,4 +1,4 @@
-﻿import {
+import {
   Select,
   SelectContent,
   SelectItem,
@@ -28,7 +28,7 @@ export function SectorFilter({ value, onChange }) {
         value={value ?? "all"}
         onValueChange={(v) => onChange(v === "all" ? null : v)}
       >
-        <SelectTrigger className="w-52">
+        <SelectTrigger className="w-52" data-testid="sector-filter-trigger">
           <SelectValue>
             {value ?? "All areas"}
           </SelectValue>
