@@ -1,9 +1,7 @@
 from fastapi import FastAPI
 from starlette.middleware.base import BaseHTTPMiddleware
-from starlette.middleware.httpsredirect import HTTPSRedirectMiddleware
 from starlette.requests import Request
 from starlette.responses import Response
-from starlette.middleware.httpsredirect import HTTPSRedirectMiddleware
 from starlette.requests import Request
 from starlette.responses import Response
 from fastapi.middleware.cors import CORSMiddleware
@@ -61,9 +59,6 @@ class SecurityHeadersMiddleware(BaseHTTPMiddleware):
         if ENVIRONMENT == "production":
             response.headers["Strict-Transport-Security"] = "max-age=31536000; includeSubDomains"
         return response
-
-if ENVIRONMENT == "production":
-    app.add_middleware(HTTPSRedirectMiddleware)
 
 app.add_middleware(SecurityHeadersMiddleware)
 
