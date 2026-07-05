@@ -1,4 +1,4 @@
-﻿import { useState }    from "react"
+import { useState }    from "react"
 import { useMutation } from "@tanstack/react-query"
 import { useTranslation } from "react-i18next"
 import { Input }       from "@/components/ui/input"
@@ -10,6 +10,7 @@ import {
 }                      from "@/components/ui/select"
 import { Bell, CheckCircle, Loader2 } from "lucide-react"
 import api             from "@/services/api"
+import { getErrorMessage } from "@/utils/formatters"
 
 async function subscribeToAlerts({ phone, feederId, sector }) {
   const { data } = await api.post("/sms/subscribe", {
@@ -92,7 +93,7 @@ export function SMSSubscribeForm({ feeders = [] }) {
 
         {isError && (
           <p className="text-sm text-red-600">
-            {error?.response?.data?.detail || t("common.error")}
+            {getErrorMessage(error, t("common.error"))}
           </p>
         )}
 

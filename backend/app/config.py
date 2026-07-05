@@ -60,3 +60,9 @@ TWILIO_ENABLED      = os.environ.get('TWILIO_ENABLED', 'false').lower() == 'true
 TWILIO_ACCOUNT_SID  = os.environ.get('TWILIO_ACCOUNT_SID', '')
 TWILIO_AUTH_TOKEN   = os.environ.get('TWILIO_AUTH_TOKEN', '')
 TWILIO_FROM_NUMBER  = os.environ.get('TWILIO_FROM_NUMBER', '')
+
+EXTRA_ALLOWED_ORIGINS = [
+    origin.strip()
+    for origin in os.environ.get('EXTRA_ALLOWED_ORIGINS', '').split(',')
+    if origin.strip()
+]

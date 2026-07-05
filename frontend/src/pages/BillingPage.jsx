@@ -12,6 +12,7 @@ import { AlertTriangle, CheckCircle, Receipt } from "lucide-react"
 import { useTranslation } from "react-i18next"
 import { formatPKR, formatDate } from "@/utils/formatters"
 import api                           from "@/services/api"
+import { getErrorMessage } from "@/utils/formatters"
 
 async function lookupBill(ref) {
   const { data } = await api.get(`/bills/${ref}`)
@@ -85,7 +86,7 @@ export default function BillingPage() {
 
   const {
     data:      bill,
-    isLoading, isError,
+    isLoading, isError, isPaused,
     error,     refetch,
   } = useQuery({
     queryKey:  ["bill", submittedRef],
@@ -135,12 +136,20 @@ export default function BillingPage() {
         </div>
       )}
 
-      {isError && (
+      {isPaused && !bill && (
+        <div className="bg-amber-50 border border-amber-200 rounded-xl p-4">
+          <p className="text-sm font-medium text-amber-800">You're offline</p>
+          <p className="text-sm text-amber-700 mt-1">
+            Bill lookup requires an internet connection. Please reconnect and try again.
+          </p>
+        </div>
+      )}
+
+      {isError && !isPaused && (
         <div className="bg-red-50 border border-red-200 rounded-xl p-4">
           <p className="text-sm font-medium text-red-800">{t("billing.notFound")}</p>
           <p className="text-sm text-red-600 mt-1">
-            {error?.response?.data?.detail ||
-              "No bill found for this reference number. Check the number on your paper bill and try again."}
+            {getErrorMessage(error, "No bill found for this reference number. Check the number on your paper bill and try again.")}
           </p>
         </div>
       )}

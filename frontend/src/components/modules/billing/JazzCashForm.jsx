@@ -6,6 +6,7 @@ import { Button }         from "@/components/ui/button"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Loader2, CheckCircle, Smartphone } from "lucide-react"
 import api                from "@/services/api"
+import { getErrorMessage } from "@/utils/formatters"
 
 async function initiateJazzCash({ referenceNumber, mobileNumber, amount }) {
   const { data } = await api.post("/payments/jazzcash/initiate", {
@@ -47,8 +48,8 @@ export function JazzCashForm({ bill, onSuccess }) {
     },
   })
 
-  const error = initiateM.error?.response?.data?.detail
-             || confirmM.error?.response?.data?.detail
+  const rawError = initiateM.error || confirmM.error
+  const error = rawError ? getErrorMessage(rawError, "Something went wrong. Please try again.") : null
 
   if (step === "mobile") {
     return (

@@ -23,6 +23,10 @@ api.interceptors.response.use(
   },
   (error) => {
     if (error.response?.status === 401) {
+      const isOnLoginPage = window.location.pathname === "/login"
+      if (!isOnLoginPage) {
+        window.alert("Your session has expired. Please log in again.")
+      }
       supabase.auth.signOut().then(() => {
         window.location.href = "/login"
       })

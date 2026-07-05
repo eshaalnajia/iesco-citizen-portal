@@ -1,4 +1,4 @@
-﻿import { useState }                  from "react"
+import { useState }                  from "react"
 import { useSubmitRating }           from "@/hooks/useServices"
 import { StarRating }                from "./StarRating"
 import { Button }                    from "@/components/ui/button"
@@ -8,6 +8,7 @@ import {
   DialogTitle, DialogDescription,
 }                                    from "@/components/ui/dialog"
 import { CheckCircle, Loader2 }      from "lucide-react"
+import { getErrorMessage }           from "@/utils/formatters"
 
 export function RateProviderDialog({ provider, open, onOpenChange }) {
   const [selectedRating, setSelected] = useState(0)
@@ -91,7 +92,7 @@ export function RateProviderDialog({ provider, open, onOpenChange }) {
 
             {isError && (
               <p className="text-sm text-red-600">
-                {error?.response?.data?.detail || "Could not submit rating. Try again."}
+                {getErrorMessage(error, "Could not submit rating. Try again.")}
               </p>
             )}
 

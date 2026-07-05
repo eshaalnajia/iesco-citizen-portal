@@ -7,7 +7,7 @@ from starlette.middleware.httpsredirect import HTTPSRedirectMiddleware
 from starlette.requests import Request
 from starlette.responses import Response
 from fastapi.middleware.cors import CORSMiddleware
-from app.config import ENVIRONMENT
+from app.config import ENVIRONMENT, EXTRA_ALLOWED_ORIGINS
 from app.routers import feeders, schedules, tariffs, locations, services, bills, outage_reports, jazzcash, easypaisa, onebill, service_requests, sms
 from slowapi import _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
@@ -47,7 +47,7 @@ def custom_openapi():
 app.openapi = custom_openapi
 
 ALLOWED_ORIGINS = (
-    ["http://localhost:5173", "http://localhost:3000"]
+    ["http://localhost:5173", "http://localhost:3000"] + EXTRA_ALLOWED_ORIGINS
     if ENVIRONMENT == "development"
     else ["https://portal.iesco.gov.pk"]
 )
@@ -124,3 +124,4 @@ def test_cache():
 app.include_router(onebill.router)
 app.include_router(service_requests.router)
 app.include_router(sms.router)
+

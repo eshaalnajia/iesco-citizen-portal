@@ -50,3 +50,24 @@ export function formatRelativeTime(isoString) {
   if (hours < 24)   return `${hours}h ago`
   return `${Math.floor(hours / 24)}d ago`
 }
+
+/**
+ * Safely extracts a human-readable error message from an Axios/FastAPI error.
+ * FastAPI validation errors (422) return detail as an array of objects
+ * like [{type, loc, msg, input, ctx}], not a string - rendering that directly
+ * as JSX crashes React ("Objects are not valid as a React child").
+ * This always returns a plain string, falling back to allback if nothing usable is found.
+ */
+export function getErrorMessage(error, fallback = i18n.t("common.error")) {
+  const detail = error?.response?.data?.detail
+  if (!detail) return fallback
+  if (typeof detail === "string") return detail
+  if (Array.isArray(detail)) {
+    const messages = detail
+      .map((d) => (typeof d === "string" ? d : d?.msg))
+      .filter(Boolean)
+    return messages.length > 0 ? messages.join(" ") : fallback
+  }
+  if (typeof detail === "object" && detail.msg) return detail.msg
+  return fallback
+}
