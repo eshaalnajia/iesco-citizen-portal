@@ -47,7 +47,7 @@ app.openapi = custom_openapi
 ALLOWED_ORIGINS = (
     ["http://localhost:5173", "http://localhost:3000"] + EXTRA_ALLOWED_ORIGINS
     if ENVIRONMENT == "development"
-    else ["https://portal.iesco.gov.pk"]
+    else ["https://portal.iesco.gov.pk", "https://iesco-citizen-portal-6jg8.vercel.app"]
 )
 
 class SecurityHeadersMiddleware(BaseHTTPMiddleware):
