@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest"
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest"
 import { getRestorationInfo } from "./restorationTime"
 
 describe("getRestorationInfo", () => {
@@ -14,37 +14,38 @@ describe("getRestorationInfo", () => {
     expect(result.time).toBeNull()
   })
 
-  it("calculates restoration time for active scheduled shedding", () => {
-    const futureTime = new Date()
-    futureTime.setHours(futureTime.getHours() + 1)
-    const endTimeStr = `${String(futureTime.getHours()).padStart(2, "0")}:${String(futureTime.getMinutes()).padStart(2, "0")}`
+  describe("time-dependent scenarios", () => {
+    beforeEach(() => {
+      vi.useFakeTimers()
+      vi.setSystemTime(new Date(2026, 0, 1, 10, 0, 0))
+    })
 
-    const schedules = [{
-      is_active: true,
-      type: "scheduled",
-      start_time: "08:00",
-      end_time: endTimeStr,
-    }]
+    afterEach(() => {
+      vi.useRealTimers()
+    })
 
-    const result = getRestorationInfo({ status: "load_shedding" }, schedules)
-    expect(result.type).toBe("scheduled")
-    expect(result.isOverdue).toBe(false)
-  })
+    it("calculates restoration time for active scheduled shedding", () => {
+      const schedules = [{
+        is_active: true,
+        type: "scheduled",
+        start_time: "08:00",
+        end_time: "11:00",
+      }]
+      const result = getRestorationInfo({ status: "load_shedding" }, schedules)
+      expect(result.type).toBe("scheduled")
+      expect(result.isOverdue).toBe(false)
+    })
 
-  it("flags overdue restoration when end_time has passed", () => {
-    const pastTime = new Date()
-    pastTime.setMinutes(pastTime.getMinutes() - 30)
-    const endTimeStr = `${String(pastTime.getHours()).padStart(2, "0")}:${String(pastTime.getMinutes()).padStart(2, "0")}`
-
-    const schedules = [{
-      is_active: true,
-      type: "scheduled",
-      start_time: "08:00",
-      end_time: endTimeStr,
-    }]
-
-    const result = getRestorationInfo({ status: "load_shedding" }, schedules)
-    expect(result.isOverdue).toBe(true)
+    it("flags overdue restoration when end_time has passed", () => {
+      const schedules = [{
+        is_active: true,
+        type: "scheduled",
+        start_time: "08:00",
+        end_time: "09:30",
+      }]
+      const result = getRestorationInfo({ status: "load_shedding" }, schedules)
+      expect(result.isOverdue).toBe(true)
+    })
   })
 
   it("returns no_data type for unrecognised status", () => {
