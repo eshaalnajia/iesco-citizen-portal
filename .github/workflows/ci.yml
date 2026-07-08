@@ -33,7 +33,17 @@ jobs:
         with:
           python-version: '3.12'
       - run: pip install -r requirements.txt
+      - name: Check secrets are set
+        run: |
+          if [ -z "$SUPABASE_URL" ]; then echo "SUPABASE_URL is EMPTY"; else echo "SUPABASE_URL is SET"; fi
+          if [ -z "$SUPABASE_SERVICE_KEY" ]; then echo "SUPABASE_SERVICE_KEY is EMPTY"; else echo "SUPABASE_SERVICE_KEY is SET"; fi
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
       - run: pytest
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
 
   deploy-frontend:
     needs: frontend
