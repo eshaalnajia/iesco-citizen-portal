@@ -12,6 +12,8 @@ import LocationsPage   from "@/pages/LocationsPage"
 import MapPage         from "@/pages/MapPage"
 import AdminPage       from "@/pages/AdminPage"
 import LoginPage       from "@/pages/LoginPage"
+import AdminLoginPage  from "@/pages/AdminLoginPage"
+import ForgotPasswordPage from "@/pages/ForgotPasswordPage"
 import NotFoundPage    from "@/pages/NotFoundPage"
 import SelfServicePage from "@/pages/SelfServicePage"
 
@@ -31,6 +33,8 @@ export default function App() {
       </Route>
 
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/admin/login" element={<AdminLoginPage />} />
+      <Route path="/forgot-password" element={<ForgotPasswordPage />} />
 
       <Route
         path="/admin/*"
@@ -45,3 +49,5 @@ export default function App() {
     </Routes>
   )
 }
+
+

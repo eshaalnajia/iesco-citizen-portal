@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react"
+﻿import { createContext, useContext, useEffect, useState } from "react"
 import { supabase } from "@/lib/supabase"
 
 const AuthContext = createContext(null)
@@ -23,12 +23,19 @@ export function AuthProvider({ children }) {
     return () => listener.subscription.unsubscribe()
   }, [])
 
+  const user    = session?.user ?? null
+  const role    = user?.app_metadata?.role ?? null
+  const isAdmin = role === "admin"
+  const isUser  = !!user
+
   const value = {
     session,
-    user: session?.user ?? null,
-    isAdmin: session?.user?.app_metadata?.role === "admin",
+    user,
+    role,
+    isAdmin,
+    isUser,
     isLoading: loading,
-    signOut: () => supabase.auth.signOut(),
+    signOut:   () => supabase.auth.signOut(),
   }
 
   return (
@@ -39,9 +46,7 @@ export function AuthProvider({ children }) {
 }
 
 export function useAuth() {
-  const context = useContext(AuthContext)
-  if (!context) {
-    throw new Error("useAuth must be used inside <AuthProvider>")
-  }
-  return context
+  const ctx = useContext(AuthContext)
+  if (!ctx) throw new Error("useAuth must be inside <AuthProvider>")
+  return ctx
 }

@@ -1,10 +1,11 @@
-import { Link, useLocation } from "react-router-dom"
+﻿import { Link, useLocation, useNavigate } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 import { useAuth } from "@/context/AuthContext"
-import { Menu, Settings } from "lucide-react"
+import { Menu, Settings, User, LogOut } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Badge } from "@/components/ui/badge"
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import iescoLogo from "@/assets/iesco-logo.png"
 import { LanguageSwitcher } from "./LanguageSwitcher"
 
@@ -21,7 +22,13 @@ const navLinks = [
 export default function Navbar() {
   const { t } = useTranslation()
   const location = useLocation()
-  const { isAdmin } = useAuth()
+  const { isAdmin, isUser, user, signOut } = useAuth()
+  const navigate = useNavigate()
+
+  async function handleSignOut() {
+    await signOut()
+    navigate("/", { replace: true })
+  }
 
 
   return (
@@ -48,7 +55,7 @@ export default function Navbar() {
         </nav>
         <div className="flex items-center gap-2">
           <LanguageSwitcher />
-          {isAdmin && (
+         {isAdmin && (
             <Button variant="ghost" size="sm" asChild>
               <Link to="/admin" className="flex items-center gap-1.5">
                 <Settings className="h-4 w-4" />
@@ -58,6 +65,46 @@ export default function Navbar() {
               </Link>
             </Button>
           )}
+
+          {isUser && !isAdmin ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="sm" className="flex items-center gap-1.5">
+                  <div className="w-6 h-6 rounded-full bg-iesco-teal/10 border border-iesco-teal/30 flex items-center justify-center">
+                    <User className="h-3.5 w-3.5 text-iesco-teal" />
+                  </div>
+                  <span className="text-sm text-slate-600 max-w-24 truncate hidden sm:block">
+                    {user?.user_metadata?.full_name?.split(" ")[0] ?? "Account"}
+                  </span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48">
+                <div className="px-3 py-2">
+                  <p className="text-sm font-medium text-slate-800 truncate">
+                    {user?.user_metadata?.full_name ?? "Citizen"}
+                  </p>
+                  <p className="text-xs text-slate-500 truncate">{user?.email}</p>
+                </div>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link to="/self-service" className="cursor-pointer">My Requests</Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild>
+                  <Link to="/billing" className="cursor-pointer">Pay Bill</Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={handleSignOut} className="text-red-600 cursor-pointer focus:text-red-600">
+                  <LogOut className="h-3.5 w-3.5 mr-2" />
+                  Sign out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : !isUser ? (
+            <Button asChild size="sm" variant="outline">
+              <Link to="/login">Sign in</Link>
+            </Button>
+          ) : null}
+
           <Sheet>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon" className="md:hidden" aria-label="Menu" data-testid="mobile-menu-trigger">
@@ -88,6 +135,10 @@ export default function Navbar() {
     </header>
   )
 }
+
+
+
+
 
 
 
