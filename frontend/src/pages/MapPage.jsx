@@ -85,7 +85,13 @@ export default function MapPage() {
     setSearchParams({}, { replace: true })
   }, [setSearchParams])
 
-  useFeederLayer(map, ready, feeders, handleFeederClick)
+  const { data: feederGeoJSON } = useQuery({
+    queryKey: ["feeders-geojson"],
+    queryFn:  () => api.get("/feeders/map/geojson").then(r => r.data),
+    staleTime: 30_000,
+  })
+
+  useFeederLayer(map, ready, feeders, feederGeoJSON, handleFeederClick)
   useHeatmapLayer(map, ready, feeders, heatmap)
 
   useEffect(() => {

@@ -1,7 +1,7 @@
 ﻿import { Link, useLocation, useNavigate } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 import { useAuth } from "@/context/AuthContext"
-import { Menu, Settings, User, LogOut } from "lucide-react"
+import { Menu, Settings, User, LogOut, Zap } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Badge } from "@/components/ui/badge"
@@ -107,24 +107,30 @@ export default function Navbar() {
 
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="md:hidden" aria-label="Menu" data-testid="mobile-menu-trigger">
+              <button className="md:hidden p-2 rounded-md hover:bg-slate-100 transition-colors" aria-label="Menu" data-testid="mobile-menu-trigger">
                 <Menu className="h-5 w-5" />
-              </Button>
+              </button>
             </SheetTrigger>
-            <SheetContent side="right">
-              <nav className="flex flex-col gap-3 mt-6">
+            <SheetContent side="right" className="w-72 bg-[#0D1B3E] border-l border-white/10">
+              <div className="flex items-center gap-3 mb-8 mt-2">
+                <div className="w-8 h-8 rounded-lg bg-iesco-teal/20 border border-iesco-teal/40 flex items-center justify-center">
+                  <Zap className="h-4 w-4 text-iesco-teal" />
+                </div>
+                <span className="text-white font-semibold text-sm">IESCO Portal</span>
+              </div>
+              <nav className="flex flex-col gap-1">
                 {navLinks.map((link) => (
                   <Link
                     key={link.path}
                     to={link.path}
-                    className="text-sm font-medium py-2 border-b border-border"
+                    className="text-slate-300 hover:text-white hover:bg-white/10 transition-colors text-sm font-medium px-3 py-3 rounded-lg block"
                   >
                     {t(link.key)}
                   </Link>
                 ))}
                 {isAdmin && (
-                  <Link to="/admin" className="text-sm font-medium py-2 text-iesco-teal">
-                    Admin dashboard
+                  <Link to="/admin" className="text-iesco-teal hover:text-white hover:bg-white/10 transition-colors text-sm font-medium px-3 py-3 rounded-lg block mt-2 border-t border-white/10 pt-4">
+                    Admin Dashboard
                   </Link>
                 )}
               </nav>
@@ -135,11 +141,6 @@ export default function Navbar() {
     </header>
   )
 }
-
-
-
-
-
 
 
 
