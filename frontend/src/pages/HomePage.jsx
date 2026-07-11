@@ -53,8 +53,8 @@ function Hero({ stats, statsLoading }) {
       <div className="absolute top-0 right-0 w-96 h-96 bg-iesco-teal/20 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
       <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/20 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2" />
 
-      <div className="relative max-w-7xl mx-auto px-4 py-16 md:py-24">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+      <div className="relative max-w-7xl mx-auto px-4 py-10 md:py-20">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
           <div className="space-y-6">
             <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-3 py-1.5 text-sm backdrop-blur-sm">
               <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
@@ -95,7 +95,7 @@ function Hero({ stats, statsLoading }) {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-3">
             {[
               { label: "Feeders Online",  value: statsLoading ? "-" : `${stats?.on ?? 0}/${stats?.total ?? 12}`, icon: CheckCircle,  color: "text-green-400",  bg: "bg-green-400/10 border-green-400/20",   sub: "Islamabad coverage" },
               { label: "Active Outages",  value: statsLoading ? "-" : stats?.shedding ?? 0,                      icon: AlertTriangle, color: "text-orange-400", bg: "bg-orange-400/10 border-orange-400/20", sub: "Scheduled today" },
