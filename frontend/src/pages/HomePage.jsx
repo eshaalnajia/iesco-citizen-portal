@@ -81,7 +81,7 @@ function Hero({ stats, statsLoading }) {
               <Button asChild size="lg" className="bg-iesco-teal hover:bg-iesco-teal/90 text-white font-semibold shadow-lg shadow-iesco-teal/25">
                 <Link to="/schedule"><CalendarDays className="h-4 w-4 mr-2" />Check Today's Schedule</Link>
               </Button>
-              <Button asChild size="lg" variant="outline" className="border-white/30 text-white hover:bg-white/10 backdrop-blur-sm">
+              <Button asChild size="lg" variant="outline" className="border-white/30 text-white hover:bg-white/10 backdrop-blur-sm bg-transparent">
                 <Link to="/map"><MapPin className="h-4 w-4 mr-2" />Live Map</Link>
               </Button>
             </div>

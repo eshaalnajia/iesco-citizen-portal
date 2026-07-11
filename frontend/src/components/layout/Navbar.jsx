@@ -60,9 +60,9 @@ export default function Navbar() {
           )}
           <Sheet>
             <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="md:hidden" aria-label="Menu" data-testid="mobile-menu-trigger">
+              <button className="md:hidden p-2 rounded-md hover:bg-slate-100 transition-colors" aria-label="Menu" data-testid="mobile-menu-trigger">
                 <Menu className="h-5 w-5" />
-              </Button>
+              </button>
             </SheetTrigger>
             <SheetContent side="right">
               <nav className="flex flex-col gap-3 mt-6">
