@@ -67,7 +67,7 @@ export default defineConfig({
             handler: "StaleWhileRevalidate",
             options: {
               cacheName: "iesco-feeders-cache",
-              expiration: { maxEntries: 20, maxAgeSeconds: 60 * 60 * 24 },
+              expiration: { maxEntries: 20, maxAgeSeconds: 60 },
               cacheableResponse: { statuses: [0, 200] },
             },
           },
@@ -76,7 +76,7 @@ export default defineConfig({
             handler: "StaleWhileRevalidate",
             options: {
               cacheName: "iesco-schedules-cache",
-              expiration: { maxEntries: 30, maxAgeSeconds: 60 * 60 * 6 },
+              expiration: { maxEntries: 30, maxAgeSeconds: 60 },
               cacheableResponse: { statuses: [0, 200] },
             },
           },
