@@ -9,6 +9,7 @@ from app.utils.sms import (
     send_sms,
     should_send_sms,
 )
+from app.utils.timezone import today_pkt, is_currently_active
 from app.cache import cache_get, cache_set, cache_delete_pattern, TTL_FEEDERS
 import redis as redis_lib
 from supabase import Client
@@ -26,6 +27,40 @@ class StatusUpdate(BaseModel):
     reliability: Optional[int] = None
 
 
+def _apply_live_schedule_status(feeders: list[dict], db: Client) -> list[dict]:
+    """
+    Overlays live schedule-derived status onto feeders. A feeder with an
+    active 'scheduled' outage right now is shown as load_shedding even if
+    its stored status column says otherwise - unless it's already in a
+    higher-priority manual state (fault, maintenance), which always wins.
+    """
+    MANUAL_OVERRIDE_STATUSES = {"fault", "maintenance"}
+    feeder_ids = [f["id"] for f in feeders]
+    if not feeder_ids:
+        return feeders
+
+    today = today_pkt()
+    schedules = (
+        db.table("schedules")
+        .select("feeder_id, schedule_date, start_time, end_time, type")
+        .in_("feeder_id", feeder_ids)
+        .eq("schedule_date", str(today))
+        .eq("type", "scheduled")
+        .execute()
+    )
+
+    active_feeder_ids = set()
+    for s in (schedules.data or []):
+        if is_currently_active(today, s["start_time"], s["end_time"]):
+            active_feeder_ids.add(s["feeder_id"])
+
+    for f in feeders:
+        if f["id"] in active_feeder_ids and f["status"] not in MANUAL_OVERRIDE_STATUSES:
+            f["status"] = "load_shedding"
+
+    return feeders
+
+
 @router.get("/")
 def list_feeders(
     sector: Optional[str] = None,
@@ -35,6 +70,7 @@ def list_feeders(
     cache_key = f"feeders:{sector or 'all'}"
     cached = cache_get(cache, cache_key)
     if cached:
+        cached = _apply_live_schedule_status(cached, db)
         return {"data": cached, "source": "cache"}
 
     query = db.table("feeders").select(
@@ -45,7 +81,8 @@ def list_feeders(
 
     result = query.order("sector").execute()
     cache_set(cache, cache_key, result.data, TTL_FEEDERS)
-    return {"data": result.data, "source": "database"}
+    data = _apply_live_schedule_status(result.data, db)
+    return {"data": data, "source": "database"}
 
 
 @router.get("/{feeder_id}")
@@ -118,6 +155,47 @@ async def update_feeder_status(
         "new_status": body.status,
         "updated_by": admin["email"],
     }
+def _apply_live_status_to_geojson(geojson: dict, db: Client) -> dict:
+    """
+    Overlays live schedule-derived status onto each feature's status property,
+    same logic as _apply_live_schedule_status but for GeoJSON feature shape.
+    """
+    if not geojson or not geojson.get("features"):
+        return geojson
+
+    MANUAL_OVERRIDE_STATUSES = {"fault", "maintenance"}
+    feeder_ids = [
+        feat["properties"]["id"]
+        for feat in geojson["features"]
+        if feat.get("properties", {}).get("id")
+    ]
+    if not feeder_ids:
+        return geojson
+
+    today = today_pkt()
+    schedules = (
+        db.table("schedules")
+        .select("feeder_id, schedule_date, start_time, end_time, type")
+        .in_("feeder_id", feeder_ids)
+        .eq("schedule_date", str(today))
+        .eq("type", "scheduled")
+        .execute()
+    )
+
+    active_feeder_ids = set()
+    for s in (schedules.data or []):
+        if is_currently_active(today, s["start_time"], s["end_time"]):
+            active_feeder_ids.add(s["feeder_id"])
+
+    for feat in geojson["features"]:
+        props = feat.get("properties", {})
+        fid = props.get("id")
+        if fid in active_feeder_ids and props.get("status") not in MANUAL_OVERRIDE_STATUSES:
+            props["status"] = "load_shedding"
+
+    return geojson
+
+
 @router.get("/map/geojson")
 def get_feeders_map(
     db: Client = Depends(get_supabase),
@@ -126,12 +204,14 @@ def get_feeders_map(
     cache_key = "feeders:geojson"
     cached = cache_get(cache, cache_key)
     if cached:
+        cached = _apply_live_status_to_geojson(cached, db)
         return cached
 
     result = db.rpc("get_feeders_geojson", {}).execute()
     geojson = result.data
 
     cache_set(cache, cache_key, geojson, TTL_FEEDERS)
+    geojson = _apply_live_status_to_geojson(geojson, db)
     return geojson
 
 async def _send_feeder_sms_alerts(db, feeder: dict, new_status: str):
