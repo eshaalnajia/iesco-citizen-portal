@@ -7,6 +7,7 @@ import { Input }          from "@/components/ui/input"
 import { Label }          from "@/components/ui/label"
 import { Badge }          from "@/components/ui/badge"
 import { Separator }      from "@/components/ui/separator"
+import { Sheet, SheetContent } from "@/components/ui/sheet"
 import {
   Select, SelectContent, SelectItem,
   SelectTrigger, SelectValue,
@@ -20,6 +21,7 @@ import {
   Coins, Wrench, Building2, LogOut, ChevronRight,
   Plus, Trash2, CheckCircle, XCircle, Loader2,
   RefreshCw, AlertTriangle, Activity, Users,
+  UserPlus, Shield, Megaphone, Menu, ArrowLeft,
 } from "lucide-react"
 import api from "@/services/api"
 
@@ -43,12 +45,12 @@ function StatusBadge({ status }) {
 
 function Table({ headers, children, empty }) {
   return (
-    <div className="overflow-x-auto rounded-lg border border-slate-200">
+    <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
       <table className="w-full text-sm">
-        <thead className="bg-slate-50 border-b border-slate-200">
+        <thead className="bg-slate-50/80 border-b border-slate-200">
           <tr>
             {headers.map(h => (
-              <th key={h} className="text-left text-xs font-semibold text-slate-500 uppercase tracking-wide py-3 px-4">{h}</th>
+              <th key={h} className="text-left text-xs font-semibold text-slate-500 uppercase tracking-wide py-3 px-4 whitespace-nowrap">{h}</th>
             ))}
           </tr>
         </thead>
@@ -65,14 +67,18 @@ function DashboardHome() {
   const { data: schedules } = useQuery({ queryKey: ["admin-schedules-today"], queryFn: () => api.get("/schedules/today").then(r => r.data.data), staleTime: 60000 })
   const { data: requests }  = useQuery({ queryKey: ["admin-requests-count"],  queryFn: () => api.get("/service-requests/").then(r => r.data), staleTime: 60000 })
 
-  const on      = feeders?.filter(f => f.status === "on").length ?? 0
-  const faults  = feeders?.filter(f => f.status === "fault").length ?? 0
-  const pending = requests?.data?.filter(r => r.status === "pending").length ?? 0
+  const on          = feeders?.filter(f => f.status === "on").length ?? 0
+  const faults      = feeders?.filter(f => f.status === "fault").length ?? 0
+  const maintenance = feeders?.filter(f => f.status === "maintenance").length ?? 0
+  const outageFeeders  = feeders?.filter(f => f.status === "fault" || f.status === "load_shedding") ?? []
+  const pending        = requests?.data?.filter(r => r.status === "pending").length ?? 0
+  const recentRequests = requests?.data?.slice(0, 5) ?? []
 
   const stats = [
     { label: "Active feeders",   value: `${on}/${feeders?.length ?? 12}`, icon: Zap,           color: "text-green-600",  bg: "bg-green-50"  },
     { label: "Scheduled today",  value: schedules?.length ?? "-",          icon: CalendarDays,  color: "text-blue-600",   bg: "bg-blue-50"   },
     { label: "Faults / outages", value: faults,                            icon: AlertTriangle, color: "text-red-600",    bg: "bg-red-50"    },
+    { label: "In maintenance",   value: maintenance,                       icon: Wrench,        color: "text-amber-600",  bg: "bg-amber-50"  },
     { label: "Pending requests", value: pending,                           icon: Users,         color: "text-purple-600", bg: "bg-purple-50" },
   ]
 
@@ -82,16 +88,16 @@ function DashboardHome() {
         <h2 className="text-2xl font-bold text-slate-900">Dashboard</h2>
         <p className="text-slate-500 text-sm mt-1">Signed in as {user?.email}</p>
       </div>
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
         {stats.map(s => {
           const Icon = s.icon
           return (
-            <div key={s.label} className="bg-white border border-slate-200 rounded-xl p-5 space-y-3">
-              <div className={`w-10 h-10 ${s.bg} rounded-lg flex items-center justify-center`}>
+            <div key={s.label} className="bg-white border border-slate-200 rounded-xl p-4 md:p-5 space-y-3 hover:shadow-md hover:border-slate-300 transition-all duration-200">
+              <div className={`w-10 h-10 ${s.bg} rounded-xl flex items-center justify-center`}>
                 <Icon className={`h-5 w-5 ${s.color}`} />
               </div>
               <div>
-                <p className="text-2xl font-bold text-slate-900">{s.value}</p>
+                <p className="text-xl md:text-2xl font-bold text-slate-900">{s.value}</p>
                 <p className="text-xs text-slate-500 mt-0.5">{s.label}</p>
               </div>
             </div>
@@ -104,7 +110,7 @@ function DashboardHome() {
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
             {feeders.map(f => (
               <div key={f.id} className="bg-white border border-slate-200 rounded-xl p-3 space-y-2">
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between flex-wrap gap-3">
                   <span className="text-xs font-mono text-slate-500">{f.feeder_code}</span>
                   <StatusBadge status={f.status} />
                 </div>
@@ -121,6 +127,52 @@ function DashboardHome() {
           </div>
         </div>
       )}
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div>
+            <h3 className="text-sm font-semibold text-slate-700 mb-3 uppercase tracking-wide">Active Outages</h3>
+            {outageFeeders.length === 0 ? (
+              <div className="bg-white border border-slate-200 rounded-xl p-6 text-center text-sm text-slate-400">
+                No active outages right now
+              </div>
+            ) : (
+              <div className="space-y-2">
+                {outageFeeders.map(f => (
+                  <div key={f.id} className="bg-white border border-slate-200 rounded-xl p-3 flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-medium text-slate-800">{f.name}</p>
+                      <p className="text-xs text-slate-400">{f.sector} - {f.feeder_code}</p>
+                    </div>
+                    <StatusBadge status={f.status} />
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
+          <div>
+            <h3 className="text-sm font-semibold text-slate-700 mb-3 uppercase tracking-wide">Recent Service Requests</h3>
+            {recentRequests.length === 0 ? (
+              <div className="bg-white border border-slate-200 rounded-xl p-6 text-center text-sm text-slate-400">
+                No requests yet
+              </div>
+            ) : (
+              <div className="space-y-2">
+                {recentRequests.map(r => (
+                  <div key={r.id} className="bg-white border border-slate-200 rounded-xl p-3 flex items-center justify-between">
+                    <div className="min-w-0">
+                      <p className="text-sm font-medium text-slate-800 truncate">{r.full_name}</p>
+                      <p className="text-xs font-mono text-slate-400">{r.ticket_number}</p>
+                    </div>
+                    <span className="text-xs font-medium px-2 py-0.5 rounded-full border bg-slate-50 text-slate-600 border-slate-200 flex-shrink-0">
+                      {r.status}
+                    </span>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        </div>
     </div>
   )
 }
@@ -132,13 +184,28 @@ function FeedersPanel() {
     queryFn:  () => api.get("/feeders/").then(r => r.data.data),
   })
   const updateMutation = useMutation({
-    mutationFn: ({ id, status }) => api.patch(`/feeders/${id}/status`, { status }),
+    mutationFn: ({ id, status, reliability }) => api.patch(`/feeders/${id}/status`, { status, reliability }),
     onSuccess:  () => qc.invalidateQueries({ queryKey: ["admin-feeders-panel"] }),
   })
+  const [editingReliability, setEditingReliability] = useState(null)
+  const [reliabilityDraft, setReliabilityDraft]     = useState("")
+
+  function startEditReliability(f) {
+    setEditingReliability(f.id)
+    setReliabilityDraft(String(f.reliability))
+  }
+
+  function saveReliability(f) {
+    const val = parseInt(reliabilityDraft, 10)
+    if (!isNaN(val) && val >= 0 && val <= 100 && val !== f.reliability) {
+      updateMutation.mutate({ id: f.id, status: f.status, reliability: val })
+    }
+    setEditingReliability(null)
+  }
   if (isLoading) return <div className="py-12 text-center text-slate-400">Loading feeders...</div>
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
           <h2 className="text-xl font-bold text-slate-900">Manage Feeders</h2>
           <p className="text-sm text-slate-500">{feeders?.length} feeders</p>
@@ -169,7 +236,26 @@ function FeedersPanel() {
                 <div className="w-16 h-1.5 rounded-full overflow-hidden bg-slate-200">
                   <div className="h-full rounded-full" style={{ width: `${f.reliability}%`, background: f.reliability > 80 ? "#22C55E" : f.reliability > 60 ? "#D97706" : "#EF4444" }} />
                 </div>
-                <span className="text-xs text-slate-500">{f.reliability}%</span>
+                {editingReliability === f.id ? (
+                  <input
+                    type="number"
+                    min="0"
+                    max="100"
+                    autoFocus
+                    className="w-14 h-6 text-xs border border-slate-300 rounded px-1"
+                    value={reliabilityDraft}
+                    onChange={(e) => setReliabilityDraft(e.target.value)}
+                    onBlur={() => saveReliability(f)}
+                    onKeyDown={(e) => { if (e.key === "Enter") saveReliability(f); if (e.key === "Escape") setEditingReliability(null) }}
+                  />
+                ) : (
+                  <button
+                    className="text-xs text-slate-500 hover:text-iesco-teal hover:underline"
+                    onClick={() => startEditReliability(f)}
+                  >
+                    {f.reliability}%
+                  </button>
+                )}
               </div>
             </td>
             <td className="py-3 px-4">
@@ -221,7 +307,7 @@ function SchedulesPanel() {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
           <h2 className="text-xl font-bold text-slate-900">Load Shedding Schedules</h2>
           <p className="text-sm text-slate-500">{rows.length} entries in the next 14 days</p>
@@ -324,7 +410,7 @@ function TariffsPanel() {
   const slabs = data?.data ?? []
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
           <h2 className="text-xl font-bold text-slate-900">Tariff Rates</h2>
           <p className="text-sm text-slate-500">Current NEPRA rates effective {slabs[0]?.effective_from ?? "-"}</p>
@@ -501,7 +587,7 @@ function LocationsPanel() {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between">
+      <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
           <h2 className="text-xl font-bold text-slate-900">Location Directory</h2>
           <p className="text-sm text-slate-500">{locations.length} locations · {Object.entries(byType).map(([k,v]) => `${v} ${AREA_LABELS[k] ?? k}s`).join(", ")}</p>
@@ -525,18 +611,277 @@ function LocationsPanel() {
   )
 }
 
+function AnnouncementsPanel() {
+  const qc = useQueryClient()
+  const [showForm, setShowForm] = useState(false)
+  const [editingId, setEditingId] = useState(null)
+  const [form, setForm] = useState({ type: "info", text: "", link: "", link_text: "", is_active: true, sort_order: 0 })
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["admin-announcements"],
+    queryFn:  () => api.get("/announcements/").then(r => r.data),
+  })
+
+  const addMutation = useMutation({
+    mutationFn: (body) => api.post("/announcements/", body),
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ["admin-announcements"] }); closeForm() },
+  })
+  const updateMutation = useMutation({
+    mutationFn: ({ id, body }) => api.patch(`/announcements/${id}`, body),
+    onSuccess: () => { qc.invalidateQueries({ queryKey: ["admin-announcements"] }); closeForm() },
+  })
+  const deleteMutation = useMutation({
+    mutationFn: (id) => api.delete(`/announcements/${id}`),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["admin-announcements"] }),
+  })
+  const toggleActiveMutation = useMutation({
+    mutationFn: ({ id, is_active }) => api.patch(`/announcements/${id}`, { is_active }),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["admin-announcements"] }),
+  })
+
+  function closeForm() {
+    setShowForm(false)
+    setEditingId(null)
+    setForm({ type: "info", text: "", link: "", link_text: "", is_active: true, sort_order: 0 })
+  }
+
+  function openEdit(a) {
+    setEditingId(a.id)
+    setForm({ type: a.type, text: a.text, link: a.link || "", link_text: a.link_text || "", is_active: a.is_active, sort_order: a.sort_order })
+    setShowForm(true)
+  }
+
+  function handleSave() {
+    if (editingId) {
+      updateMutation.mutate({ id: editingId, body: form })
+    } else {
+      addMutation.mutate(form)
+    }
+  }
+
+  const announcements = data?.data ?? []
+  const TYPE_COLORS = {
+    info:    "bg-blue-50 text-blue-700 border-blue-200",
+    warning: "bg-amber-50 text-amber-700 border-amber-200",
+    alert:   "bg-red-50 text-red-700 border-red-200",
+  }
+
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center justify-between flex-wrap gap-3">
+        <div>
+          <h2 className="text-xl font-bold text-slate-900">Announcements</h2>
+          <p className="text-sm text-slate-500">{announcements.length} total - shown in rotating order on the site banner</p>
+        </div>
+        <Button size="sm" onClick={() => setShowForm(true)}><Plus className="h-4 w-4 mr-1.5" /> Add Announcement</Button>
+      </div>
+      {isLoading ? <div className="py-12 text-center text-slate-400">Loading...</div> : (
+        <Table headers={["Order", "Type", "Text", "Link", "Active", "Actions"]} empty={announcements.length === 0 ? "No announcements yet" : null}>
+          {announcements.map(a => (
+            <tr key={a.id} className="hover:bg-slate-50">
+              <td className="py-3 px-4 text-sm text-slate-500">{a.sort_order}</td>
+              <td className="py-3 px-4">
+                <span className={`text-xs font-medium px-2 py-0.5 rounded-full border ${TYPE_COLORS[a.type] ?? TYPE_COLORS.info}`}>{a.type}</span>
+              </td>
+              <td className="py-3 px-4 text-sm text-slate-700 max-w-sm truncate">{a.text}</td>
+              <td className="py-3 px-4 text-xs text-slate-500">{a.link || "-"}</td>
+              <td className="py-3 px-4">
+                <button onClick={() => toggleActiveMutation.mutate({ id: a.id, is_active: !a.is_active })}>
+                  {a.is_active
+                    ? <span className="inline-flex items-center gap-1 text-xs text-green-700"><CheckCircle className="h-3.5 w-3.5" /> Active</span>
+                    : <span className="inline-flex items-center gap-1 text-xs text-slate-400"><XCircle className="h-3.5 w-3.5" /> Inactive</span>}
+                </button>
+              </td>
+              <td className="py-3 px-4">
+                <div className="flex gap-1">
+                  <Button size="sm" variant="ghost" className="h-7 px-2 text-xs" onClick={() => openEdit(a)}>Edit</Button>
+                  <Button size="sm" variant="ghost" className="h-7 w-7 p-0 text-red-500 hover:bg-red-50 hover:text-red-700" onClick={() => deleteMutation.mutate(a.id)}><Trash2 className="h-3.5 w-3.5" /></Button>
+                </div>
+              </td>
+            </tr>
+          ))}
+        </Table>
+      )}
+      <Dialog open={showForm} onOpenChange={(open) => !open && closeForm()}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>{editingId ? "Edit Announcement" : "Add Announcement"}</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-3 pt-2">
+            <div className="space-y-1.5">
+              <Label>Type *</Label>
+              <Select value={form.type} onValueChange={v => setForm(p => ({ ...p, type: v }))}>
+                <SelectTrigger><SelectValue /></SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="info">Info (teal)</SelectItem>
+                  <SelectItem value="warning">Warning (amber)</SelectItem>
+                  <SelectItem value="alert">Alert (red)</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="space-y-1.5">
+              <Label>Text *</Label>
+              <Input placeholder="e.g. Planned maintenance in G-9 on July 20" value={form.text} onChange={e => setForm(p => ({ ...p, text: e.target.value }))} />
+            </div>
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-1.5">
+                <Label>Link (optional)</Label>
+                <Input placeholder="/schedule" value={form.link} onChange={e => setForm(p => ({ ...p, link: e.target.value }))} />
+              </div>
+              <div className="space-y-1.5">
+                <Label>Link text</Label>
+                <Input placeholder="View Schedule" value={form.link_text} onChange={e => setForm(p => ({ ...p, link_text: e.target.value }))} />
+              </div>
+            </div>
+            <div className="space-y-1.5">
+              <Label>Sort order</Label>
+              <Input type="number" value={form.sort_order} onChange={e => setForm(p => ({ ...p, sort_order: parseInt(e.target.value) || 0 }))} />
+            </div>
+            <div className="flex gap-2 pt-1">
+              <Button variant="outline" className="flex-1" onClick={closeForm}>Cancel</Button>
+              <Button className="flex-1" disabled={!form.text || addMutation.isPending || updateMutation.isPending} onClick={handleSave}>
+                {(addMutation.isPending || updateMutation.isPending) ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
+                {editingId ? "Save Changes" : "Create Announcement"}
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </div>
+  )
+}
+
+function AdminsPanel() {
+  const qc = useQueryClient()
+  const [showAdd, setShowAdd] = useState(false)
+  const [form, setForm]       = useState({ email: "", password: "" })
+  const [err, setErr]         = useState("")
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["admin-users-list"],
+    queryFn:  () => api.get("/admin/users/").then(r => r.data),
+  })
+
+  const addMutation = useMutation({
+    mutationFn: (body) => api.post("/admin/users/", body),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["admin-users-list"] })
+      setShowAdd(false)
+      setForm({ email: "", password: "" })
+      setErr("")
+    },
+    onError: (e) => setErr(e.response?.data?.detail || "Failed to create admin"),
+  })
+
+  const admins = data?.data ?? []
+
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center justify-between flex-wrap gap-3">
+        <div>
+          <h2 className="text-xl font-bold text-slate-900">Admin Users</h2>
+          <p className="text-sm text-slate-500">{admins.length} admin accounts</p>
+        </div>
+        <Button size="sm" onClick={() => setShowAdd(true)}><UserPlus className="h-4 w-4 mr-1.5" /> Add Admin</Button>
+      </div>
+      {isLoading ? <div className="py-12 text-center text-slate-400">Loading...</div> : (
+        <Table headers={["Email", "User ID", "Created"]} empty={admins.length === 0 ? "No admin users found" : null}>
+          {admins.map(a => (
+            <tr key={a.id} className="hover:bg-slate-50">
+              <td className="py-3 px-4">
+                <div className="flex items-center gap-2">
+                  <Shield className="h-3.5 w-3.5 text-iesco-teal flex-shrink-0" />
+                  <span className="font-medium text-sm text-slate-800">{a.email}</span>
+                </div>
+              </td>
+              <td className="py-3 px-4 text-xs font-mono text-slate-400">{a.id}</td>
+              <td className="py-3 px-4 text-sm text-slate-600">{a.created_at ? new Date(a.created_at).toLocaleDateString("en-PK") : "-"}</td>
+            </tr>
+          ))}
+        </Table>
+      )}
+      <Dialog open={showAdd} onOpenChange={setShowAdd}>
+        <DialogContent className="max-w-md">
+          <DialogHeader>
+            <DialogTitle>Create Admin Account</DialogTitle>
+            <DialogDescription>This user will get full admin access immediately.</DialogDescription>
+          </DialogHeader>
+          <div className="space-y-3 pt-2">
+            <div className="space-y-1.5">
+              <Label>Email *</Label>
+              <Input type="email" placeholder="admin@iesco.gov.pk" value={form.email} onChange={e => setForm(p => ({ ...p, email: e.target.value }))} />
+            </div>
+            <div className="space-y-1.5">
+              <Label>Password *</Label>
+              <Input type="password" placeholder="At least 8 characters" value={form.password} onChange={e => setForm(p => ({ ...p, password: e.target.value }))} />
+            </div>
+            {err && <p className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-lg px-3 py-2">{err}</p>}
+            <div className="flex gap-2 pt-1">
+              <Button variant="outline" className="flex-1" onClick={() => { setShowAdd(false); setErr("") }}>Cancel</Button>
+              <Button className="flex-1" disabled={!form.email || form.password.length < 8 || addMutation.isPending} onClick={() => addMutation.mutate(form)}>
+                {addMutation.isPending ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
+                Create Admin
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </div>
+  )
+}
+
 const NAV_ITEMS = [
-  { to: "/admin",           label: "Dashboard",         icon: LayoutDashboard, end: true },
-  { to: "/admin/feeders",   label: "Feeders",           icon: Zap              },
-  { to: "/admin/schedule",  label: "Schedules",         icon: CalendarDays     },
-  { to: "/admin/tariffs",   label: "Tariff Rates",      icon: Coins            },
-  { to: "/admin/services",  label: "Service Providers", icon: Wrench           },
-  { to: "/admin/locations", label: "Locations",         icon: Building2        },
+  { to: "/admin",              label: "Dashboard",         icon: LayoutDashboard, end: true },
+  { to: "/admin/feeders",      label: "Feeders",           icon: Zap              },
+  { to: "/admin/schedule",     label: "Schedules",         icon: CalendarDays     },
+  { to: "/admin/tariffs",      label: "Tariff Rates",      icon: Coins            },
+  { to: "/admin/services",     label: "Service Providers", icon: Wrench           },
+  { to: "/admin/locations",    label: "Locations",         icon: Building2        },
+  { to: "/admin/announcements",label: "Announcements",     icon: Megaphone        },
+  { to: "/admin/admins",       label: "Admin Users",       icon: Shield           },
 ]
+
+function AdminSidebarContent({ user, onSignOut, onNavigate }) {
+  return (
+    <>
+      <div className="flex items-center gap-3 px-5 py-5 border-b border-white/10">
+        <div className="w-9 h-9 rounded-xl bg-iesco-teal/20 border border-iesco-teal/40 flex items-center justify-center shadow-sm">
+          <Zap className="h-4.5 w-4.5 text-iesco-teal" />
+        </div>
+        <div>
+          <p className="text-white font-semibold text-sm">IESCO Admin</p>
+          <p className="text-slate-500 text-xs">Management Portal</p>
+        </div>
+      </div>
+      <nav className="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto">
+        {NAV_ITEMS.map((item) => {
+          const Icon = item.icon
+          return (
+            <NavLink key={item.to} to={item.to} end={item.end} onClick={onNavigate}
+              className={({ isActive }) => `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-all ${isActive ? "bg-iesco-teal/15 text-iesco-teal font-medium border border-iesco-teal/20 shadow-sm" : "text-slate-400 hover:bg-white/8 hover:text-white"}`}>
+              <Icon className="h-4 w-4 flex-shrink-0" />
+              {item.label}
+            </NavLink>
+          )
+        })}
+      </nav>
+      <div className="px-4 py-4 border-t border-white/10 space-y-2">
+        <p className="text-xs text-slate-500 truncate">{user?.email}</p>
+        <a href="/schedule" className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/8 transition-colors text-sm">
+          <ArrowLeft className="h-4 w-4" />Back to site
+        </a>
+        <button onClick={onSignOut} className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/8 transition-colors text-sm">
+          <LogOut className="h-4 w-4" />Sign out
+        </button>
+      </div>
+    </>
+  )
+}
 
 export default function AdminPage() {
   const { user, signOut } = useAuth()
   const navigate          = useNavigate()
+  const [mobileNavOpen, setMobileNavOpen] = useState(false)
 
   async function handleSignOut() {
     await signOut()
@@ -545,42 +890,30 @@ export default function AdminPage() {
 
   return (
     <div className="min-h-screen flex bg-slate-50">
-      <aside className="w-60 flex-shrink-0 bg-[#0D1B3E] flex flex-col">
-        <div className="flex items-center gap-3 px-5 py-5 border-b border-white/10">
-          <div className="w-8 h-8 rounded-lg bg-iesco-teal/20 border border-iesco-teal/40 flex items-center justify-center">
-            <Zap className="h-4 w-4 text-iesco-teal" />
-          </div>
-          <div>
-            <p className="text-white font-semibold text-sm">IESCO Admin</p>
-            <p className="text-slate-500 text-xs">Management Portal</p>
-          </div>
-        </div>
-        <nav className="flex-1 px-3 py-4 space-y-0.5">
-          {NAV_ITEMS.map((item) => {
-            const Icon = item.icon
-            return (
-              <NavLink key={item.to} to={item.to} end={item.end}
-                className={({ isActive }) => `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm transition-colors ${isActive ? "bg-iesco-teal/15 text-iesco-teal font-medium border border-iesco-teal/20" : "text-slate-400 hover:bg-white/8 hover:text-white"}`}>
-                <Icon className="h-4 w-4 flex-shrink-0" />
-                {item.label}
-              </NavLink>
-            )
-          })}
-        </nav>
-        <div className="px-4 py-4 border-t border-white/10 space-y-2">
-          <p className="text-xs text-slate-500 truncate">{user?.email}</p>
-          <button onClick={handleSignOut} className="w-full flex items-center gap-2 px-3 py-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/8 transition-colors text-sm">
-            <LogOut className="h-4 w-4" />Sign out
-          </button>
-        </div>
+      <aside className="hidden md:flex w-60 flex-shrink-0 bg-[#0D1B3E] flex-col">
+        <AdminSidebarContent user={user} onSignOut={handleSignOut} />
       </aside>
-      <main className="flex-1 overflow-y-auto">
-        <div className="border-b border-slate-200 bg-white px-6 py-3 flex items-center gap-2 text-xs text-slate-400 sticky top-0 z-10">
-          <span>IESCO Portal</span>
-          <ChevronRight className="h-3 w-3" />
+
+      <Sheet open={mobileNavOpen} onOpenChange={setMobileNavOpen}>
+        <SheetContent side="left" className="w-72 p-0 bg-[#0D1B3E] border-r border-white/10 flex flex-col">
+          <AdminSidebarContent user={user} onSignOut={handleSignOut} onNavigate={() => setMobileNavOpen(false)} />
+        </SheetContent>
+      </Sheet>
+
+      <main className="flex-1 overflow-y-auto min-w-0">
+        <div className="border-b border-slate-200 bg-white px-4 md:px-6 py-3 flex items-center gap-2 text-xs text-slate-400 sticky top-0 z-10">
+          <button
+            className="md:hidden -ml-1 p-1.5 rounded-lg hover:bg-slate-100 text-slate-600 flex-shrink-0"
+            onClick={() => setMobileNavOpen(true)}
+            aria-label="Open admin menu"
+          >
+            <Menu className="h-4.5 w-4.5" />
+          </button>
+          <span className="hidden sm:inline">IESCO Portal</span>
+          <ChevronRight className="h-3 w-3 hidden sm:inline" />
           <span className="text-slate-600 font-medium">Admin</span>
         </div>
-        <div className="p-6">
+        <div className="p-4 md:p-6">
           <Routes>
             <Route index          element={<DashboardHome />} />
             <Route path="feeders"   element={<FeedersPanel />} />
@@ -588,6 +921,8 @@ export default function AdminPage() {
             <Route path="tariffs"   element={<TariffsPanel />} />
             <Route path="services"  element={<ServicesPanel />} />
             <Route path="locations" element={<LocationsPanel />} />
+            <Route path="announcements" element={<AnnouncementsPanel />} />
+            <Route path="admins"    element={<AdminsPanel />} />
           </Routes>
         </div>
       </main>

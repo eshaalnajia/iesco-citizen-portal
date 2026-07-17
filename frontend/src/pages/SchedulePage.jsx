@@ -1,11 +1,11 @@
 import { useState }             from "react"
 import { useTranslation }       from "react-i18next"
+import { SwipeLayout }          from "@/components/layout/SwipeLayout"
 import { ActiveOutageBanner }   from "@/components/modules/schedule/ActiveOutageBanner"
 import { SectorFilter }         from "@/components/modules/schedule/SectorFilter"
 import { ScheduleTable }        from "@/components/modules/schedule/ScheduleTable"
 import { WeekView }             from "@/components/modules/schedule/WeekView"
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs"
-import { CalendarDays, Clock }  from "lucide-react"
+import { CalendarDays, Clock, Bell } from "lucide-react"
 import { useRealtimeSchedules } from "@/hooks/useRealtimeSchedules"
 import { SMSSubscribeForm }     from "@/components/alerts/SMSSubscribeForm"
 import { StaleDataBadge }       from "@/components/pwa/StaleDataBadge"
@@ -15,11 +15,65 @@ export default function SchedulePage() {
   useRealtimeSchedules()
   const { t }               = useTranslation()
   const [sector, setSector] = useState(null)
-  const lastSync             = useLastSync()
+  const lastSync            = useLastSync()
+
+  const slides = [
+    {
+      label:   "Today",
+      content: (
+        <div className="space-y-4 p-1">
+          <div>
+            <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
+              <Clock className="h-5 w-5 text-iesco-teal" />
+              {t("schedule.today")}
+            </h2>
+            <p className="text-sm text-slate-500 mt-0.5">
+              Swipe left for weekly view →
+            </p>
+          </div>
+          <ActiveOutageBanner />
+          <ScheduleTable sector={sector} />
+        </div>
+      ),
+    },
+    {
+      label:   "This Week",
+      content: (
+        <div className="space-y-4 p-1">
+          <div>
+            <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
+              <CalendarDays className="h-5 w-5 text-iesco-teal" />
+              {t("schedule.thisWeek")}
+            </h2>
+            <p className="text-sm text-slate-500 mt-0.5">
+              ← Swipe right for today's schedule
+            </p>
+          </div>
+          <WeekView sector={sector} />
+        </div>
+      ),
+    },
+    {
+      label:   "Alerts",
+      content: (
+        <div className="space-y-4 p-1">
+          <div>
+            <h2 className="text-xl font-bold text-slate-900 flex items-center gap-2">
+              <Bell className="h-5 w-5 text-iesco-teal" />
+              SMS Alerts
+            </h2>
+            <p className="text-sm text-slate-500 mt-0.5">
+              Get notified when power goes out in your area
+            </p>
+          </div>
+          <SMSSubscribeForm />
+        </div>
+      ),
+    },
+  ]
 
   return (
-    <div className="space-y-6 max-w-5xl mx-auto">
-
+    <div className="max-w-3xl mx-auto space-y-4">
       <div>
         <h1 className="text-2xl font-bold text-slate-900">
           {t("schedule.title")}
@@ -28,8 +82,6 @@ export default function SchedulePage() {
           {t("schedule.subtitle")}
         </p>
       </div>
-
-      <ActiveOutageBanner />
 
       <div className="flex items-center justify-between gap-4 flex-wrap">
         <SectorFilter value={sector} onChange={setSector} />
@@ -44,32 +96,7 @@ export default function SchedulePage() {
         )}
       </div>
 
-      <Tabs defaultValue="today">
-        <TabsList>
-          <TabsTrigger value="today" className="flex items-center gap-1.5">
-            <Clock className="h-3.5 w-3.5" />
-            {t("schedule.today")}
-          </TabsTrigger>
-          <TabsTrigger value="week" className="flex items-center gap-1.5">
-            <CalendarDays className="h-3.5 w-3.5" />
-            {t("schedule.thisWeek")}
-          </TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="today" className="mt-4">
-          <ScheduleTable sector={sector} />
-        </TabsContent>
-
-        <TabsContent value="week" className="mt-4">
-          <WeekView sector={sector} />
-        </TabsContent>
-      </Tabs>
-
-      <div className="pt-4">
-        <SMSSubscribeForm />
-      </div>
+      <SwipeLayout slides={slides} />
     </div>
   )
 }
-
-

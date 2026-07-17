@@ -27,13 +27,15 @@ function useLiveStats() {
   })
 }
 
-const FEATURES = [
-  { icon: CalendarDays, title: "Load Shedding Schedule", desc: "See today's and this week's outage timetable for your sector. Auto-updated every 5 minutes.", href: "/schedule", color: "text-blue-600", bg: "bg-blue-50", badge: "Live", badgeColor: "bg-blue-100 text-blue-700" },
-  { icon: CreditCard,   title: "Pay Your Bill",          desc: "Look up your bill by reference number and pay instantly via JazzCash, EasyPaisa, or any bank.", href: "/billing",  color: "text-green-600",  bg: "bg-green-50",  badge: "3 options",  badgeColor: "bg-green-100 text-green-700" },
-  { icon: MapPin,       title: "Live Electricity Map",   desc: "See real-time power status for every feeder zone across Islamabad on an interactive map.", href: "/map",      color: "text-purple-600", bg: "bg-purple-50", badge: "Real-time",  badgeColor: "bg-purple-100 text-purple-700" },
-  { icon: Wrench,       title: "Tariff Calculator",      desc: "Calculate your electricity bill using current NEPRA-approved rates. Know what you owe before it arrives.", href: "/tariffs",  color: "text-amber-600",  bg: "bg-amber-50",  badge: "NEPRA 2024", badgeColor: "bg-amber-100 text-amber-700" },
-  { icon: Phone,        title: "Find IESCO Office",      desc: "Locate your nearest IESCO sub-division office with contact numbers for complaints and inquiries.", href: "/locations", color: "text-red-600",    bg: "bg-red-50",    badge: "18+ offices", badgeColor: "bg-red-100 text-red-700" },
-  { icon: Wrench,       title: "Services Directory",     desc: "Find IESCO-verified electricians and repair centres near you with ratings from real citizens.", href: "/services",  color: "text-teal-600",   bg: "bg-teal-50",   badge: "Verified",   badgeColor: "bg-teal-100 text-teal-700" },
+const SERVICES = [
+  { icon: "⚡", label: "Schedule",  sublabel: "Load shedding",  href: "/schedule",    color: "bg-blue-500"  },
+  { icon: "💳", label: "Pay Bill",  sublabel: "3 payment ways", href: "/billing",     color: "bg-green-500" },
+  { icon: "🗺️", label: "Live Map",  sublabel: "Real-time",      href: "/map",         color: "bg-purple-500"},
+  { icon: "💰", label: "Tariffs",   sublabel: "NEPRA rates",    href: "/tariffs",     color: "bg-amber-500" },
+  { icon: "📍", label: "Locations", sublabel: "IESCO offices",  href: "/locations",   color: "bg-red-500"   },
+  { icon: "🔧", label: "Services",  sublabel: "Electricians",   href: "/services",    color: "bg-teal-500"  },
+  { icon: "📋", label: "Requests",  sublabel: "Self-service",   href: "/self-service",color: "bg-orange-500"},
+  { icon: "🔔", label: "Alerts",    sublabel: "SMS outages",    href: "/schedule",    color: "bg-pink-500"  },
 ]
 
 function Hero({ stats, statsLoading }) {
@@ -133,31 +135,34 @@ function Hero({ stats, statsLoading }) {
 
 function FeaturesSection() {
   return (
-    <section className="py-16 bg-slate-50">
+    <section className="py-10 bg-white">
       <div className="max-w-7xl mx-auto px-4">
-        <div className="text-center mb-10">
-          <h2 className="text-2xl md:text-3xl font-bold text-slate-900">Everything you need, one portal</h2>
-          <p className="text-slate-500 mt-2 max-w-lg mx-auto">Six services designed around how Islamabad citizens actually interact with IESCO.</p>
-        </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {FEATURES.map((f) => {
-            const Icon = f.icon
-            return (
-              <Link key={f.href} to={f.href} className="group bg-white rounded-2xl border border-slate-200 p-6 hover:border-iesco-teal/40 hover:shadow-lg hover:shadow-iesco-teal/5 transition-all duration-200">
-                <div className="flex items-start justify-between mb-4">
-                  <div className={`w-11 h-11 ${f.bg} rounded-xl flex items-center justify-center`}>
-                    <Icon className={`h-5 w-5 ${f.color}`} />
-                  </div>
-                  <span className={`text-xs font-medium px-2 py-0.5 rounded-full ${f.badgeColor}`}>{f.badge}</span>
-                </div>
-                <h3 className="font-semibold text-slate-900 mb-1.5 group-hover:text-iesco-teal transition-colors">{f.title}</h3>
-                <p className="text-sm text-slate-500 leading-relaxed">{f.desc}</p>
-                <div className="mt-4 flex items-center gap-1 text-xs text-iesco-teal font-medium opacity-0 group-hover:opacity-100 transition-opacity">
-                  Open <ArrowRight className="h-3 w-3" />
-                </div>
-              </Link>
-            )
-          })}
+        <p className="text-center text-sm font-semibold text-slate-400
+                      uppercase tracking-widest mb-6">
+          Quick Access
+        </p>
+
+        <div className="grid grid-cols-4 sm:grid-cols-8 gap-3 sm:gap-4">
+          {SERVICES.map((s) => (
+            <Link key={s.href + s.label} to={s.href}
+              className="flex flex-col items-center gap-2 group">
+              <div className={`${s.color} w-14 h-14 sm:w-16 sm:h-16
+                              rounded-2xl flex items-center justify-center
+                              text-2xl shadow-sm
+                              group-hover:scale-110 group-hover:shadow-md
+                              transition-all duration-200`}>
+                {s.icon}
+              </div>
+              <div className="text-center">
+                <p className="text-xs font-semibold text-slate-800 leading-tight">
+                  {s.label}
+                </p>
+                <p className="text-[10px] text-slate-400 leading-tight hidden sm:block">
+                  {s.sublabel}
+                </p>
+              </div>
+            </Link>
+          ))}
         </div>
       </div>
     </section>

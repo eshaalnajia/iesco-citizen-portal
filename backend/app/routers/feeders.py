@@ -1,4 +1,4 @@
-﻿from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 from typing import Optional
 from datetime import datetime, timezone
@@ -23,6 +23,7 @@ VALID_STATUSES = {
 
 class StatusUpdate(BaseModel):
     status: str
+    reliability: Optional[int] = None
 
 
 @router.get("/")
@@ -81,10 +82,18 @@ async def update_feeder_status(
             detail=f"Invalid status. Must be one of: {VALID_STATUSES}"
         )
 
+    if body.reliability is not None and not (0 <= body.reliability <= 100):
+        raise HTTPException(
+            status_code=422,
+            detail="Reliability must be between 0 and 100"
+        )
+
     update_data = {
         "status": body.status,
         "last_updated": datetime.now(timezone.utc).isoformat(),
     }
+    if body.reliability is not None:
+        update_data["reliability"] = body.reliability
 
     result = db.table("feeders").update(update_data).eq("id", feeder_id).execute()
     if not result.data:

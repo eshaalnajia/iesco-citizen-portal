@@ -6,7 +6,7 @@ from starlette.requests import Request
 from starlette.responses import Response
 from fastapi.middleware.cors import CORSMiddleware
 from app.config import ENVIRONMENT, EXTRA_ALLOWED_ORIGINS
-from app.routers import feeders, schedules, tariffs, locations, services, bills, outage_reports, jazzcash, easypaisa, onebill, service_requests, sms
+from app.routers import feeders, schedules, tariffs, locations, services, bills, outage_reports, jazzcash, easypaisa, onebill, service_requests, sms, announcements, admin_users
 from slowapi import _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 from slowapi.middleware import SlowAPIMiddleware
@@ -119,4 +119,6 @@ def test_cache():
 app.include_router(onebill.router)
 app.include_router(service_requests.router)
 app.include_router(sms.router)
+app.include_router(announcements.router)
+app.include_router(admin_users.router)
 

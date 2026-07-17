@@ -1,4 +1,4 @@
-﻿import { useState } from "react"
+﻿import { useState, useEffect } from "react"
 import { Link, useNavigate, useLocation, Navigate } from "react-router-dom"
 import { supabase } from "@/lib/supabase"
 import { useAuth } from "@/context/AuthContext"
@@ -265,10 +265,17 @@ export default function LoginPage() {
   const location                        = useLocation()
   const [signupEmail, setSignupEmail]   = useState(null)
 
-  if (!isLoading && isAdmin) return <Navigate to="/admin" replace />
-  if (!isLoading && isUser)  return <Navigate to={location.state?.from?.pathname ?? "/schedule"} replace />
-
   const from = location.state?.from?.pathname ?? "/schedule"
+
+  useEffect(() => {
+    if (isLoading) return
+    if (isAdmin) {
+      navigate("/admin", { replace: true })
+    } else if (isUser) {
+      navigate(from, { replace: true })
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isLoading, isAdmin, isUser])
 
   function handleSignInSuccess() {
     navigate(from, { replace: true })
@@ -332,11 +339,16 @@ export default function LoginPage() {
       <div className="flex-1 flex items-center justify-center p-6 bg-slate-50">
         <div className="w-full max-w-sm">
 
-          <div className="lg:hidden flex items-center gap-2 mb-8">
-            <div className="w-8 h-8 rounded-lg bg-iesco-navy flex items-center justify-center">
-              <Zap className="h-4 w-4 text-iesco-teal" />
+          <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center gap-2 lg:hidden">
+              <div className="w-8 h-8 rounded-lg bg-iesco-navy flex items-center justify-center">
+                <Zap className="h-4 w-4 text-iesco-teal" />
+              </div>
+              <span className="font-bold text-slate-900">IESCO Portal</span>
             </div>
-            <span className="font-bold text-slate-900">IESCO Portal</span>
+            <Link to="/schedule" className="flex items-center gap-1.5 text-sm text-slate-500 hover:text-iesco-teal transition-colors ml-auto">
+              <ArrowLeft className="h-3.5 w-3.5" /> Back to site
+            </Link>
           </div>
 
           {signupEmail ? (
