@@ -101,7 +101,7 @@ function Hero({ stats, statsLoading }) {
             {[
               { label: "Feeders Online",  value: statsLoading ? "-" : `${stats?.on ?? 0}/${stats?.total ?? 12}`, icon: CheckCircle,  color: "text-green-400",  bg: "bg-green-400/10 border-green-400/20",   sub: "Islamabad coverage" },
               { label: "Active Outages",  value: statsLoading ? "-" : stats?.shedding ?? 0,                      icon: AlertTriangle, color: "text-orange-400", bg: "bg-orange-400/10 border-orange-400/20", sub: "Scheduled today" },
-              { label: "Faults Detected", value: statsLoading ? "-" : stats?.fault ?? 0,                         icon: Zap,           color: "text-red-400",    bg: "bg-red-400/10 border-red-400/20",       sub: "Unplanned outages" },
+              { label: "Faults Detected", value: statsLoading ? "-" : stats?.fault ?? 0,                         icon: Zap,           color: "text-red-400",    bg: "bg-red-400/10 border-red-400/20",       sub: "Expected outages" },
               { label: "System Status",   value: (stats?.fault ?? 0) === 0 ? "Normal" : "Alert",                 icon: Activity,      color: (stats?.fault ?? 0) === 0 ? "text-green-400" : "text-red-400", bg: "bg-white/5 border-white/10", sub: "Grid condition" },
             ].map((stat) => {
               const Icon = stat.icon

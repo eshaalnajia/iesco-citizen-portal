@@ -365,7 +365,7 @@ function SchedulesPanel() {
                   <SelectContent>
                     <SelectItem value="scheduled">Scheduled</SelectItem>
                     <SelectItem value="maintenance">Maintenance</SelectItem>
-                    <SelectItem value="unplanned">Unplanned</SelectItem>
+                    <SelectItem value="unplanned">Expected</SelectItem>
                   </SelectContent>
                 </Select>
               </div>

@@ -68,7 +68,7 @@
     "activeFeeders_other":"{{count}} feeders currently without power",
     "types": {
       "scheduled":   "Scheduled",
-      "unplanned":   "Unplanned",
+      "unplanned":   "Expected",
       "maintenance": "Maintenance"
     },
     "columns": {
