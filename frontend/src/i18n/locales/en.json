@@ -1,13 +1,16 @@
 {
   "nav": {
-    "schedule":    "Load Shedding",
-    "billing":     "Pay Bill",
-    "tariffs":     "Tariff Rates",
-    "services":    "Services",
-    "locations":   "Locations",
-    "map":         "Live Map",
-    "selfService": "Requests",
-    "admin":       "Admin"
+    "schedule":         "Load Shedding",
+    "scheduleMap":      "Schedule & Map",
+    "billing":          "Pay Bill",
+    "tariffs":          "Tariff Rates",
+    "services":         "Services",
+    "locations":        "Locations",
+    "contactDirectory": "Contact Directory",
+    "map":              "Live Map",
+    "more":             "More",
+    "selfService":      "Requests",
+    "admin":            "Admin"
   },
   "common": {
     "loading":       "Loading...",
@@ -152,8 +155,8 @@
     "keepReceipt":     "Screenshot this receipt for your records"
   },
   "locations": {
-    "title":           "Location Directory",
-    "subtitle":        "IESCO office contacts for 20+ Islamabad areas",
+    "title":           "Contact Directory",
+    "subtitle":        "IESCO office contacts across Islamabad and surrounding areas",
     "searchPlaceholder": "Search area, sector, or town...",
     "allAreas":        "All areas",
     "sectors":         "Sectors",

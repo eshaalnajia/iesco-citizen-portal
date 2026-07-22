@@ -56,6 +56,19 @@ export function useMapbox(containerRef) {
     }
   }, [containerRef])
 
+  // Resize the map whenever its container's actual size changes - this
+  // fixes maps rendering blank/broken when initialized inside a hidden or
+  // zero-size container (e.g. an inactive Swiper slide) that later becomes
+  // visible with real dimensions.
+  useEffect(() => {
+    if (!containerRef.current) return
+    const observer = new ResizeObserver(() => {
+      mapRef.current?.resize()
+    })
+    observer.observe(containerRef.current)
+    return () => observer.disconnect()
+  }, [containerRef])
+
   function toggleStyle() {
     const newStyle = style === "streets" ? "satellite" : "streets"
     setStyle(newStyle)

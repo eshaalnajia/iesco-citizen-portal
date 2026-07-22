@@ -5,9 +5,10 @@ import { ActiveOutageBanner }   from "@/components/modules/schedule/ActiveOutage
 import { SectorFilter }         from "@/components/modules/schedule/SectorFilter"
 import { ScheduleTable }        from "@/components/modules/schedule/ScheduleTable"
 import { WeekView }             from "@/components/modules/schedule/WeekView"
-import { CalendarDays, Clock, Bell } from "lucide-react"
+import { CalendarDays, Clock, Bell, Map } from "lucide-react"
 import { useRealtimeSchedules } from "@/hooks/useRealtimeSchedules"
 import { SMSSubscribeForm }     from "@/components/alerts/SMSSubscribeForm"
+import { LiveMapView }          from "@/components/modules/map/LiveMapView"
 import { StaleDataBadge }       from "@/components/pwa/StaleDataBadge"
 import { useLastSync }          from "@/hooks/useLastSync"
 
@@ -15,6 +16,7 @@ export default function SchedulePage() {
   useRealtimeSchedules()
   const { t }               = useTranslation()
   const [sector, setSector] = useState(null)
+  const [showMap, setShowMap] = useState(false)
   const lastSync            = useLastSync()
 
   const slides = [
@@ -72,15 +74,48 @@ export default function SchedulePage() {
     },
   ]
 
+  if (showMap) {
+    return (
+      <div className="-mx-4 space-y-0">
+        <div className="px-4 py-3 border-b border-slate-200 flex items-center justify-between">
+          <div>
+            <h1 className="text-lg font-bold text-slate-900 flex items-center gap-2">
+              <Map className="h-5 w-5 text-iesco-teal" />
+              {t("map.title", "Live Map")}
+            </h1>
+          </div>
+          <button
+            onClick={() => setShowMap(false)}
+            className="text-sm text-iesco-teal hover:underline font-medium"
+          >
+            ← {t("schedule.title")}
+          </button>
+        </div>
+        <LiveMapView embedded />
+      </div>
+    )
+  }
+
   return (
     <div className="max-w-3xl mx-auto space-y-4">
-      <div>
-        <h1 className="text-2xl font-bold text-slate-900">
-          {t("schedule.title")}
-        </h1>
-        <p className="text-slate-500 mt-1 text-sm">
-          {t("schedule.subtitle")}
-        </p>
+      <div className="flex items-start justify-between gap-4 flex-wrap">
+        <div>
+          <h1 className="text-2xl font-bold text-slate-900">
+            {t("schedule.title")}
+          </h1>
+          <p className="text-slate-500 mt-1 text-sm">
+            {t("schedule.subtitle")}
+          </p>
+        </div>
+        <button
+          onClick={() => setShowMap(true)}
+          className="flex items-center gap-1.5 px-3 py-2 rounded-full text-sm
+                    font-medium bg-iesco-navy text-white hover:bg-iesco-navy/90
+                    transition-colors flex-shrink-0"
+        >
+          <Map className="h-3.5 w-3.5" />
+          {t("map.title", "Live Map")}
+        </button>
       </div>
 
       <div className="flex items-center justify-between gap-4 flex-wrap">

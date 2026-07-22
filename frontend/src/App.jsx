@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom"
+import { Routes, Route, Navigate } from "react-router-dom"
 import Layout from "@/components/layout/Layout"
 import ProtectedRoute from "@/components/auth/ProtectedRoute"
 
@@ -28,7 +28,8 @@ export default function App() {
         <Route path="billing/payment-complete" element={<PaymentCompletePage />} />
         <Route path="tariffs"   element={<TariffsPage />} />
         <Route path="services"  element={<ServicesPage />} />
-        <Route path="locations" element={<LocationsPage />} />
+        <Route path="contact-directory" element={<LocationsPage />} />
+        <Route path="locations" element={<Navigate to="/contact-directory" replace />} />
         <Route path="map"       element={<MapPage />} />
         <Route path="self-service" element={<SelfServicePage />} />
       </Route>

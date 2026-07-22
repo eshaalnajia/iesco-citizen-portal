@@ -1,13 +1,16 @@
 {
   "nav": {
-    "schedule":    "لوڈ شیڈنگ",
-    "billing":     "بل ادائیگی",
-    "tariffs":     "ٹیرف",
-    "services":    "خدمات",
-    "locations":   "مقامات",
-    "map":         "نقشہ",
-    "selfService": "درخواستیں",
-    "admin":       "ایڈمن"
+    "schedule":         "لوڈ شیڈنگ",
+    "scheduleMap":      "شیڈول اور نقشہ",
+    "billing":          "بل ادائیگی",
+    "tariffs":          "ٹیرف",
+    "services":         "خدمات",
+    "locations":        "مقامات",
+    "contactDirectory": "رابطہ فہرست",
+    "map":              "نقشہ",
+    "more":             "مزید",
+    "selfService":      "درخواستیں",
+    "admin":            "ایڈمن"
   },
   "common": {
     "loading":     "لوڈ ہو رہا ہے...",
