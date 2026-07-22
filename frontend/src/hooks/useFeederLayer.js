@@ -1,4 +1,4 @@
-import { useEffect, useCallback } from "react"
+import { useEffect, useCallback, useRef } from "react"
 import { STATUS_COLORS }          from "@/lib/mapConstants"
 
 export function useFeederLayer(map, ready, feeders, geojson, onFeederClick) {
@@ -13,6 +13,11 @@ export function useFeederLayer(map, ready, feeders, geojson, onFeederClick) {
     STATUS_COLORS.no_data,
   ]
 
+  const featureIndexRef = useRef({}) // feederUUID -> feature array index
+
+  // ---- ONE-TIME SETUP: source, layers, event listeners ----
+  // Only re-runs if the map instance, readiness, the underlying geojson shape,
+  // or the click handler identity changes - NOT on every realtime feeders update.
   useEffect(() => {
     if (!map || !ready || !geojson) return
 
@@ -24,34 +29,38 @@ export function useFeederLayer(map, ready, feeders, geojson, onFeederClick) {
       })),
     }
 
+    const index = {}
+    normalized.features.forEach((f, idx) => {
+      const feederUUID = f.properties?.id
+      if (feederUUID) index[feederUUID] = idx
+    })
+    featureIndexRef.current = index
+
     if (!map.getSource("feeders")) {
       map.addSource("feeders", { type: "geojson", data: normalized, generateId: true })
     } else {
       map.getSource("feeders").setData(normalized)
     }
 
-    const applyStatuses = () => {
+    const applyInitialStatuses = () => {
       if (!feeders?.length) return
-      const statusMap = Object.fromEntries(feeders.map(f => [f.id, f.status]))
-      normalized.features.forEach((f, idx) => {
-        const feederUUID = f.properties?.id
-        const status = statusMap[feederUUID]
-        if (status) {
-          try {
-            map.setFeatureState(
-              { source: "feeders", id: idx },
-              { status, hover: false }
-            )
-          } catch (_) {}
-        }
+      feeders.forEach((f) => {
+        const idx = featureIndexRef.current[f.id]
+        if (idx === undefined) return
+        try {
+          map.setFeatureState(
+            { source: "feeders", id: idx },
+            { status: f.status, hover: false }
+          )
+        } catch (_) {}
       })
     }
 
     if (map.isSourceLoaded("feeders")) {
-      applyStatuses()
+      applyInitialStatuses()
     } else {
       map.once("sourcedata", (e) => {
-        if (e.sourceId === "feeders" && e.isSourceLoaded) applyStatuses()
+        if (e.sourceId === "feeders" && e.isSourceLoaded) applyInitialStatuses()
       })
     }
 
@@ -98,39 +107,73 @@ export function useFeederLayer(map, ready, feeders, geojson, onFeederClick) {
 
     let hoveredId = null
 
-    map.on("mousemove", "feeder-fill", (e) => {
+    function handleMouseMove(e) {
       if (!e.features.length) return
       map.getCanvas().style.cursor = "pointer"
       if (hoveredId !== null) map.setFeatureState({ source: "feeders", id: hoveredId }, { hover: false })
       hoveredId = e.features[0].id
       map.setFeatureState({ source: "feeders", id: hoveredId }, { hover: true })
-    })
+    }
 
-    map.on("mouseleave", "feeder-fill", () => {
+    function handleMouseLeave() {
       map.getCanvas().style.cursor = ""
       if (hoveredId !== null) {
         map.setFeatureState({ source: "feeders", id: hoveredId }, { hover: false })
         hoveredId = null
       }
-    })
+    }
 
-    map.on("click", "feeder-fill", (e) => {
+    function handleClick(e) {
       if (!e.features.length) return
       const props  = e.features[0].properties
       const feeder = feeders?.find((f) => f.id === props.id || f.feeder_code === props.feeder_code)
       if (feeder && onFeederClick) onFeederClick(feeder)
-    })
+    }
 
-    map.on("styledata", () => {
+    function handleStyleData() {
       if (!map.getSource("feeders")) {
         map.addSource("feeders", { type: "geojson", data: normalized })
       }
+    }
+
+    map.on("mousemove", "feeder-fill", handleMouseMove)
+    map.on("mouseleave", "feeder-fill", handleMouseLeave)
+    map.on("click", "feeder-fill", handleClick)
+    map.on("styledata", handleStyleData)
+
+    return () => {
+      map.off("mousemove", "feeder-fill", handleMouseMove)
+      map.off("mouseleave", "feeder-fill", handleMouseLeave)
+      map.off("click", "feeder-fill", handleClick)
+      map.off("styledata", handleStyleData)
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [map, ready, geojson, onFeederClick])
+
+  // ---- CHEAP STATUS SYNC: runs whenever feeders array changes (realtime
+  // updates, admin edits) - only touches feature-state on the specific
+  // feeders whose status actually differs, never rebuilds source/layers ----
+  useEffect(() => {
+    if (!map || !ready || !feeders?.length) return
+    if (!map.getSource("feeders") || !map.isSourceLoaded("feeders")) return
+
+    feeders.forEach((f) => {
+      const idx = featureIndexRef.current[f.id]
+      if (idx === undefined) return
+      try {
+        map.setFeatureState(
+          { source: "feeders", id: idx },
+          { status: f.status }
+        )
+      } catch (_) {}
     })
-  }, [map, ready, feeders, geojson, onFeederClick])
+  }, [map, ready, feeders])
 
   const updateFeederStatus = useCallback((feederId, newStatus) => {
     if (!map || !map.getSource("feeders")) return
-    map.setFeatureState({ source: "feeders", id: feederId }, { status: newStatus })
+    const idx = featureIndexRef.current[feederId]
+    if (idx === undefined) return
+    map.setFeatureState({ source: "feeders", id: idx }, { status: newStatus })
   }, [map])
 
   return { updateFeederStatus }
