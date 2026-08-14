@@ -18,12 +18,14 @@ router = APIRouter(prefix="/service-requests", tags=["Service Requests"])
 PKT    = pytz.timezone("Asia/Karachi")
 
 STATUS_LABELS = {
-    "pending":    "Submitted - awaiting review",
-    "in_review":  "Under review by IESCO",
-    "approved":   "Approved - team will contact you",
-    "rejected":   "Not approved - see admin notes",
-    "completed":  "Work completed",
-    "cancelled":  "Cancelled",
+    "pending":                "Submitted - awaiting review",
+    "in_review":              "Under review by IESCO",
+    "approved":               "Approved - team will contact you",
+    "rejected":               "Not approved - see admin notes",
+    "completed":              "Work completed",
+    "cancelled":              "Cancelled",
+    "awaiting_confirmation":  "Please confirm - was this completed?",
+    "presumed_completed":     "Marked complete (no response received)",
 }
 
 TURNAROUND = {
@@ -96,7 +98,8 @@ def track_request(
         .select(
             "ticket_number, request_type, status, full_name, "
             "address, sector, created_at, updated_at, "
-            "admin_notes, scheduled_date, resolved_at"
+            "admin_notes, scheduled_date, resolved_at, "
+            "confirmation_prompted_at, confirmation_deadline"
         )
         .eq("ticket_number", ticket_number.upper().strip())
         .execute()
@@ -118,6 +121,64 @@ def track_request(
         "status_label":   STATUS_LABELS.get(req["status"], req["status"]),
         "estimated_time": TURNAROUND.get(req["request_type"], "")
                           if req["status"] == "pending" else None,
+        "needs_confirmation": req["status"] == "awaiting_confirmation",
+    }
+
+
+@router.post(
+    "/track/{ticket_number}/confirm",
+    summary="Citizen confirms whether their request was completed",
+)
+def confirm_request_completion(
+    ticket_number: str = Path(...),
+    completed:     bool = ...,
+    db: Client = Depends(get_supabase),
+):
+    result = (
+        db.table("service_requests")
+        .select("id, status")
+        .eq("ticket_number", ticket_number.upper().strip())
+        .execute()
+    )
+
+    if not result.data:
+        raise HTTPException(status_code=404, detail=f"No request found for ticket {ticket_number}")
+
+    req = result.data[0]
+
+    if req["status"] != "awaiting_confirmation":
+        raise HTTPException(
+            status_code=409,
+            detail=(
+                f"This request is not currently awaiting confirmation "
+                f"(current status: {req['status']})."
+            )
+        )
+
+    now = datetime.now(PKT).isoformat()
+
+    if completed:
+        updates = {
+            "status":      "completed",
+            "resolved_at": now,
+            "updated_at":  now,
+        }
+        message = "Thank you for confirming. Your request has been marked as completed."
+    else:
+        updates = {
+            "status":      "in_review",
+            "updated_at":  now,
+            "admin_notes": "Citizen reported this was NOT completed after the expected turnaround time.",
+        }
+        message = "Thanks for letting us know. Your request has been sent back to our team for review."
+
+    db.table("service_requests").update(updates).eq("id", req["id"]).execute()
+
+    return {
+        "confirmed":  True,
+        "completed":  completed,
+        "new_status": updates["status"],
+        "message":    message,
     }
 
 

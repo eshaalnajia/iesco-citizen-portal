@@ -14,8 +14,8 @@ export default defineConfig({
         "icons/*.png",
       ],
       manifest: {
-        name:             "IESCO Smart Citizen Portal",
-        short_name:       "IESCO Portal",
+        name:             "SmartGrid+",
+        short_name:       "SmartGrid+",
         description:      "Load shedding schedules, bill payment, and live electricity status for Islamabad",
         theme_color:      "#0D1B3E",
         background_color: "#0D1B3E",

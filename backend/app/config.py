@@ -1,4 +1,4 @@
-﻿from supabase import create_client, Client
+from supabase import create_client, Client
 from dotenv import load_dotenv
 import redis
 import os
@@ -21,8 +21,8 @@ supabase: Client = create_client(SUPABASE_URL, SUPABASE_SERVICE_KEY)
 redis_client = redis.from_url(
     REDIS_URL,
     decode_responses=True,
-    socket_connect_timeout=2,
-    socket_timeout=2,
+    socket_connect_timeout=0.2,
+    socket_timeout=0.2,
 )
 
 def get_supabase() -> Client:
@@ -60,6 +60,14 @@ TWILIO_ENABLED      = os.environ.get('TWILIO_ENABLED', 'false').lower() == 'true
 TWILIO_ACCOUNT_SID  = os.environ.get('TWILIO_ACCOUNT_SID', '')
 TWILIO_AUTH_TOKEN   = os.environ.get('TWILIO_AUTH_TOKEN', '')
 TWILIO_FROM_NUMBER  = os.environ.get('TWILIO_FROM_NUMBER', '')
+
+RESEND_API_KEY      = os.environ.get('RESEND_API_KEY', '')
+ADMIN_ALERT_EMAIL   = os.environ.get('ADMIN_ALERT_EMAIL', '')
+STALE_REQUEST_HOURS = int(os.environ.get('STALE_REQUEST_HOURS', '48'))
+RESEND_ENABLED      = bool(RESEND_API_KEY and ADMIN_ALERT_EMAIL)
+
+EMS_API_URL = os.environ.get('EMS_API_URL', '')
+EMS_API_KEY = os.environ.get('EMS_API_KEY', '')
 
 EXTRA_ALLOWED_ORIGINS = [
     origin.strip()

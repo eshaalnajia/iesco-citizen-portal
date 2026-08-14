@@ -68,7 +68,7 @@ function Hero({ stats, statsLoading }) {
                 <div className="w-10 h-10 rounded-xl bg-iesco-teal/20 border border-iesco-teal/40 flex items-center justify-center">
                   <Zap className="h-5 w-5 text-iesco-teal" />
                 </div>
-                <span className="text-iesco-teal font-semibold tracking-widest text-sm uppercase">IESCO Smart Citizen Portal</span>
+                <span className="text-iesco-teal font-semibold tracking-widest text-sm uppercase">SmartGrid+ Citizen Portal</span>
               </div>
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight text-white">
                 Islamabad's

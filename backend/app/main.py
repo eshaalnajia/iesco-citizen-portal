@@ -1,3 +1,9 @@
+import logging
+
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+)
 from fastapi import FastAPI
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
@@ -6,7 +12,7 @@ from starlette.requests import Request
 from starlette.responses import Response
 from fastapi.middleware.cors import CORSMiddleware
 from app.config import ENVIRONMENT, EXTRA_ALLOWED_ORIGINS
-from app.routers import feeders, schedules, tariffs, locations, services, bills, outage_reports, jazzcash, easypaisa, onebill, service_requests, sms, announcements, admin_users
+from app.routers import feeders, schedules, tariffs, locations, services, bills, outage_reports, jazzcash, easypaisa, onebill, service_requests, sms, announcements, admin_users, admin_automation
 from slowapi import _rate_limit_exceeded_handler
 from slowapi.errors import RateLimitExceeded
 from slowapi.middleware import SlowAPIMiddleware
@@ -20,6 +26,17 @@ app = FastAPI(
     redoc_url="/redoc",
     openapi_url="/openapi.json",
 )
+@app.on_event("startup")
+def _start_automation_scheduler():
+    from app.automation.scheduler import start_scheduler
+    from app.config import supabase, redis_client
+    start_scheduler(supabase, redis_client)
+
+
+@app.on_event("shutdown")
+def _stop_automation_scheduler():
+    from app.automation.scheduler import stop_scheduler
+    stop_scheduler()
 
 def custom_openapi():
     if app.openapi_schema:
@@ -121,4 +138,4 @@ app.include_router(service_requests.router)
 app.include_router(sms.router)
 app.include_router(announcements.router)
 app.include_router(admin_users.router)
-
+app.include_router(admin_automation.router)

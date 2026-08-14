@@ -37,7 +37,7 @@ export default function Navbar() {
       <div className="container mx-auto px-4 max-w-7xl flex h-14 items-center justify-between">
         <Link to="/" className="flex items-center gap-2 font-semibold text-lg">
           <img src={iescoLogo} alt="IESCO" className="h-9 w-auto object-contain" />
-          <span className="text-iesco-navy dark:text-white">IESCO Portal</span>
+          <span className="text-iesco-navy dark:text-white">SmartGrid+</span>
         </Link>
         <nav className="hidden md:flex items-center gap-1">
           {PRIMARY_NAV.map((link) => (
@@ -141,7 +141,7 @@ export default function Navbar() {
                 <div className="w-8 h-8 rounded-lg bg-iesco-teal/20 border border-iesco-teal/40 flex items-center justify-center">
                   <Zap className="h-4 w-4 text-iesco-teal" />
                 </div>
-                <span className="text-white font-semibold text-sm">IESCO Portal</span>
+                <span className="text-white font-semibold text-sm">SmartGrid+ Portal</span>
               </div>
               <nav className="flex flex-col gap-1">
                 {[...PRIMARY_NAV, ...MORE_NAV].map((link) => (

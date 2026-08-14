@@ -17,7 +17,7 @@ const FEATURES = [
   "Pay your electricity bill in 3 clicks",
   "Track self-service request status by ticket number",
   "Get SMS alerts when power goes out in your area",
-  "Find verified IESCO electricians near you",
+  "Find verified SmartGrid+ electricians near you",
 ]
 
 function SignupSuccess({ email }) {
@@ -253,7 +253,7 @@ function SignUpForm({ onSuccess }) {
       </Button>
 
       <p className="text-xs text-center text-slate-400">
-        By signing up you agree to IESCO's terms of service
+        By signing up you agree to SmartGrid's terms of service
       </p>
     </form>
   )
@@ -302,7 +302,7 @@ export default function LoginPage() {
             <Zap className="h-5 w-5 text-iesco-teal" />
           </div>
           <div>
-            <p className="text-white font-bold">IESCO Portal</p>
+            <p className="text-white font-bold">SmartGrid+ Portal</p>
             <p className="text-slate-500 text-xs">Smart Citizen Platform</p>
           </div>
         </div>
@@ -314,7 +314,7 @@ export default function LoginPage() {
               <span className="text-iesco-teal block">from your phone</span>
             </h1>
             <p className="text-slate-400 leading-relaxed">
-              One account gives you access to everything IESCO offers digitally -
+              One account gives you access to everything SmartGrid+ offers digitally -
               schedules, bills, maps, and more.
             </p>
           </div>
@@ -331,7 +331,7 @@ export default function LoginPage() {
 
         <div className="relative">
           <p className="text-slate-600 text-xs">
-            IESCO Smart Citizen Portal - Digital Transformation Initiative 2025
+            SmartGrid+ Citizen Portal - Digital Transformation Initiative 2025
           </p>
         </div>
       </div>
@@ -344,7 +344,7 @@ export default function LoginPage() {
               <div className="w-8 h-8 rounded-lg bg-iesco-navy flex items-center justify-center">
                 <Zap className="h-4 w-4 text-iesco-teal" />
               </div>
-              <span className="font-bold text-slate-900">IESCO Portal</span>
+              <span className="font-bold text-slate-900">SmartGrid+ Portal</span>
             </div>
             <Link to="/schedule" className="flex items-center gap-1.5 text-sm text-slate-500 hover:text-iesco-teal transition-colors ml-auto">
               <ArrowLeft className="h-3.5 w-3.5" /> Back to site
@@ -358,7 +358,7 @@ export default function LoginPage() {
               <div>
                 <h2 className="text-2xl font-bold text-slate-900">Welcome back</h2>
                 <p className="text-slate-500 text-sm mt-1">
-                  Sign in to your IESCO citizen account
+                  Sign in to your SmartGrid+ citizen account
                 </p>
               </div>
 
@@ -379,7 +379,7 @@ export default function LoginPage() {
 
               <div className="pt-2 border-t border-slate-200">
                 <p className="text-xs text-center text-slate-400">
-                  IESCO staff?{" "}
+                  SmartGrid+ staff?{" "}
                   <Link to="/admin/login"
                     className="text-iesco-teal hover:underline font-medium">
                     Use the admin portal →

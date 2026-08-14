@@ -22,6 +22,7 @@ import {
   Plus, Trash2, CheckCircle, XCircle, Loader2,
   RefreshCw, AlertTriangle, Activity, Users,
   UserPlus, Shield, Megaphone, Menu, ArrowLeft,
+  ClipboardList, Clock,
 } from "lucide-react"
 import api from "@/services/api"
 
@@ -34,6 +35,24 @@ const STATUS_OPTIONS = [
   { value: "no_data",       label: "No data",       color: "bg-slate-100 text-slate-600 border-slate-200" },
 ]
 
+const REQUEST_STATUS_OPTIONS = [
+  { value: "pending",               label: "Pending",              color: "bg-slate-100 text-slate-600 border-slate-200" },
+  { value: "in_review",             label: "In Review",            color: "bg-blue-100 text-blue-700 border-blue-200" },
+  { value: "approved",              label: "Approved",             color: "bg-teal-100 text-teal-700 border-teal-200" },
+  { value: "awaiting_confirmation", label: "Awaiting Confirmation",color: "bg-amber-100 text-amber-700 border-amber-200" },
+  { value: "completed",             label: "Completed",            color: "bg-green-100 text-green-700 border-green-200" },
+  { value: "presumed_completed",    label: "Presumed Completed",   color: "bg-lime-100 text-lime-700 border-lime-200" },
+  { value: "rejected",              label: "Rejected",             color: "bg-red-100 text-red-700 border-red-200" },
+  { value: "cancelled",             label: "Cancelled",            color: "bg-slate-100 text-slate-500 border-slate-200" },
+]
+
+const REQUEST_TYPE_LABELS = {
+  new_connection:    "New Connection",
+  meter_change:      "Meter Change",
+  energy_audit:      "Energy Audit",
+  safety_inspection: "Safety Inspection",
+}
+
 function StatusBadge({ status }) {
   const cfg = STATUS_OPTIONS.find(s => s.value === status) ?? STATUS_OPTIONS[5]
   return (
@@ -41,6 +60,24 @@ function StatusBadge({ status }) {
       {cfg.label}
     </span>
   )
+}
+
+function RequestStatusBadge({ status }) {
+  const cfg = REQUEST_STATUS_OPTIONS.find(s => s.value === status) ?? REQUEST_STATUS_OPTIONS[0]
+  return (
+    <span className={`inline-flex items-center text-xs font-medium px-2 py-0.5 rounded-full border ${cfg.color}`}>
+      {cfg.label}
+    </span>
+  )
+}
+
+function daysAgo(dateStr) {
+  if (!dateStr) return "-"
+  const diffMs   = Date.now() - new Date(dateStr).getTime()
+  const days     = Math.floor(diffMs / (1000 * 60 * 60 * 24))
+  if (days === 0) return "Today"
+  if (days === 1) return "1 day"
+  return `${days} days`
 }
 
 function Table({ headers, children, empty }) {
@@ -164,9 +201,7 @@ function DashboardHome() {
                       <p className="text-sm font-medium text-slate-800 truncate">{r.full_name}</p>
                       <p className="text-xs font-mono text-slate-400">{r.ticket_number}</p>
                     </div>
-                    <span className="text-xs font-medium px-2 py-0.5 rounded-full border bg-slate-50 text-slate-600 border-slate-200 flex-shrink-0">
-                      {r.status}
-                    </span>
+                    <RequestStatusBadge status={r.status} />
                   </div>
                 ))}
               </div>
@@ -456,6 +491,186 @@ function TariffsPanel() {
           </div>
         </DialogContent>
       </Dialog>
+    </div>
+  )
+}
+
+function RequestsPanel() {
+  const qc = useQueryClient()
+  const [tab, setTab]           = useState("active")   // "active" | "completed"
+  const [typeFilter, setTypeFilter] = useState("all")
+  const [search, setSearch]     = useState("")
+  const [notesDraftId, setNotesDraftId] = useState(null)
+  const [notesDraft, setNotesDraft]     = useState("")
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["admin-requests", tab],
+    queryFn:  () => api.get("/service-requests/", {
+      params: { page_size: 100 },
+    }).then(r => r.data),
+    staleTime: 30000,
+  })
+
+  const updateMutation = useMutation({
+    mutationFn: ({ id, status, admin_notes }) =>
+      api.patch(`/service-requests/${id}/status`, { status, admin_notes }),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ["admin-requests"] }),
+  })
+
+  const all = data?.data ?? []
+
+  const ACTIVE_STATUSES    = ["pending", "in_review", "approved", "awaiting_confirmation"]
+  const COMPLETED_STATUSES = ["completed", "presumed_completed", "rejected", "cancelled"]
+
+  let rows = all.filter(r =>
+    tab === "active" ? ACTIVE_STATUSES.includes(r.status) : COMPLETED_STATUSES.includes(r.status)
+  )
+
+  if (tab === "completed") {
+    rows = rows
+      .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at))
+      .slice(0, 20)   // recent completed only
+  } else {
+    rows = rows.sort((a, b) => new Date(a.created_at) - new Date(b.created_at)) // oldest pending first
+  }
+
+  if (typeFilter !== "all") {
+    rows = rows.filter(r => r.request_type === typeFilter)
+  }
+  if (search.trim()) {
+    const q = search.trim().toLowerCase()
+    rows = rows.filter(r =>
+      r.full_name?.toLowerCase().includes(q) ||
+      r.ticket_number?.toLowerCase().includes(q) ||
+      r.cnic?.toLowerCase().includes(q)
+    )
+  }
+
+  function startNotes(r) {
+    setNotesDraftId(r.id)
+    setNotesDraft(r.admin_notes || "")
+  }
+
+  function saveNotes(r) {
+    if (notesDraft !== (r.admin_notes || "")) {
+      updateMutation.mutate({ id: r.id, status: r.status, admin_notes: notesDraft })
+    }
+    setNotesDraftId(null)
+  }
+
+  const activeCount    = all.filter(r => ACTIVE_STATUSES.includes(r.status)).length
+  const completedCount = all.filter(r => COMPLETED_STATUSES.includes(r.status)).length
+
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center justify-between flex-wrap gap-3">
+        <div>
+          <h2 className="text-xl font-bold text-slate-900">Service Requests</h2>
+          <p className="text-sm text-slate-500">{activeCount} active - {completedCount} recently resolved</p>
+        </div>
+        <Button variant="outline" size="sm" onClick={() => qc.invalidateQueries({ queryKey: ["admin-requests"] })}>
+          <RefreshCw className="h-4 w-4 mr-1.5" /> Refresh
+        </Button>
+      </div>
+
+      <div className="flex items-center gap-2 border-b border-slate-200">
+        <button
+          onClick={() => setTab("active")}
+          className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
+            tab === "active"
+              ? "border-iesco-teal text-iesco-teal"
+              : "border-transparent text-slate-500 hover:text-slate-700"
+          }`}
+        >
+          Pending / Active ({activeCount})
+        </button>
+        <button
+          onClick={() => setTab("completed")}
+          className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
+            tab === "completed"
+              ? "border-iesco-teal text-iesco-teal"
+              : "border-transparent text-slate-500 hover:text-slate-700"
+          }`}
+        >
+          Recently Completed
+        </button>
+      </div>
+
+      <div className="flex gap-2 flex-wrap">
+        <Select value={typeFilter} onValueChange={setTypeFilter}>
+          <SelectTrigger className="w-48"><SelectValue /></SelectTrigger>
+          <SelectContent>
+            <SelectItem value="all">All types</SelectItem>
+            {Object.entries(REQUEST_TYPE_LABELS).map(([k, v]) => (
+              <SelectItem key={k} value={k}>{v}</SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+        <Input
+          placeholder="Search name, ticket, or CNIC..."
+          value={search}
+          onChange={e => setSearch(e.target.value)}
+          className="w-64"
+        />
+      </div>
+
+      {isLoading ? (
+        <div className="py-12 text-center text-slate-400">Loading...</div>
+      ) : (
+        <Table
+          headers={["Ticket", "Type", "Citizen", tab === "active" ? "Pending For" : "Resolved", "Status", "Notes", "Change Status"]}
+          empty={rows.length === 0 ? (tab === "active" ? "No active requests" : "No completed requests yet") : null}
+        >
+          {rows.map(r => (
+            <tr key={r.id} className="hover:bg-slate-50">
+              <td className="py-3 px-4 font-mono text-xs text-slate-600">{r.ticket_number}</td>
+              <td className="py-3 px-4 text-sm text-slate-700">{REQUEST_TYPE_LABELS[r.request_type] ?? r.request_type}</td>
+              <td className="py-3 px-4">
+                <p className="font-medium text-sm text-slate-800">{r.full_name}</p>
+                <p className="text-xs text-slate-400">{r.phone}</p>
+              </td>
+              <td className="py-3 px-4 text-sm text-slate-600">
+                <span className="inline-flex items-center gap-1">
+                  <Clock className="h-3 w-3 text-slate-400" />
+                  {tab === "active" ? daysAgo(r.created_at) : daysAgo(r.updated_at)}
+                </span>
+              </td>
+              <td className="py-3 px-4"><RequestStatusBadge status={r.status} /></td>
+              <td className="py-3 px-4 max-w-48">
+                {notesDraftId === r.id ? (
+                  <Input
+                    autoFocus
+                    className="h-7 text-xs"
+                    value={notesDraft}
+                    onChange={e => setNotesDraft(e.target.value)}
+                    onBlur={() => saveNotes(r)}
+                    onKeyDown={e => { if (e.key === "Enter") saveNotes(r); if (e.key === "Escape") setNotesDraftId(null) }}
+                  />
+                ) : (
+                  <button
+                    className="text-xs text-slate-500 hover:text-iesco-teal text-left truncate max-w-48 block"
+                    onClick={() => startNotes(r)}
+                  >
+                    {r.admin_notes || "Add note..."}
+                  </button>
+                )}
+              </td>
+              <td className="py-3 px-4">
+                <Select
+                  value={r.status}
+                  onValueChange={(val) => updateMutation.mutate({ id: r.id, status: val, admin_notes: r.admin_notes })}
+                  disabled={updateMutation.isPending}
+                >
+                  <SelectTrigger className="h-7 w-44 text-xs"><SelectValue /></SelectTrigger>
+                  <SelectContent>
+                    {REQUEST_STATUS_OPTIONS.map(s => <SelectItem key={s.value} value={s.value}>{s.label}</SelectItem>)}
+                  </SelectContent>
+                </Select>
+              </td>
+            </tr>
+          ))}
+        </Table>
+      )}
     </div>
   )
 }
@@ -835,6 +1050,7 @@ const NAV_ITEMS = [
   { to: "/admin/feeders",      label: "Feeders",           icon: Zap              },
   { to: "/admin/schedule",     label: "Schedules",         icon: CalendarDays     },
   { to: "/admin/tariffs",      label: "Tariff Rates",      icon: Coins            },
+  { to: "/admin/requests",     label: "Service Requests",  icon: ClipboardList    },
   { to: "/admin/services",     label: "Service Providers", icon: Wrench           },
   { to: "/admin/locations",    label: "Locations",         icon: Building2        },
   { to: "/admin/announcements",label: "Announcements",     icon: Megaphone        },
@@ -919,6 +1135,7 @@ export default function AdminPage() {
             <Route path="feeders"   element={<FeedersPanel />} />
             <Route path="schedule"  element={<SchedulesPanel />} />
             <Route path="tariffs"   element={<TariffsPanel />} />
+            <Route path="requests"  element={<RequestsPanel />} />
             <Route path="services"  element={<ServicesPanel />} />
             <Route path="locations" element={<LocationsPanel />} />
             <Route path="announcements" element={<AnnouncementsPanel />} />

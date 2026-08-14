@@ -14,6 +14,7 @@ VALID_REQUEST_TYPES = {
 VALID_STATUSES = {
     "pending", "in_review", "approved",
     "rejected", "completed", "cancelled",
+    "awaiting_confirmation", "presumed_completed",
 }
 
 

@@ -44,7 +44,7 @@
     "print":         "Print"
   },
   "home": {
-    "title":         "IESCO Smart Citizen Portal",
+    "title":         "SmartGrid+ Citizen Portal",
     "subtitle":      "Islamabad Electric Supply Company",
     "tagline":       "Check schedules, pay bills, and track outages for Islamabad",
     "checkSchedule": "Check schedule",

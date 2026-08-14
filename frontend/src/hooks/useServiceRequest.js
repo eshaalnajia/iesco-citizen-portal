@@ -1,4 +1,4 @@
-﻿import { useMutation, useQuery } from "@tanstack/react-query"
+﻿import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import api                       from "@/services/api"
 
 export async function submitRequest(payload) {
@@ -8,6 +8,15 @@ export async function submitRequest(payload) {
 
 export async function trackRequest(ticketNumber) {
   const { data } = await api.get(`/service-requests/track/${ticketNumber}`)
+  return data
+}
+
+export async function confirmRequestCompletion(ticketNumber, completed) {
+  const { data } = await api.post(
+    `/service-requests/track/${ticketNumber}/confirm`,
+    null,
+    { params: { completed } }
+  )
   return data
 }
 
@@ -22,5 +31,13 @@ export function useTrackRequest(ticketNumber) {
     enabled:   !!ticketNumber && ticketNumber.startsWith("SR-"),
     staleTime: 1000 * 60 * 2,
     retry:     false,
+  })
+}
+
+export function useConfirmRequest(ticketNumber) {
+  const qc = useQueryClient()
+  return useMutation({
+    mutationFn: (completed) => confirmRequestCompletion(ticketNumber, completed),
+    onSuccess:  () => qc.invalidateQueries({ queryKey: ["service-request", ticketNumber] }),
   })
 }

@@ -90,9 +90,9 @@ export default function AdminLoginPage() {
             <Zap className="h-8 w-8 text-iesco-teal" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold text-white">IESCO Admin Portal</h1>
+            <h1 className="text-2xl font-bold text-white">SmartGrid+ Admin Portal</h1>
             <p className="text-slate-400 text-sm mt-1">
-              Authorised IESCO staff only
+              Authorised SmartGrid+ staff only
             </p>
           </div>
         </div>
@@ -102,7 +102,7 @@ export default function AdminLoginPage() {
                         rounded-xl px-4 py-3">
           <ShieldAlert className="h-4 w-4 text-amber-400 flex-shrink-0 mt-0.5" />
           <p className="text-xs text-amber-300 leading-relaxed">
-            This portal is for authorised IESCO personnel only. Unauthorised
+            This portal is for authorised SmartGrid+ personnel only. Unauthorised
             access attempts are logged and may be subject to legal action.
           </p>
         </div>
@@ -185,7 +185,7 @@ export default function AdminLoginPage() {
         {/* Footer */}
         <div className="text-center space-y-1">
           <p className="text-slate-600 text-xs">
-            IESCO Smart Citizen Portal — Admin Access
+            SmartGrid+ Citizen Portal — Admin Access
           </p>
           <p className="text-slate-700 text-xs">
             Not an admin?{" "}
