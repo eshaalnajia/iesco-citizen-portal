@@ -104,7 +104,7 @@ app.include_router(easypaisa.router)
 def health_check():
     return {
         "status": "ok",
-        "service": "IESCO Citizen Portal API",
+        "service": "SmartGrid+ API",
         "version": "1.0.0",
         "environment": ENVIRONMENT,
     }
