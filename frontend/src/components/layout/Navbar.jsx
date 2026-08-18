@@ -137,14 +137,14 @@ export default function Navbar() {
               </button>
             </SheetTrigger>
             <SheetContent side="right" className="w-72 bg-[#0D1B3E] border-l border-white/10">
-              <div className="flex items-center justify-between gap-3 mb-8 mt-2">
+              <div className="flex items-center justify-between gap-3 mb-8 mt-2 pr-10">
                 <div className="flex items-center gap-3">
                   <div className="w-8 h-8 rounded-lg bg-iesco-teal/20 border border-iesco-teal/40 flex items-center justify-center">
                     <Zap className="h-4 w-4 text-iesco-teal" />
                   </div>
                   <span className="text-white font-semibold text-sm">SmartGrid+ Portal</span>
                 </div>
-                <LanguageSwitcher compact className="!bg-white/10 !border-white/20" />
+                <LanguageSwitcher compact className="!bg-white/10 !border-white/20 !text-white" />
               </div>
               <nav className="flex flex-col gap-1">
                 {[...PRIMARY_NAV, ...MORE_NAV].map((link) => (

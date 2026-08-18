@@ -14,14 +14,14 @@ export function LanguageSwitcher({ className, compact = false }) {
       <button
         onClick={toggle}
         className={cn(
-          "flex items-center justify-center w-9 h-9 rounded-lg border",
-          "border-slate-200 hover:border-slate-300 bg-white",
-          "text-base leading-none transition-colors",
+          "flex items-center justify-center h-9 px-3 rounded-lg border shrink-0",
+          "border-slate-200 hover:border-slate-300 bg-white text-slate-600",
+          "text-sm font-medium leading-none transition-colors",
           className
         )}
-        aria-label={isUrdu ? "Switch to English" : "???? ??? ??????"}
+        aria-label={isUrdu ? "Switch to English" : "اردو میں تبدیل کریں"}
       >
-        {isUrdu ? "????" : "????"}
+        {isUrdu ? "EN" : "اردو"}
       </button>
     )
   }
@@ -38,8 +38,8 @@ export function LanguageSwitcher({ className, compact = false }) {
       )}
       aria-label={isUrdu ? "Switch to English" : "???? ??? ??????"}
     >
-      <span className="text-base leading-none">{isUrdu ? "????" : "????"}</span>
-      <span>{isUrdu ? "English" : "????"}</span>
+      <span className="text-base leading-none">{isUrdu ? "EN" : "اردو"}</span>
+      <span>{isUrdu ? "English" : "اردو"}</span>
     </button>
   )
 }
