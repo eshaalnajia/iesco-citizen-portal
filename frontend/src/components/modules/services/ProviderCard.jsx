@@ -72,30 +72,31 @@ export function ProviderCard({ provider }) {
               variant="outline"
               size="sm"
               className="flex-1 text-xs"
-              asChild
+              render={
+                <a href={`tel:${provider.phone}`} className="flex items-center justify-center" />
+              }
             >
-              <a href={`tel:${provider.phone}`}>
-                <Phone className="h-3.5 w-3.5 mr-1.5" />
-                {t("services.call", "Call")}
-              </a>
+              <Phone className="h-3.5 w-3.5 mr-1.5" />
+              {t("services.call", "Call")}
             </Button>
 
             {hasWhatsApp && (
               <Button
                 variant="outline"
                 size="sm"
-                className="flex-1 text-xs border-green-200 text-green-700
-                           hover:bg-green-50"
-                asChild
+                className="flex-1 text-xs border-green-200 text-green-700 hover:bg-green-50"
+                render={
+                  
+                    <a
+                    href={whatsappUrl(provider.whatsapp, provider.name)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center"
+                  />
+                }
               >
-                  <a
-                  href={whatsappUrl(provider.whatsapp, provider.name)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <MessageCircle className="h-3.5 w-3.5 mr-1.5" />
-                  {t("services.whatsapp", "WhatsApp")}
-                </a>
+                <MessageCircle className="h-3.5 w-3.5 mr-1.5" />
+                {t("services.whatsapp", "WhatsApp")}
               </Button>
             )}
 

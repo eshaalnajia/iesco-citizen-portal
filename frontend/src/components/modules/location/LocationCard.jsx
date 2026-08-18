@@ -85,10 +85,10 @@ export function LocationCard({ location, distance }) {
   return (
     <div
       className={[
-        "bg-white rounded-xl border transition-all duration-150",
+        "bg-white rounded-xl border transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md",
         expanded
           ? "border-iesco-teal/30 shadow-sm"
-          : "border-slate-200 hover:border-slate-300",
+          : "border-slate-200 hover:border-iesco-teal/40",
       ].join(" ")}
     >
       <button
