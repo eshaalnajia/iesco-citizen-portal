@@ -150,3 +150,25 @@
     @apply font-sans;
   }
 }
+
+@keyframes smartgrid-draw {
+  from {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 1;
+  }
+  to {
+    stroke-dasharray: 1;
+    stroke-dashoffset: 0;
+  }
+}
+
+.smartgrid-logo-curve {
+  animation: smartgrid-draw 1.4s ease-out forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .smartgrid-logo-curve {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+}

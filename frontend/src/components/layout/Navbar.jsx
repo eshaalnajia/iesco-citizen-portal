@@ -1,12 +1,12 @@
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 import { useAuth } from "@/context/AuthContext"
-import { Menu, Settings, User, LogOut, Zap, ChevronDown, Wrench, Building2, ClipboardList, Bell } from "lucide-react"
+import { Menu, Settings, User, LogOut, ChevronDown, Wrench, Building2, ClipboardList, Bell } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Badge } from "@/components/ui/badge"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
-import iescoLogo from "@/assets/iesco-logo.png"
+import { SmartGridLogo } from "./SmartGridLogo"
 import { LanguageSwitcher } from "./LanguageSwitcher"
 
 const PRIMARY_NAV = [
@@ -36,8 +36,7 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 border-b bg-background/95 backdrop-blur">
       <div className="container mx-auto px-4 max-w-7xl flex h-14 items-center justify-between">
         <Link to="/" className="flex items-center gap-2 font-semibold text-lg">
-          <img src={iescoLogo} alt="IESCO" className="h-9 w-auto object-contain" />
-          <span className="text-iesco-navy dark:text-white">SmartGrid+</span>
+          <SmartGridLogo showText textClassName="text-iesco-navy dark:text-white text-lg" />
         </Link>
         <nav className="hidden md:flex items-center gap-1">
           {PRIMARY_NAV.map((link) => (
@@ -139,10 +138,7 @@ export default function Navbar() {
             <SheetContent side="right" className="w-72 bg-[#0D1B3E] border-l border-white/10">
               <div className="flex items-center justify-between gap-3 mb-8 mt-2 pr-10">
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-iesco-teal/20 border border-iesco-teal/40 flex items-center justify-center">
-                    <Zap className="h-4 w-4 text-iesco-teal" />
-                  </div>
-                  <span className="text-white font-semibold text-sm">SmartGrid+ Portal</span>
+                  <SmartGridLogo showText textClassName="text-white text-sm" />
                 </div>
                 <LanguageSwitcher compact className="!bg-white/10 !border-white/20 !text-white" />
               </div>
