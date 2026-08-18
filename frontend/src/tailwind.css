@@ -5,9 +5,9 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-  --color-iesco-teal: #00C2A8;
-  --color-iesco-navy: #0D1B3E;
-  --color-iesco-blue: #1B6CA8;
+  --color-iesco-teal: #12B886;
+  --color-iesco-navy: #0A0F14;
+  --color-iesco-blue: #0B3D3A;
 
   --color-status-on: #22C55E;
   --color-status-shedding: #D97706;
@@ -171,4 +171,9 @@
     animation: none;
     stroke-dashoffset: 0;
   }
+}
+
+.swiper {
+  --swiper-theme-color: var(--color-grid-signal, #12B886);
+  --swiper-pagination-color: var(--color-grid-signal, #12B886);
 }
