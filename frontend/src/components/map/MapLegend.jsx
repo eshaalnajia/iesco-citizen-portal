@@ -6,15 +6,15 @@ export function MapLegend({ heatmap = false }) {
   const [open, setOpen] = useState(true)
 
   return (
-    <div className="absolute top-4 left-4 z-10 bg-white/90 backdrop-blur-sm rounded-xl shadow-md border border-slate-200 overflow-hidden text-sm min-w-[140px]">
+    <div className="absolute top-4 left-4 z-10 bg-white dark:bg-card/90 backdrop-blur-sm rounded-xl shadow-md border border-slate-200 overflow-hidden text-sm min-w-[140px]">
       <button
         onClick={() => setOpen((v) => !v)}
-        className="flex items-center justify-between gap-4 w-full px-3 py-2.5 text-slate-700 font-medium hover:bg-slate-50"
+        className="flex items-center justify-between gap-4 w-full px-3 py-2.5 text-slate-700 dark:text-foreground font-medium hover:bg-slate-50"
       >
         <span>{heatmap ? "Reliability" : "Status"}</span>
         {open
-          ? <ChevronUp className="h-3.5 w-3.5 text-slate-400" />
-          : <ChevronDown className="h-3.5 w-3.5 text-slate-400" />
+          ? <ChevronUp className="h-3.5 w-3.5 text-slate-400 dark:text-muted-foreground" />
+          : <ChevronDown className="h-3.5 w-3.5 text-slate-400 dark:text-muted-foreground" />
         }
       </button>
 
@@ -33,7 +33,7 @@ export function MapLegend({ heatmap = false }) {
                     className="w-3 h-3 rounded-sm flex-shrink-0"
                     style={{ backgroundColor: color, opacity: 0.85 }}
                   />
-                  <span className="text-slate-600 text-xs">{label}</span>
+                  <span className="text-slate-600 dark:text-muted-foreground text-xs">{label}</span>
                 </div>
               ))}
             </>
@@ -45,7 +45,7 @@ export function MapLegend({ heatmap = false }) {
                     className="w-3 h-3 rounded-sm flex-shrink-0"
                     style={{ backgroundColor: color, opacity: 0.85 }}
                   />
-                  <span className="text-slate-600 text-xs">
+                  <span className="text-slate-600 dark:text-muted-foreground text-xs">
                     {STATUS_LABELS[status]}
                   </span>
                 </div>

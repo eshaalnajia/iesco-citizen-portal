@@ -22,7 +22,7 @@ export function MobileBottomNav() {
 
   return (
     <nav className="md:hidden fixed bottom-0 left-0 right-0 z-40
-                    bg-white border-t border-slate-200
+                    bg-white dark:bg-card border-t border-slate-200
                     flex items-stretch
                     pb-[env(safe-area-inset-bottom)]">
       {TABS.map((tab) => {
@@ -34,7 +34,7 @@ export function MobileBottomNav() {
             to={tab.path}
             className={`flex-1 flex flex-col items-center justify-center gap-0.5 py-2
                         transition-colors
-                        ${active ? "text-iesco-teal" : "text-slate-500"}`}
+                        ${active ? "text-iesco-teal" : "text-slate-500 dark:text-muted-foreground"}`}
           >
             <Icon className="h-5 w-5" />
             <span className="text-[10px] font-medium">{t(tab.key)}</span>
@@ -45,7 +45,7 @@ export function MobileBottomNav() {
       <Sheet>
         <SheetTrigger asChild>
           <button
-            className="flex-1 flex flex-col items-center justify-center gap-0.5 py-2 text-slate-500"
+            className="flex-1 flex flex-col items-center justify-center gap-0.5 py-2 text-slate-500 dark:text-muted-foreground"
             aria-label="More"
           >
             <Menu className="h-5 w-5" />
@@ -58,7 +58,7 @@ export function MobileBottomNav() {
               <Link
                 key={link.path}
                 to={link.path}
-                className="text-slate-700 hover:bg-slate-50 transition-colors
+                className="text-slate-700 dark:text-foreground hover:bg-slate-50 transition-colors
                           text-sm font-medium px-4 py-3 rounded-lg block"
               >
                 {t(link.key)}

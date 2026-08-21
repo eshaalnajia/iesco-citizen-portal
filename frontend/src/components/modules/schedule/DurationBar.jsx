@@ -21,11 +21,11 @@
 
   return (
     <div className="flex items-center gap-2">
-      <span className="font-mono text-sm text-slate-700">
+      <span className="font-mono text-sm text-slate-700 dark:text-foreground">
         {startTime.slice(0,5)} - {endTime.slice(0,5)}
       </span>
       {durationLabel && (
-        <span className="text-xs text-slate-400">({durationLabel})</span>
+        <span className="text-xs text-slate-400 dark:text-muted-foreground">({durationLabel})</span>
       )}
     </div>
   )

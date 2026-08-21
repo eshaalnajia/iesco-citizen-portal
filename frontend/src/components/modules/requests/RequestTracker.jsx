@@ -8,14 +8,14 @@ import { Loader2, Search,
          HelpCircle }         from "lucide-react"
 
 const STATUS_ICONS = {
-  pending:                { icon: Clock,        cls: "text-slate-400"  },
+  pending:                { icon: Clock,        cls: "text-slate-400 dark:text-muted-foreground"  },
   in_review:              { icon: AlertCircle,  cls: "text-blue-500"   },
   approved:               { icon: CheckCircle,  cls: "text-green-500"  },
   awaiting_confirmation:  { icon: HelpCircle,   cls: "text-amber-500"  },
   completed:              { icon: CheckCircle,  cls: "text-green-600"  },
   presumed_completed:     { icon: CheckCircle,  cls: "text-lime-600"   },
   rejected:               { icon: XCircle,      cls: "text-red-500"    },
-  cancelled:              { icon: XCircle,      cls: "text-slate-400"  },
+  cancelled:              { icon: XCircle,      cls: "text-slate-400 dark:text-muted-foreground"  },
 }
 
 // Progress bar treats awaiting_confirmation/presumed_completed as
@@ -118,12 +118,12 @@ export function RequestTracker() {
       )}
 
       {data && (
-        <div className="bg-white border border-slate-200 rounded-xl p-5 space-y-4">
+        <div className="bg-white dark:bg-card border border-slate-200 rounded-xl p-5 space-y-4">
           <div className="flex items-start gap-3">
             {Icon && <Icon className={`h-6 w-6 flex-shrink-0 ${statusConfig.cls}`} />}
             <div>
-              <p className="font-mono text-sm text-slate-500">{data.ticket_number}</p>
-              <p className="font-bold text-slate-900 mt-0.5">
+              <p className="font-mono text-sm text-slate-500 dark:text-muted-foreground">{data.ticket_number}</p>
+              <p className="font-bold text-slate-900 dark:text-foreground mt-0.5">
                 {data.request_type?.replaceAll("_", " ")}
               </p>
               <p className={`text-sm font-medium mt-1 ${statusConfig?.cls}`}>
@@ -179,8 +179,8 @@ export function RequestTracker() {
               { label: "IESCO notes",    value: data.admin_notes, muted: !data.admin_notes },
             ].map(({ label, value, muted }) => value && (
               <div key={label} className="flex justify-between gap-2">
-                <span className="text-slate-500 flex-shrink-0">{label}</span>
-                <span className={`text-right ${muted ? "text-slate-400 italic" : "text-slate-800"}`}>
+                <span className="text-slate-500 dark:text-muted-foreground flex-shrink-0">{label}</span>
+                <span className={`text-right ${muted ? "text-slate-400 dark:text-muted-foreground italic" : "text-slate-800 dark:text-foreground"}`}>
                   {value}
                 </span>
               </div>

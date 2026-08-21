@@ -58,7 +58,7 @@ function Hero({ stats, statsLoading }) {
       <div className="relative max-w-7xl mx-auto px-4 py-10 md:py-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
           <div className="space-y-6">
-            <div className="inline-flex items-center gap-2 bg-white/10 border border-white/20 rounded-full px-3 py-1.5 text-sm backdrop-blur-sm">
+            <div className="inline-flex items-center gap-2 bg-white dark:bg-card/10 border border-white/20 rounded-full px-3 py-1.5 text-sm backdrop-blur-sm">
               <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
               <span className="text-slate-200">Pakistan Standard Time · {pktTime}</span>
             </div>
@@ -83,14 +83,14 @@ function Hero({ stats, statsLoading }) {
               <Button asChild size="lg" className="bg-iesco-teal hover:bg-iesco-teal/90 text-white font-semibold shadow-lg shadow-iesco-teal/25">
                 <Link to="/schedule"><CalendarDays className="h-4 w-4 mr-2" />Check Today's Schedule</Link>
               </Button>
-              <Button asChild size="lg" variant="outline" className="border-white/30 text-white hover:bg-white/10 backdrop-blur-sm bg-transparent">
+              <Button asChild size="lg" variant="outline" className="border-white/30 text-white hover:bg-white dark:bg-card/10 backdrop-blur-sm bg-transparent">
                 <Link to="/map"><MapPin className="h-4 w-4 mr-2" />Live Map</Link>
               </Button>
             </div>
 
             <div className="flex flex-wrap gap-2 pt-1">
               {[{ label: "Pay Bill", href: "/billing" }, { label: "Tariff Rates", href: "/tariffs" }, { label: "Services", href: "/services" }, { label: "Submit Request", href: "/self-service" }].map((l) => (
-                <Link key={l.href} to={l.href} className="text-sm text-slate-400 hover:text-iesco-teal transition-colors flex items-center gap-1">
+                <Link key={l.href} to={l.href} className="text-sm text-slate-400 dark:text-muted-foreground hover:text-iesco-teal transition-colors flex items-center gap-1">
                   {l.label} <ArrowRight className="h-3 w-3" />
                 </Link>
               ))}
@@ -102,27 +102,27 @@ function Hero({ stats, statsLoading }) {
               { label: "Feeders Online",  value: statsLoading ? "-" : `${stats?.on ?? 0}/${stats?.total ?? 12}`, icon: CheckCircle,  color: "text-green-400",  bg: "bg-green-400/10 border-green-400/20",   sub: "Islamabad coverage" },
               { label: "Active Outages",  value: statsLoading ? "-" : stats?.shedding ?? 0,                      icon: AlertTriangle, color: "text-orange-400", bg: "bg-orange-400/10 border-orange-400/20", sub: "Scheduled today" },
               { label: "Faults Detected", value: statsLoading ? "-" : stats?.fault ?? 0,                         icon: Zap,           color: "text-red-400",    bg: "bg-red-400/10 border-red-400/20",       sub: "Expected outages" },
-              { label: "System Status",   value: (stats?.fault ?? 0) === 0 ? "Normal" : "Alert",                 icon: Activity,      color: (stats?.fault ?? 0) === 0 ? "text-green-400" : "text-red-400", bg: "bg-white/5 border-white/10", sub: "Grid condition" },
+              { label: "System Status",   value: (stats?.fault ?? 0) === 0 ? "Normal" : "Alert",                 icon: Activity,      color: (stats?.fault ?? 0) === 0 ? "text-green-400" : "text-red-400", bg: "bg-white dark:bg-card/5 border-white/10", sub: "Grid condition" },
             ].map((stat) => {
               const Icon = stat.icon
               return (
                 <div key={stat.label} className={`${stat.bg} border rounded-2xl p-5 backdrop-blur-sm`}>
                   <div className="flex items-start justify-between mb-3">
                     <Icon className={`h-5 w-5 ${stat.color}`} />
-                    <span className="text-xs text-slate-500">{stat.sub}</span>
+                    <span className="text-xs text-slate-500 dark:text-muted-foreground">{stat.sub}</span>
                   </div>
                   <p className={`text-3xl font-bold ${stat.color}`}>{stat.value}</p>
-                  <p className="text-sm text-slate-400 mt-1">{stat.label}</p>
+                  <p className="text-sm text-slate-400 dark:text-muted-foreground mt-1">{stat.label}</p>
                 </div>
               )
             })}
-            <div className="col-span-2 bg-white/5 border border-white/10 rounded-2xl p-4 flex items-center gap-4">
+            <div className="col-span-2 bg-white dark:bg-card/5 border border-white/10 rounded-2xl p-4 flex items-center gap-4">
               <div className="w-10 h-10 rounded-full bg-red-500/20 border border-red-500/30 flex items-center justify-center flex-shrink-0">
                 <Phone className="h-4 w-4 text-red-400" />
               </div>
               <div className="flex-1 min-w-0">
                 <p className="text-sm text-slate-300 font-medium">IESCO 24/7 Helpline</p>
-                <p className="text-slate-500 text-xs">For emergencies · خرابی کی اطلاع</p>
+                <p className="text-slate-500 dark:text-muted-foreground text-xs">For emergencies · خرابی کی اطلاع</p>
               </div>
               <a href="tel:051-9252148" className="font-mono text-lg font-bold text-white hover:text-iesco-teal transition-colors flex-shrink-0">051-9252148</a>
             </div>
@@ -135,9 +135,9 @@ function Hero({ stats, statsLoading }) {
 
 function FeaturesSection() {
   return (
-    <section className="py-10 bg-white">
+    <section className="py-10 bg-white dark:bg-card">
       <div className="max-w-7xl mx-auto px-4">
-        <p className="text-center text-sm font-semibold text-slate-400
+        <p className="text-center text-sm font-semibold text-slate-400 dark:text-muted-foreground
                       uppercase tracking-widest mb-6">
           Quick Access
         </p>
@@ -154,10 +154,10 @@ function FeaturesSection() {
                 {s.icon}
               </div>
               <div className="text-center">
-                <p className="text-xs font-semibold text-slate-800 leading-tight">
+                <p className="text-xs font-semibold text-slate-800 dark:text-foreground leading-tight">
                   {s.label}
                 </p>
-                <p className="text-[10px] text-slate-400 leading-tight hidden sm:block">
+                <p className="text-[10px] text-slate-400 dark:text-muted-foreground leading-tight hidden sm:block">
                   {s.sublabel}
                 </p>
               </div>
@@ -178,7 +178,7 @@ export default function HomePage() {
       <section className="bg-iesco-navy py-12">
         <div className="max-w-7xl mx-auto px-4 text-center space-y-4">
           <h2 className="text-2xl font-bold text-white">Install the app for offline access</h2>
-          <p className="text-slate-400 max-w-md mx-auto text-sm">Check your load shedding schedule even without internet - especially useful during power cuts.</p>
+          <p className="text-slate-400 dark:text-muted-foreground max-w-md mx-auto text-sm">Check your load shedding schedule even without internet - especially useful during power cuts.</p>
           <Button size="lg" className="bg-iesco-teal hover:bg-iesco-teal/90 text-white">
             <Zap className="h-4 w-4 mr-2" />Add to Home Screen
           </Button>

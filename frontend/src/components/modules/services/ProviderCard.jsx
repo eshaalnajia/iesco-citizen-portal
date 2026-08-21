@@ -29,7 +29,7 @@ export function ProviderCard({ provider }) {
   return (
     <>
       <div className={cn(
-        "bg-white rounded-xl border transition-all duration-150",
+        "bg-white dark:bg-card rounded-xl border transition-all duration-150",
         expanded
           ? "border-iesco-teal/30 shadow-sm"
           : "border-slate-200 hover:border-slate-300"
@@ -40,7 +40,7 @@ export function ProviderCard({ provider }) {
           <div className="flex items-start justify-between gap-3">
             <div className="flex-1 min-w-0">
               <div className="flex items-center gap-2 flex-wrap mb-1">
-                <h3 className="font-semibold text-slate-900 text-sm leading-tight">
+                <h3 className="font-semibold text-slate-900 dark:text-foreground text-sm leading-tight">
                   {provider.name}
                 </h3>
                 {provider.is_verified && <VerifiedBadge size="xs" />}
@@ -56,8 +56,8 @@ export function ProviderCard({ provider }) {
             />
           </div>
 
-          <div className="flex items-center gap-1.5 text-xs text-slate-500">
-            <MapPin className="h-3.5 w-3.5 text-slate-400 flex-shrink-0" />
+          <div className="flex items-center gap-1.5 text-xs text-slate-500 dark:text-muted-foreground">
+            <MapPin className="h-3.5 w-3.5 text-slate-400 dark:text-muted-foreground flex-shrink-0" />
             <span className="truncate">{provider.area}</span>
           </div>
 
@@ -103,7 +103,7 @@ export function ProviderCard({ provider }) {
             <Button
               variant="ghost"
               size="sm"
-              className="px-2 text-slate-400 hover:text-slate-600"
+              className="px-2 text-slate-400 dark:text-muted-foreground hover:text-slate-600 dark:text-muted-foreground"
               onClick={() => setExpanded((v) => !v)}
               aria-label={expanded ? "Collapse" : "Expand"}
             >
@@ -119,7 +119,7 @@ export function ProviderCard({ provider }) {
           <div className="px-4 pb-4 pt-1 border-t border-slate-100 space-y-3">
 
             <div className="flex items-center gap-2 text-sm">
-              <Phone className="h-3.5 w-3.5 text-slate-400 flex-shrink-0" />
+              <Phone className="h-3.5 w-3.5 text-slate-400 dark:text-muted-foreground flex-shrink-0" />
               <a
                 href={`tel:${provider.phone}`}
                 className="font-mono text-iesco-blue hover:underline"
@@ -143,14 +143,14 @@ export function ProviderCard({ provider }) {
             )}
 
             {provider.address && (
-              <div className="flex items-start gap-2 text-sm text-slate-600">
-                <MapPin className="h-3.5 w-3.5 text-slate-400 flex-shrink-0 mt-0.5" />
+              <div className="flex items-start gap-2 text-sm text-slate-600 dark:text-muted-foreground">
+                <MapPin className="h-3.5 w-3.5 text-slate-400 dark:text-muted-foreground flex-shrink-0 mt-0.5" />
                 <span>{provider.address}</span>
               </div>
             )}
 
             {provider.license_number && (
-              <p className="text-xs text-slate-400">
+              <p className="text-xs text-slate-400 dark:text-muted-foreground">
                 {t("services.licenceNumber", "IESCO Licence")}: <span className="font-mono">{provider.license_number}</span>
               </p>
             )}

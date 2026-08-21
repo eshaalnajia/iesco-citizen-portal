@@ -11,7 +11,7 @@ const URGENCY_CONFIG = {
   critical: { label: "Critical - immediate danger",   classes: "border-red-400    bg-red-50    text-red-700"    },
   high:     { label: "High - dangerous but stable",   classes: "border-orange-400 bg-orange-50 text-orange-700" },
   medium:   { label: "Medium - needs attention soon", classes: "border-amber-400  bg-amber-50  text-amber-700"  },
-  low:      { label: "Low - minor concern",           classes: "border-slate-300  bg-slate-50  text-slate-700"  },
+  low:      { label: "Low - minor concern",           classes: "border-slate-300  bg-slate-50  text-slate-700 dark:text-foreground"  },
 }
 
 export function SafetyInspectionForm({ values, onChange, errors = {} }) {
@@ -32,7 +32,7 @@ export function SafetyInspectionForm({ values, onChange, errors = {} }) {
       <CitizenInfoFields values={values} onChange={onChange} errors={errors} />
 
       <div className="space-y-4">
-        <h3 className="text-sm font-semibold text-slate-700 uppercase tracking-wide">
+        <h3 className="text-sm font-semibold text-slate-700 dark:text-foreground uppercase tracking-wide">
           Hazard details
         </h3>
 
@@ -69,7 +69,7 @@ export function SafetyInspectionForm({ values, onChange, errors = {} }) {
                     "text-left px-3 py-2.5 rounded-lg border-2 text-xs font-medium transition",
                     values.urgency === key
                       ? cfg.classes
-                      : "border-slate-200 bg-white text-slate-600 hover:border-slate-300"
+                      : "border-slate-200 bg-white dark:bg-card text-slate-600 dark:text-muted-foreground hover:border-slate-300"
                   )}
                 >
                   {cfg.label}
@@ -93,7 +93,7 @@ export function SafetyInspectionForm({ values, onChange, errors = {} }) {
             {errors.description && (
               <p className="text-xs text-red-500">{errors.description}</p>
             )}
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-slate-400 dark:text-muted-foreground">
               Minimum 20 characters. Be as specific as possible.
             </p>
           </div>

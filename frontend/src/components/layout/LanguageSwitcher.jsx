@@ -15,7 +15,7 @@ export function LanguageSwitcher({ className, compact = false }) {
         onClick={toggle}
         className={cn(
           "flex items-center justify-center h-9 px-3 rounded-lg border shrink-0",
-          "border-slate-200 hover:border-slate-300 bg-white text-slate-600",
+          "border-slate-200 hover:border-slate-300 bg-white dark:bg-card text-slate-600 dark:text-muted-foreground",
           "text-sm font-medium leading-none transition-colors",
           className
         )}
@@ -32,8 +32,8 @@ export function LanguageSwitcher({ className, compact = false }) {
       className={cn(
         "flex items-center gap-1.5 px-3 py-1.5 rounded-lg border",
         "text-sm font-medium transition-colors",
-        "border-slate-200 hover:border-slate-300 bg-white",
-        "text-slate-600 hover:text-slate-800",
+        "border-slate-200 hover:border-slate-300 bg-white dark:bg-card",
+        "text-slate-600 dark:text-muted-foreground hover:text-slate-800 dark:text-foreground",
         className
       )}
       aria-label={isUrdu ? "Switch to English" : "???? ??? ??????"}

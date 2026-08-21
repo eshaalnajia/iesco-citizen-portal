@@ -27,10 +27,10 @@ export function ProviderTypeFilter({ value, onChange }) {
               "text-sm font-medium whitespace-nowrap border transition-colors",
               selected
                 ? "bg-iesco-navy text-white border-iesco-navy"
-                : "bg-white text-slate-600 border-slate-200 hover:border-slate-300"
+                : "bg-white dark:bg-card text-slate-600 dark:text-muted-foreground border-slate-200 hover:border-slate-300"
             )}
           >
-            <Icon className={cn("h-3.5 w-3.5", selected ? "text-white" : "text-slate-400")} />
+            <Icon className={cn("h-3.5 w-3.5", selected ? "text-white" : "text-slate-400 dark:text-muted-foreground")} />
             {t(`services.${type.labelKey}`)}
           </button>
         )

@@ -28,7 +28,7 @@ const TYPE_CONFIG = {
 export function ProviderTypeBadge({ type, size = "sm" }) {
   const { t } = useTranslation()
   const config = TYPE_CONFIG[type] ?? {
-    labelKey: null, icon: Zap, classes: "bg-slate-50 text-slate-600 border-slate-200"
+    labelKey: null, icon: Zap, classes: "bg-slate-50 text-slate-600 dark:text-muted-foreground border-slate-200"
   }
   const Icon  = config.icon
   const label = config.labelKey ? t(`services.${config.labelKey}`) : type

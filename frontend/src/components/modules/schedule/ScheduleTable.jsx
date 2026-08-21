@@ -14,7 +14,7 @@ export function ScheduleTable({ sector }) {
 
   if (isError) {
     return (
-      <div className="text-center py-12 text-slate-500">
+      <div className="text-center py-12 text-slate-500 dark:text-muted-foreground">
         <p className="text-sm">{t("common.error")}</p>
       </div>
     )
@@ -26,8 +26,8 @@ export function ScheduleTable({ sector }) {
     return (
       <div className="text-center py-16 space-y-3">
         <CalendarX className="h-10 w-10 text-slate-300 mx-auto" />
-        <p className="font-medium text-slate-600">{t("schedule.noOutages")}</p>
-        <p className="text-sm text-slate-400">
+        <p className="font-medium text-slate-600 dark:text-muted-foreground">{t("schedule.noOutages")}</p>
+        <p className="text-sm text-slate-400 dark:text-muted-foreground">
           {sector
             ? t("schedule.noOutagesArea", { area: sector })
             : t("schedule.noOutages")}
@@ -42,18 +42,18 @@ export function ScheduleTable({ sector }) {
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-slate-100">
-              <th className="text-left text-xs font-medium text-slate-400 uppercase tracking-wide pb-3 pr-4">{t("schedule.columns.area")}</th>
-              <th className="text-left text-xs font-medium text-slate-400 uppercase tracking-wide pb-3 pr-4">{t("schedule.columns.time")}</th>
-              <th className="text-left text-xs font-medium text-slate-400 uppercase tracking-wide pb-3 pr-4">{t("schedule.columns.type")}</th>
-              <th className="text-left text-xs font-medium text-slate-400 uppercase tracking-wide pb-3">{t("schedule.columns.status")}</th>
+              <th className="text-left text-xs font-medium text-slate-400 dark:text-muted-foreground uppercase tracking-wide pb-3 pr-4">{t("schedule.columns.area")}</th>
+              <th className="text-left text-xs font-medium text-slate-400 dark:text-muted-foreground uppercase tracking-wide pb-3 pr-4">{t("schedule.columns.time")}</th>
+              <th className="text-left text-xs font-medium text-slate-400 dark:text-muted-foreground uppercase tracking-wide pb-3 pr-4">{t("schedule.columns.type")}</th>
+              <th className="text-left text-xs font-medium text-slate-400 dark:text-muted-foreground uppercase tracking-wide pb-3">{t("schedule.columns.status")}</th>
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-50">
             {schedules.map((s) => (
               <tr key={s.id} className={`${s.is_active ? "bg-red-50/40" : ""}`}>
                 <td className="py-3 pr-4">
-                  <p className="font-medium text-slate-800">{s.feeders?.name ?? "—"}</p>
-                  <p className="text-xs text-slate-400 mt-0.5">{s.feeders?.sector} · {s.feeders?.feeder_code}</p>
+                  <p className="font-medium text-slate-800 dark:text-foreground">{s.feeders?.name ?? "—"}</p>
+                  <p className="text-xs text-slate-400 dark:text-muted-foreground mt-0.5">{s.feeders?.sector} · {s.feeders?.feeder_code}</p>
                 </td>
                 <td className="py-3 pr-4">
                   <DurationDisplay
@@ -62,7 +62,7 @@ export function ScheduleTable({ sector }) {
                     durationHours={s.duration_hours}
                   />
                   {s.notes && (
-                    <p className="text-xs text-slate-400 mt-1 italic">{s.notes}</p>
+                    <p className="text-xs text-slate-400 dark:text-muted-foreground mt-1 italic">{s.notes}</p>
                   )}
                 </td>
                 <td className="py-3 pr-4"><TypeBadge type={s.type} /></td>
@@ -70,7 +70,7 @@ export function ScheduleTable({ sector }) {
                   {s.is_active ? (
                     <LiveBadge />
                   ) : (
-                    <span className="text-xs text-slate-400">{t("schedule.upcoming")}</span>
+                    <span className="text-xs text-slate-400 dark:text-muted-foreground">{t("schedule.upcoming")}</span>
                   )}
                 </td>
               </tr>
@@ -83,12 +83,12 @@ export function ScheduleTable({ sector }) {
         {schedules.map((s) => (
           <div
             key={s.id}
-            className={`rounded-lg border p-3 space-y-2 ${s.is_active ? "border-red-200 bg-red-50/40" : "border-slate-200 bg-white"}`}
+            className={`rounded-lg border p-3 space-y-2 ${s.is_active ? "border-red-200 bg-red-50/40" : "border-slate-200 bg-white dark:bg-card"}`}
           >
             <div className="flex items-start justify-between gap-2">
               <div>
-                <p className="font-medium text-slate-800 text-sm">{s.feeders?.name ?? "—"}</p>
-                <p className="text-xs text-slate-400">{s.feeders?.sector} · {s.feeders?.feeder_code}</p>
+                <p className="font-medium text-slate-800 dark:text-foreground text-sm">{s.feeders?.name ?? "—"}</p>
+                <p className="text-xs text-slate-400 dark:text-muted-foreground">{s.feeders?.sector} · {s.feeders?.feeder_code}</p>
               </div>
               {s.is_active ? <LiveBadge /> : <TypeBadge type={s.type} />}
             </div>
@@ -98,13 +98,13 @@ export function ScheduleTable({ sector }) {
               durationHours={s.duration_hours}
             />
             {s.notes && (
-              <p className="text-xs text-slate-400 italic">{s.notes}</p>
+              <p className="text-xs text-slate-400 dark:text-muted-foreground italic">{s.notes}</p>
             )}
           </div>
         ))}
       </div>
 
-      <p className="text-xs text-slate-400 pt-2">
+      <p className="text-xs text-slate-400 dark:text-muted-foreground pt-2">
         {t("schedule.outageCount", { count: schedules.length })}{sector ? ` — ${sector}` : ""}{" · "}{t("schedule.autoRefresh")}
       </p>
     </div>

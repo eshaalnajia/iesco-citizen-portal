@@ -13,7 +13,7 @@ export function EnergyAuditForm({ values, onChange, errors = {} }) {
       <CitizenInfoFields values={values} onChange={onChange} errors={errors} />
 
       <div className="space-y-4">
-        <h3 className="text-sm font-semibold text-slate-700 uppercase tracking-wide">
+        <h3 className="text-sm font-semibold text-slate-700 dark:text-foreground uppercase tracking-wide">
           Audit information
         </h3>
 
@@ -52,7 +52,7 @@ export function EnergyAuditForm({ values, onChange, errors = {} }) {
           <div className="space-y-1.5">
             <Label htmlFor="sqft">
               Property size (sq ft){" "}
-              <span className="text-slate-400 font-normal">(optional)</span>
+              <span className="text-slate-400 dark:text-muted-foreground font-normal">(optional)</span>
             </Label>
             <Input
               id="sqft"
@@ -66,7 +66,7 @@ export function EnergyAuditForm({ values, onChange, errors = {} }) {
           <div className="space-y-1.5 sm:col-span-2">
             <Label htmlFor="appliances">
               Major appliances{" "}
-              <span className="text-slate-400 font-normal">(optional)</span>
+              <span className="text-slate-400 dark:text-muted-foreground font-normal">(optional)</span>
             </Label>
             <Input
               id="appliances"
@@ -74,7 +74,7 @@ export function EnergyAuditForm({ values, onChange, errors = {} }) {
               value={values.major_appliances_text || ""}
               onChange={(e) => onChange("major_appliances_text", e.target.value)}
             />
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-slate-400 dark:text-muted-foreground">
               List the main appliances in your home or office
             </p>
           </div>

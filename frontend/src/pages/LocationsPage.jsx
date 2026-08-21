@@ -29,10 +29,10 @@ export default function LocationsPage() {
     <div className="space-y-6 max-w-3xl mx-auto">
 
       <div>
-        <h1 className="text-2xl font-bold text-slate-900">
+        <h1 className="text-2xl font-bold text-slate-900 dark:text-foreground">
           {t("locations.title", "Location Directory")}
         </h1>
-        <p className="text-slate-500 mt-1 text-sm">
+        <p className="text-slate-500 dark:text-muted-foreground mt-1 text-sm">
           {t("locations.subtitle")}
         </p>
       </div>
@@ -63,10 +63,10 @@ export default function LocationsPage() {
 
         <TabsContent value="nearest" className="mt-4">
           <div className="space-y-2 mb-4">
-            <p className="text-sm text-slate-600">
+            <p className="text-sm text-slate-600 dark:text-muted-foreground">
               {t("locations.findNearest")}
             </p>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-slate-400 dark:text-muted-foreground">
             {t("locations.locationDenied")}
             </p>
           </div>

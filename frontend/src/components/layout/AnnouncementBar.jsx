@@ -88,8 +88,8 @@ export function AnnouncementBar() {
                 onClick={() => setCurrentIdx(i)}
                 className={`w-1.5 h-1.5 rounded-full transition-all
                   ${i === currentIdx % active.length
-                    ? "bg-white"
-                    : "bg-white/40"
+                    ? "bg-white dark:bg-card"
+                    : "bg-white dark:bg-card/40"
                   }`}
               />
             ))}
@@ -97,7 +97,7 @@ export function AnnouncementBar() {
         )}
 
         <button onClick={handleDismiss}
-          className="flex-shrink-0 p-0.5 hover:bg-white/20 rounded transition-colors"
+          className="flex-shrink-0 p-0.5 hover:bg-white dark:bg-card/20 rounded transition-colors"
           aria-label="Dismiss announcement">
           <X className="h-3.5 w-3.5" />
         </button>

@@ -77,7 +77,7 @@ export default function AdminLoginPage() {
 
         {/* Back to portal link */}
         <Link to="/"
-          className="flex items-center gap-1.5 text-slate-400 hover:text-white
+          className="flex items-center gap-1.5 text-slate-400 dark:text-muted-foreground hover:text-white
                      transition-colors text-sm w-fit">
           <ArrowLeft className="h-3.5 w-3.5" />
           Back to citizen portal
@@ -91,7 +91,7 @@ export default function AdminLoginPage() {
           </div>
           <div>
             <h1 className="text-2xl font-bold text-white">SmartGrid+ Admin Portal</h1>
-            <p className="text-slate-400 text-sm mt-1">
+            <p className="text-slate-400 dark:text-muted-foreground text-sm mt-1">
               Authorised SmartGrid+ staff only
             </p>
           </div>
@@ -108,7 +108,7 @@ export default function AdminLoginPage() {
         </div>
 
         {/* Form card */}
-        <div className="bg-white/5 border border-white/10 rounded-2xl p-6
+        <div className="bg-white dark:bg-card/5 border border-white/10 rounded-2xl p-6
                         backdrop-blur-sm space-y-5">
 
           {error && (
@@ -123,7 +123,7 @@ export default function AdminLoginPage() {
                 Work email address
               </Label>
               <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500" />
+                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500 dark:text-muted-foreground" />
                 <Input
                   id="admin-email"
                   type="email"
@@ -133,8 +133,8 @@ export default function AdminLoginPage() {
                   onChange={e => setEmail(e.target.value)}
                   required
                   disabled={loading}
-                  className="pl-9 bg-white/5 border-white/10 text-white
-                             placeholder:text-slate-500
+                  className="pl-9 bg-white dark:bg-card/5 border-white/10 text-white
+                             placeholder:text-slate-500 dark:text-muted-foreground
                              focus:border-iesco-teal/50 focus:ring-iesco-teal/20"
                 />
               </div>
@@ -145,7 +145,7 @@ export default function AdminLoginPage() {
                 Password
               </Label>
               <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500" />
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-500 dark:text-muted-foreground" />
                 <Input
                   id="admin-password"
                   type={showPw ? "text" : "password"}
@@ -155,15 +155,15 @@ export default function AdminLoginPage() {
                   onChange={e => setPassword(e.target.value)}
                   required
                   disabled={loading}
-                  className="pl-9 pr-9 bg-white/5 border-white/10 text-white
-                             placeholder:text-slate-500
+                  className="pl-9 pr-9 bg-white dark:bg-card/5 border-white/10 text-white
+                             placeholder:text-slate-500 dark:text-muted-foreground
                              focus:border-iesco-teal/50 focus:ring-iesco-teal/20"
                 />
                 <button
                   type="button"
                   onClick={() => setShowPw(v => !v)}
                   className="absolute right-3 top-1/2 -translate-y-1/2
-                             text-slate-500 hover:text-slate-300 transition-colors">
+                             text-slate-500 dark:text-muted-foreground hover:text-slate-300 transition-colors">
                   {showPw ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                 </button>
               </div>
@@ -184,10 +184,10 @@ export default function AdminLoginPage() {
 
         {/* Footer */}
         <div className="text-center space-y-1">
-          <p className="text-slate-600 text-xs">
+          <p className="text-slate-600 dark:text-muted-foreground text-xs">
             SmartGrid+ Citizen Portal — Admin Access
           </p>
-          <p className="text-slate-700 text-xs">
+          <p className="text-slate-700 dark:text-foreground text-xs">
             Not an admin?{" "}
             <Link to="/login" className="text-iesco-teal hover:underline">
               Go to citizen portal

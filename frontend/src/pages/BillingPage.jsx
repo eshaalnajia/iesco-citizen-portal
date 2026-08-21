@@ -28,13 +28,13 @@ function BillSummaryCard({ bill }) {
     <div className={`rounded-xl border-2 p-5 space-y-4
                      ${isPaid    ? "border-green-200 bg-green-50"  :
                        isOverdue ? "border-red-200   bg-red-50"    :
-                       "border-slate-200 bg-white"}`}>
+                       "border-slate-200 bg-white dark:bg-card"}`}>
 
       <div className="flex items-start justify-between">
         <div>
-          <p className="text-xs text-slate-400 font-mono">{bill.reference_number}</p>
-          <p className="font-bold text-slate-900 mt-0.5">{bill.consumer_name}</p>
-          <p className="text-xs text-slate-500">{bill.consumer_address}</p>
+          <p className="text-xs text-slate-400 dark:text-muted-foreground font-mono">{bill.reference_number}</p>
+          <p className="font-bold text-slate-900 dark:text-foreground mt-0.5">{bill.consumer_name}</p>
+          <p className="text-xs text-slate-500 dark:text-muted-foreground">{bill.consumer_address}</p>
         </div>
         {isPaid && <CheckCircle className="h-6 w-6 text-green-500 flex-shrink-0" />}
         {isOverdue && !isPaid && <AlertTriangle className="h-6 w-6 text-red-500 flex-shrink-0" />}
@@ -53,15 +53,15 @@ function BillSummaryCard({ bill }) {
           { label: t("billing.status.unpaid"),  value: isPaid ? t("billing.status.paid") : isOverdue ? t("billing.status.overdue") : t("billing.status.unpaid") },
         ].map(({ label, value }) => (
           <div key={label}>
-            <p className="text-xs text-slate-400">{label}</p>
-            <p className="font-medium text-slate-800">{value}</p>
+            <p className="text-xs text-slate-400 dark:text-muted-foreground">{label}</p>
+            <p className="font-medium text-slate-800 dark:text-foreground">{value}</p>
           </div>
         ))}
       </div>
 
       <div className="border-t border-slate-200 pt-3 flex justify-between items-baseline">
-        <span className="text-sm text-slate-500">{t("billing.totalPayable")}</span>
-        <span className="text-2xl font-bold text-slate-900">
+        <span className="text-sm text-slate-500 dark:text-muted-foreground">{t("billing.totalPayable")}</span>
+        <span className="text-2xl font-bold text-slate-900 dark:text-foreground">
           {formatPKR(bill.total_payable)}
         </span>
       </div>
@@ -105,8 +105,8 @@ export default function BillingPage() {
     <div className="space-y-6 max-w-2xl mx-auto">
 
       <div>
-        <h1 className="text-2xl font-bold text-slate-900">{t("billing.title")}</h1>
-        <p className="text-slate-500 mt-1 text-sm">
+        <h1 className="text-2xl font-bold text-slate-900 dark:text-foreground">{t("billing.title")}</h1>
+        <p className="text-slate-500 dark:text-muted-foreground mt-1 text-sm">
           {t("billing.subtitle")}
         </p>
       </div>
@@ -161,7 +161,7 @@ export default function BillingPage() {
           {bill.payment_status !== "paid" && (
             <div className="space-y-4">
               <div className="space-y-2">
-                <Label className="text-sm font-semibold text-slate-700">
+                <Label className="text-sm font-semibold text-slate-700 dark:text-foreground">
                   {t("billing.payWith")}
                 </Label>
                 <PaymentMethodSelector

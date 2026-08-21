@@ -12,7 +12,7 @@ export function MeterChangeForm({ values, onChange, errors = {} }) {
       <CitizenInfoFields values={values} onChange={onChange} errors={errors} />
 
       <div className="space-y-4">
-        <h3 className="text-sm font-semibold text-slate-700 uppercase tracking-wide">
+        <h3 className="text-sm font-semibold text-slate-700 dark:text-foreground uppercase tracking-wide">
           Meter details
         </h3>
 
@@ -66,7 +66,7 @@ export function MeterChangeForm({ values, onChange, errors = {} }) {
           <div className="space-y-1.5">
             <Label htmlFor="reading">
               Current meter reading{" "}
-              <span className="text-slate-400 font-normal">(if readable)</span>
+              <span className="text-slate-400 dark:text-muted-foreground font-normal">(if readable)</span>
             </Label>
             <Input
               id="reading"

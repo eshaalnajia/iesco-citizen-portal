@@ -29,14 +29,14 @@ export function MapControls({
   return (
     <>
       {!loading && feederCount > 0 && (
-        <div className="absolute top-4 right-14 z-10 flex items-center gap-1.5 bg-white/90 backdrop-blur-sm border border-slate-200 rounded-full px-2.5 py-1 text-xs text-slate-500 shadow-sm">
+        <div className="absolute top-4 right-14 z-10 flex items-center gap-1.5 bg-white dark:bg-card/90 backdrop-blur-sm border border-slate-200 rounded-full px-2.5 py-1 text-xs text-slate-500 dark:text-muted-foreground shadow-sm">
           <span className="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse" />
           {feederCount} feeders - live
         </div>
       )}
 
       {loading && (
-        <div className="absolute top-4 right-14 z-10 flex items-center gap-1.5 bg-white/90 backdrop-blur-sm border border-slate-200 rounded-full px-2.5 py-1 text-xs text-slate-500 shadow-sm">
+        <div className="absolute top-4 right-14 z-10 flex items-center gap-1.5 bg-white dark:bg-card/90 backdrop-blur-sm border border-slate-200 rounded-full px-2.5 py-1 text-xs text-slate-500 dark:text-muted-foreground shadow-sm">
           <Loader2 className="h-3 w-3 animate-spin" />
           Loading map data...
         </div>
@@ -48,20 +48,20 @@ export function MapControls({
           size="icon"
           variant="secondary"
           onClick={handleGPS}
-          className="h-9 w-9 bg-white shadow-md border border-slate-200 hover:bg-slate-50"
+          className="h-9 w-9 bg-white dark:bg-card shadow-md border border-slate-200 hover:bg-slate-50"
           title="Centre on my location"
         >
-          <Locate className="h-4 w-4 text-slate-600" />
+          <Locate className="h-4 w-4 text-slate-600 dark:text-muted-foreground" />
         </Button>
 
         <Button
           size="icon"
           variant="secondary"
           onClick={onToggleStyle}
-          className="h-9 w-9 bg-white shadow-md border border-slate-200 hover:bg-slate-50"
+          className="h-9 w-9 bg-white dark:bg-card shadow-md border border-slate-200 hover:bg-slate-50"
           title={style === "streets" ? "Satellite view" : "Streets view"}
         >
-          <Layers className="h-4 w-4 text-slate-600" />
+          <Layers className="h-4 w-4 text-slate-600 dark:text-muted-foreground" />
         </Button>
 
         <Button
@@ -72,11 +72,11 @@ export function MapControls({
             "h-9 w-9 shadow-md border transition-colors",
             heatmap
               ? "bg-iesco-navy border-iesco-navy text-white hover:bg-iesco-navy/90"
-              : "bg-white border-slate-200 hover:bg-slate-50"
+              : "bg-white dark:bg-card border-slate-200 hover:bg-slate-50"
           )}
           title={heatmap ? "Hide reliability heatmap" : "Show reliability heatmap"}
         >
-          <Map className={cn("h-4 w-4", heatmap ? "text-white" : "text-slate-600")} />
+          <Map className={cn("h-4 w-4", heatmap ? "text-white" : "text-slate-600 dark:text-muted-foreground")} />
         </Button>
 
       </div>

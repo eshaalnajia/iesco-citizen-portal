@@ -60,7 +60,7 @@ export function RatingDisplay({ rating, totalReviews, label, size = "sm" }) {
 
   if (!rating || !totalReviews) {
     return (
-      <span className="text-xs text-slate-400">{t("services.noRatings", "No ratings yet")}</span>
+      <span className="text-xs text-slate-400 dark:text-muted-foreground">{t("services.noRatings", "No ratings yet")}</span>
     )
   }
 
@@ -74,12 +74,12 @@ export function RatingDisplay({ rating, totalReviews, label, size = "sm" }) {
         {Number(rating).toFixed(1)}
       </span>
       {totalReviews && (
-        <span className="text-xs text-slate-400">
+        <span className="text-xs text-slate-400 dark:text-muted-foreground">
           ({t("services.reviews", `${totalReviews} ${totalReviews === 1 ? "review" : "reviews"}`, { count: totalReviews })})
         </span>
       )}
       {label && (
-        <span className="text-xs text-slate-500 hidden sm:inline">
+        <span className="text-xs text-slate-500 dark:text-muted-foreground hidden sm:inline">
           - {translatedLabel}
         </span>
       )}

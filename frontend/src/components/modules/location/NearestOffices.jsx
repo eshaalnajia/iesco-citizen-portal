@@ -67,7 +67,7 @@ export function NearestOffices() {
         </Button>
 
         {coords && !isLoading && (
-          <p className="text-xs text-slate-400">
+          <p className="text-xs text-slate-400 dark:text-muted-foreground">
             Showing nearest 3 offices to your location
           </p>
         )}

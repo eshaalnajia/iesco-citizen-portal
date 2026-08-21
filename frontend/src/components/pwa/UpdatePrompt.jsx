@@ -13,7 +13,7 @@ export function UpdatePrompt() {
 
   return (
     <div className="fixed bottom-4 left-4 right-4 sm:left-auto sm:w-80 z-50
-                    bg-white rounded-xl shadow-2xl border border-slate-200 p-4
+                    bg-white dark:bg-card rounded-xl shadow-2xl border border-slate-200 p-4
                     animate-in slide-in-from-bottom duration-300">
       <div className="flex items-start gap-3">
         <div className="w-9 h-9 rounded-full bg-iesco-teal/10 flex
@@ -21,16 +21,16 @@ export function UpdatePrompt() {
           <RefreshCw className="h-4 w-4 text-iesco-teal" />
         </div>
         <div className="flex-1 min-w-0">
-          <p className="font-medium text-sm text-slate-900">
+          <p className="font-medium text-sm text-slate-900 dark:text-foreground">
             {t("pwa.newVersion")}
           </p>
-          <p className="text-xs text-slate-500 mt-0.5">
+          <p className="text-xs text-slate-500 dark:text-muted-foreground mt-0.5">
             {t("pwa.newVersionDetail")}
           </p>
         </div>
         <button
           onClick={() => setDismissed(true)}
-          className="text-slate-400 hover:text-slate-600 flex-shrink-0"
+          className="text-slate-400 dark:text-muted-foreground hover:text-slate-600 dark:text-muted-foreground flex-shrink-0"
         >
           <X className="h-4 w-4" />
         </button>

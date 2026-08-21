@@ -23,7 +23,7 @@ const SECTORS = [
 export function SectorFilter({ value, onChange }) {
   return (
     <div className="flex items-center gap-2">
-      <MapPin className="h-4 w-4 text-slate-400 flex-shrink-0" />
+      <MapPin className="h-4 w-4 text-slate-400 dark:text-muted-foreground flex-shrink-0" />
       <Select
         value={value ?? "all"}
         onValueChange={(v) => onChange(v === "all" ? null : v)}

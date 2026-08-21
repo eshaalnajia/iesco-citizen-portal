@@ -25,7 +25,7 @@ function LocationContact({ feederId }) {
   return (
     <div className="space-y-1">
       {locData.office_name && (
-        <p className="text-xs text-slate-500">{locData.office_name}</p>
+        <p className="text-xs text-slate-500 dark:text-muted-foreground">{locData.office_name}</p>
       )}
       {locData.complaint_phone && (
         <a
@@ -34,7 +34,7 @@ function LocationContact({ feederId }) {
         >
           <Phone className="h-3 w-3" />
           {locData.complaint_phone}
-          <span className="font-sans text-slate-400">(complaints)</span>
+          <span className="font-sans text-slate-400 dark:text-muted-foreground">(complaints)</span>
         </a>
       )}
     </div>
@@ -50,8 +50,8 @@ function ReliabilityBar({ score }) {
   return (
     <div className="space-y-1">
       <div className="flex justify-between text-xs">
-        <span className="text-slate-500">Reliability</span>
-        <span className="font-medium text-slate-700">{score ?? "-"}/100</span>
+        <span className="text-slate-500 dark:text-muted-foreground">Reliability</span>
+        <span className="font-medium text-slate-700 dark:text-foreground">{score ?? "-"}/100</span>
       </div>
       <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden">
         <div
@@ -84,26 +84,26 @@ export function MapFeederPopup({
 
   return (
     <div
-      className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 bg-white rounded-2xl shadow-2xl border border-slate-200 w-80 overflow-hidden"
+      className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 bg-white dark:bg-card rounded-2xl shadow-2xl border border-slate-200 w-80 overflow-hidden"
       style={{ maxHeight: "calc(100vh - 12rem)" }}
     >
       <div className="px-4 pt-4 pb-3 border-b border-slate-100">
         <div className="flex items-start justify-between gap-2">
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-1.5 mb-1">
-              <span className="text-xs text-slate-400 font-mono">
+              <span className="text-xs text-slate-400 dark:text-muted-foreground font-mono">
                 {feeder.feeder_code}
               </span>
               <span className="text-xs text-slate-300">·</span>
-              <span className="text-xs text-slate-400">{feeder.sector}</span>
+              <span className="text-xs text-slate-400 dark:text-muted-foreground">{feeder.sector}</span>
             </div>
-            <h3 className="font-bold text-slate-900 text-base leading-tight">
+            <h3 className="font-bold text-slate-900 dark:text-foreground text-base leading-tight">
               {feeder.name}
             </h3>
           </div>
           <button
             onClick={onClose}
-            className="flex-shrink-0 p-1 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition"
+            className="flex-shrink-0 p-1 text-slate-400 dark:text-muted-foreground hover:text-slate-600 dark:text-muted-foreground hover:bg-slate-100 rounded-lg transition"
             aria-label="Close"
           >
             <X className="h-4 w-4" />
@@ -112,7 +112,7 @@ export function MapFeederPopup({
 
         <div className="mt-2 flex items-center justify-between">
           <FeederStatusPill status={feeder.status} />
-          <span className="text-xs text-slate-400">
+          <span className="text-xs text-slate-400 dark:text-muted-foreground">
             Updated {formatRelative(feeder.last_updated)}
           </span>
         </div>
@@ -127,8 +127,8 @@ export function MapFeederPopup({
 
         <div className="space-y-1.5">
           <div className="flex items-center gap-1.5">
-            <Calendar className="h-3.5 w-3.5 text-slate-400" />
-            <span className="text-xs font-semibold text-slate-600 uppercase tracking-wide">
+            <Calendar className="h-3.5 w-3.5 text-slate-400 dark:text-muted-foreground" />
+            <span className="text-xs font-semibold text-slate-600 dark:text-muted-foreground uppercase tracking-wide">
               Today's schedule
             </span>
           </div>
@@ -140,10 +140,10 @@ export function MapFeederPopup({
                 {s.is_active && (
                   <span className="w-1.5 h-1.5 rounded-full bg-red-500 animate-pulse flex-shrink-0" />
                 )}
-                <span className="text-xs font-mono text-slate-600">
+                <span className="text-xs font-mono text-slate-600 dark:text-muted-foreground">
                   {s.start_time} - {s.end_time}
                 </span>
-                <span className="text-xs text-slate-400">
+                <span className="text-xs text-slate-400 dark:text-muted-foreground">
                   ({s.duration_hours}h)
                 </span>
               </div>
@@ -153,8 +153,8 @@ export function MapFeederPopup({
 
         <div className="space-y-1.5">
           <div className="flex items-center gap-1.5">
-            <Phone className="h-3.5 w-3.5 text-slate-400" />
-            <span className="text-xs font-semibold text-slate-600 uppercase tracking-wide">
+            <Phone className="h-3.5 w-3.5 text-slate-400 dark:text-muted-foreground" />
+            <span className="text-xs font-semibold text-slate-600 dark:text-muted-foreground uppercase tracking-wide">
               IESCO contact
             </span>
           </div>

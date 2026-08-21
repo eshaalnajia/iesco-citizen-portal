@@ -32,18 +32,18 @@ const STATUS_OPTIONS = [
   { value: "load_shedding", label: "Load shedding", color: "bg-orange-100 text-orange-700 border-orange-200" },
   { value: "fault",         label: "Fault",         color: "bg-red-100 text-red-700 border-red-200" },
   { value: "maintenance",   label: "Maintenance",   color: "bg-blue-100 text-blue-700 border-blue-200" },
-  { value: "no_data",       label: "No data",       color: "bg-slate-100 text-slate-600 border-slate-200" },
+  { value: "no_data",       label: "No data",       color: "bg-slate-100 text-slate-600 dark:text-muted-foreground border-slate-200" },
 ]
 
 const REQUEST_STATUS_OPTIONS = [
-  { value: "pending",               label: "Pending",              color: "bg-slate-100 text-slate-600 border-slate-200" },
+  { value: "pending",               label: "Pending",              color: "bg-slate-100 text-slate-600 dark:text-muted-foreground border-slate-200" },
   { value: "in_review",             label: "In Review",            color: "bg-blue-100 text-blue-700 border-blue-200" },
   { value: "approved",              label: "Approved",             color: "bg-teal-100 text-teal-700 border-teal-200" },
   { value: "awaiting_confirmation", label: "Awaiting Confirmation",color: "bg-amber-100 text-amber-700 border-amber-200" },
   { value: "completed",             label: "Completed",            color: "bg-green-100 text-green-700 border-green-200" },
   { value: "presumed_completed",    label: "Presumed Completed",   color: "bg-lime-100 text-lime-700 border-lime-200" },
   { value: "rejected",              label: "Rejected",             color: "bg-red-100 text-red-700 border-red-200" },
-  { value: "cancelled",             label: "Cancelled",            color: "bg-slate-100 text-slate-500 border-slate-200" },
+  { value: "cancelled",             label: "Cancelled",            color: "bg-slate-100 text-slate-500 dark:text-muted-foreground border-slate-200" },
 ]
 
 const REQUEST_TYPE_LABELS = {
@@ -82,18 +82,18 @@ function daysAgo(dateStr) {
 
 function Table({ headers, children, empty }) {
   return (
-    <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
+    <div className="overflow-x-auto rounded-xl border border-slate-200 bg-white dark:bg-card shadow-sm">
       <table className="w-full text-sm">
         <thead className="bg-slate-50/80 border-b border-slate-200">
           <tr>
             {headers.map(h => (
-              <th key={h} className="text-left text-xs font-semibold text-slate-500 uppercase tracking-wide py-3 px-4 whitespace-nowrap">{h}</th>
+              <th key={h} className="text-left text-xs font-semibold text-slate-500 dark:text-muted-foreground uppercase tracking-wide py-3 px-4 whitespace-nowrap">{h}</th>
             ))}
           </tr>
         </thead>
         <tbody className="divide-y divide-slate-100">{children}</tbody>
       </table>
-      {empty && <div className="text-center py-12 text-slate-400 text-sm">{empty}</div>}
+      {empty && <div className="text-center py-12 text-slate-400 dark:text-muted-foreground text-sm">{empty}</div>}
     </div>
   )
 }
@@ -122,20 +122,20 @@ function DashboardHome() {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-bold text-slate-900">Dashboard</h2>
-        <p className="text-slate-500 text-sm mt-1">Signed in as {user?.email}</p>
+        <h2 className="text-2xl font-bold text-slate-900 dark:text-foreground">Dashboard</h2>
+        <p className="text-slate-500 dark:text-muted-foreground text-sm mt-1">Signed in as {user?.email}</p>
       </div>
       <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
         {stats.map(s => {
           const Icon = s.icon
           return (
-            <div key={s.label} className="bg-white border border-slate-200 rounded-xl p-4 md:p-5 space-y-3 hover:shadow-md hover:border-slate-300 transition-all duration-200">
+            <div key={s.label} className="bg-white dark:bg-card border border-slate-200 rounded-xl p-4 md:p-5 space-y-3 hover:shadow-md hover:border-slate-300 transition-all duration-200">
               <div className={`w-10 h-10 ${s.bg} rounded-xl flex items-center justify-center`}>
                 <Icon className={`h-5 w-5 ${s.color}`} />
               </div>
               <div>
-                <p className="text-xl md:text-2xl font-bold text-slate-900">{s.value}</p>
-                <p className="text-xs text-slate-500 mt-0.5">{s.label}</p>
+                <p className="text-xl md:text-2xl font-bold text-slate-900 dark:text-foreground">{s.value}</p>
+                <p className="text-xs text-slate-500 dark:text-muted-foreground mt-0.5">{s.label}</p>
               </div>
             </div>
           )
@@ -143,16 +143,16 @@ function DashboardHome() {
       </div>
       {feeders && (
         <div>
-          <h3 className="text-sm font-semibold text-slate-700 mb-3 uppercase tracking-wide">Feeder Grid Status</h3>
+          <h3 className="text-sm font-semibold text-slate-700 dark:text-foreground mb-3 uppercase tracking-wide">Feeder Grid Status</h3>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
             {feeders.map(f => (
-              <div key={f.id} className="bg-white border border-slate-200 rounded-xl p-3 space-y-2">
+              <div key={f.id} className="bg-white dark:bg-card border border-slate-200 rounded-xl p-3 space-y-2">
                 <div className="flex items-center justify-between flex-wrap gap-3">
-                  <span className="text-xs font-mono text-slate-500">{f.feeder_code}</span>
+                  <span className="text-xs font-mono text-slate-500 dark:text-muted-foreground">{f.feeder_code}</span>
                   <StatusBadge status={f.status} />
                 </div>
-                <p className="text-sm font-medium text-slate-800 truncate">{f.name}</p>
-                <div className="flex justify-between text-xs text-slate-400">
+                <p className="text-sm font-medium text-slate-800 dark:text-foreground truncate">{f.name}</p>
+                <div className="flex justify-between text-xs text-slate-400 dark:text-muted-foreground">
                   <span>Load: {f.load_percent}%</span>
                   <span>Reliability: {f.reliability}%</span>
                 </div>
@@ -167,18 +167,18 @@ function DashboardHome() {
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <div>
-            <h3 className="text-sm font-semibold text-slate-700 mb-3 uppercase tracking-wide">Active Outages</h3>
+            <h3 className="text-sm font-semibold text-slate-700 dark:text-foreground mb-3 uppercase tracking-wide">Active Outages</h3>
             {outageFeeders.length === 0 ? (
-              <div className="bg-white border border-slate-200 rounded-xl p-6 text-center text-sm text-slate-400">
+              <div className="bg-white dark:bg-card border border-slate-200 rounded-xl p-6 text-center text-sm text-slate-400 dark:text-muted-foreground">
                 No active outages right now
               </div>
             ) : (
               <div className="space-y-2">
                 {outageFeeders.map(f => (
-                  <div key={f.id} className="bg-white border border-slate-200 rounded-xl p-3 flex items-center justify-between">
+                  <div key={f.id} className="bg-white dark:bg-card border border-slate-200 rounded-xl p-3 flex items-center justify-between">
                     <div>
-                      <p className="text-sm font-medium text-slate-800">{f.name}</p>
-                      <p className="text-xs text-slate-400">{f.sector} - {f.feeder_code}</p>
+                      <p className="text-sm font-medium text-slate-800 dark:text-foreground">{f.name}</p>
+                      <p className="text-xs text-slate-400 dark:text-muted-foreground">{f.sector} - {f.feeder_code}</p>
                     </div>
                     <StatusBadge status={f.status} />
                   </div>
@@ -188,18 +188,18 @@ function DashboardHome() {
           </div>
 
           <div>
-            <h3 className="text-sm font-semibold text-slate-700 mb-3 uppercase tracking-wide">Recent Service Requests</h3>
+            <h3 className="text-sm font-semibold text-slate-700 dark:text-foreground mb-3 uppercase tracking-wide">Recent Service Requests</h3>
             {recentRequests.length === 0 ? (
-              <div className="bg-white border border-slate-200 rounded-xl p-6 text-center text-sm text-slate-400">
+              <div className="bg-white dark:bg-card border border-slate-200 rounded-xl p-6 text-center text-sm text-slate-400 dark:text-muted-foreground">
                 No requests yet
               </div>
             ) : (
               <div className="space-y-2">
                 {recentRequests.map(r => (
-                  <div key={r.id} className="bg-white border border-slate-200 rounded-xl p-3 flex items-center justify-between">
+                  <div key={r.id} className="bg-white dark:bg-card border border-slate-200 rounded-xl p-3 flex items-center justify-between">
                     <div className="min-w-0">
-                      <p className="text-sm font-medium text-slate-800 truncate">{r.full_name}</p>
-                      <p className="text-xs font-mono text-slate-400">{r.ticket_number}</p>
+                      <p className="text-sm font-medium text-slate-800 dark:text-foreground truncate">{r.full_name}</p>
+                      <p className="text-xs font-mono text-slate-400 dark:text-muted-foreground">{r.ticket_number}</p>
                     </div>
                     <RequestStatusBadge status={r.status} />
                   </div>
@@ -237,13 +237,13 @@ function FeedersPanel() {
     }
     setEditingReliability(null)
   }
-  if (isLoading) return <div className="py-12 text-center text-slate-400">Loading feeders...</div>
+  if (isLoading) return <div className="py-12 text-center text-slate-400 dark:text-muted-foreground">Loading feeders...</div>
   return (
     <div className="space-y-4">
       <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
-          <h2 className="text-xl font-bold text-slate-900">Manage Feeders</h2>
-          <p className="text-sm text-slate-500">{feeders?.length} feeders</p>
+          <h2 className="text-xl font-bold text-slate-900 dark:text-foreground">Manage Feeders</h2>
+          <p className="text-sm text-slate-500 dark:text-muted-foreground">{feeders?.length} feeders</p>
         </div>
         <Button variant="outline" size="sm" onClick={() => qc.invalidateQueries({ queryKey: ["admin-feeders-panel"] })}>
           <RefreshCw className="h-4 w-4 mr-1.5" /> Refresh
@@ -253,17 +253,17 @@ function FeedersPanel() {
         {feeders?.map(f => (
           <tr key={f.id} className="hover:bg-slate-50 transition-colors">
             <td className="py-3 px-4">
-              <p className="font-medium text-slate-800">{f.name}</p>
-              <p className="text-xs font-mono text-slate-400">{f.feeder_code}</p>
+              <p className="font-medium text-slate-800 dark:text-foreground">{f.name}</p>
+              <p className="text-xs font-mono text-slate-400 dark:text-muted-foreground">{f.feeder_code}</p>
             </td>
-            <td className="py-3 px-4 text-sm text-slate-600">{f.sector}</td>
+            <td className="py-3 px-4 text-sm text-slate-600 dark:text-muted-foreground">{f.sector}</td>
             <td className="py-3 px-4"><StatusBadge status={f.status} /></td>
             <td className="py-3 px-4">
               <div className="flex items-center gap-2">
                 <div className="w-20 h-1.5 bg-slate-100 rounded-full overflow-hidden">
                   <div className="h-full bg-iesco-teal rounded-full" style={{ width: `${f.load_percent}%` }} />
                 </div>
-                <span className="text-xs text-slate-500">{f.load_percent}%</span>
+                <span className="text-xs text-slate-500 dark:text-muted-foreground">{f.load_percent}%</span>
               </div>
             </td>
             <td className="py-3 px-4">
@@ -285,7 +285,7 @@ function FeedersPanel() {
                   />
                 ) : (
                   <button
-                    className="text-xs text-slate-500 hover:text-iesco-teal hover:underline"
+                    className="text-xs text-slate-500 dark:text-muted-foreground hover:text-iesco-teal hover:underline"
                     onClick={() => startEditReliability(f)}
                   >
                     {f.reliability}%
@@ -344,22 +344,22 @@ function SchedulesPanel() {
     <div className="space-y-4">
       <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
-          <h2 className="text-xl font-bold text-slate-900">Load Shedding Schedules</h2>
-          <p className="text-sm text-slate-500">{rows.length} entries in the next 14 days</p>
+          <h2 className="text-xl font-bold text-slate-900 dark:text-foreground">Load Shedding Schedules</h2>
+          <p className="text-sm text-slate-500 dark:text-muted-foreground">{rows.length} entries in the next 14 days</p>
         </div>
         <Button size="sm" onClick={() => setShowForm(true)}><Plus className="h-4 w-4 mr-1.5" /> Add Schedule</Button>
       </div>
-      {isLoading ? <div className="py-12 text-center text-slate-400">Loading...</div> : (
+      {isLoading ? <div className="py-12 text-center text-slate-400 dark:text-muted-foreground">Loading...</div> : (
         <Table headers={["Feeder", "Date", "Time", "Duration", "Type", "Actions"]} empty={rows.length === 0 ? "No schedules found" : null}>
           {rows.map(s => (
             <tr key={s.id} className="hover:bg-slate-50">
               <td className="py-3 px-4">
-                <p className="font-medium text-sm text-slate-800">{s.feeders?.name ?? s.feeder_id}</p>
-                <p className="text-xs text-slate-400">{s.feeders?.sector}</p>
+                <p className="font-medium text-sm text-slate-800 dark:text-foreground">{s.feeders?.name ?? s.feeder_id}</p>
+                <p className="text-xs text-slate-400 dark:text-muted-foreground">{s.feeders?.sector}</p>
               </td>
-              <td className="py-3 px-4 text-sm text-slate-700">{s.schedule_date}</td>
-              <td className="py-3 px-4 text-sm font-mono text-slate-700">{s.start_time} - {s.end_time}</td>
-              <td className="py-3 px-4 text-sm text-slate-600">{s.duration_hours}h</td>
+              <td className="py-3 px-4 text-sm text-slate-700 dark:text-foreground">{s.schedule_date}</td>
+              <td className="py-3 px-4 text-sm font-mono text-slate-700 dark:text-foreground">{s.start_time} - {s.end_time}</td>
+              <td className="py-3 px-4 text-sm text-slate-600 dark:text-muted-foreground">{s.duration_hours}h</td>
               <td className="py-3 px-4">
                 <span className={`text-xs font-medium px-2 py-0.5 rounded-full border ${s.type === "scheduled" ? "bg-blue-50 text-blue-700 border-blue-200" : s.type === "maintenance" ? "bg-purple-50 text-purple-700 border-purple-200" : "bg-red-50 text-red-700 border-red-200"}`}>
                   {s.type}
@@ -447,8 +447,8 @@ function TariffsPanel() {
     <div className="space-y-4">
       <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
-          <h2 className="text-xl font-bold text-slate-900">Tariff Rates</h2>
-          <p className="text-sm text-slate-500">Current NEPRA rates effective {slabs[0]?.effective_from ?? "-"}</p>
+          <h2 className="text-xl font-bold text-slate-900 dark:text-foreground">Tariff Rates</h2>
+          <p className="text-sm text-slate-500 dark:text-muted-foreground">Current NEPRA rates effective {slabs[0]?.effective_from ?? "-"}</p>
         </div>
         <div className="flex gap-2">
           <Select value={consumerType} onValueChange={setConsumerType}>
@@ -463,16 +463,16 @@ function TariffsPanel() {
           <Button size="sm" onClick={() => setShowRevision(true)}><Plus className="h-4 w-4 mr-1.5" /> New Revision</Button>
         </div>
       </div>
-      {isLoading ? <div className="py-12 text-center text-slate-400">Loading tariffs...</div> : (
+      {isLoading ? <div className="py-12 text-center text-slate-400 dark:text-muted-foreground">Loading tariffs...</div> : (
         <Table headers={["Unit Range", "Peak Rate (PKR/unit)", "Off-peak Rate", "Fixed Charge", "FC Surcharge", "TR Surcharge"]}>
           {slabs.map(s => (
             <tr key={s.id} className="hover:bg-slate-50">
-              <td className="py-3 px-4 font-medium text-slate-800">{s.units_to ? `${s.units_from}-${s.units_to} units` : `${s.units_from}+ units`}</td>
-              <td className="py-3 px-4 font-mono text-slate-700">PKR {Number(s.peak_rate).toFixed(2)}</td>
-              <td className="py-3 px-4 font-mono text-slate-700">PKR {Number(s.offpeak_rate).toFixed(2)}</td>
-              <td className="py-3 px-4 font-mono text-slate-700">PKR {Number(s.fixed_charge).toFixed(0)}</td>
-              <td className="py-3 px-4 font-mono text-slate-500">{s.fc_surcharge}</td>
-              <td className="py-3 px-4 font-mono text-slate-500">{s.tr_surcharge}</td>
+              <td className="py-3 px-4 font-medium text-slate-800 dark:text-foreground">{s.units_to ? `${s.units_from}-${s.units_to} units` : `${s.units_from}+ units`}</td>
+              <td className="py-3 px-4 font-mono text-slate-700 dark:text-foreground">PKR {Number(s.peak_rate).toFixed(2)}</td>
+              <td className="py-3 px-4 font-mono text-slate-700 dark:text-foreground">PKR {Number(s.offpeak_rate).toFixed(2)}</td>
+              <td className="py-3 px-4 font-mono text-slate-700 dark:text-foreground">PKR {Number(s.fixed_charge).toFixed(0)}</td>
+              <td className="py-3 px-4 font-mono text-slate-500 dark:text-muted-foreground">{s.fc_surcharge}</td>
+              <td className="py-3 px-4 font-mono text-slate-500 dark:text-muted-foreground">{s.tr_surcharge}</td>
             </tr>
           ))}
         </Table>
@@ -484,7 +484,7 @@ function TariffsPanel() {
             <DialogDescription>Use the API docs to submit a full NEPRA rate revision.</DialogDescription>
           </DialogHeader>
           <div className="space-y-3 pt-2">
-            <p className="text-sm text-slate-600">Use the <code className="mx-1 px-1.5 py-0.5 bg-slate-100 rounded text-xs">POST /tariffs/revision</code> endpoint in the API docs.</p>
+            <p className="text-sm text-slate-600 dark:text-muted-foreground">Use the <code className="mx-1 px-1.5 py-0.5 bg-slate-100 rounded text-xs">POST /tariffs/revision</code> endpoint in the API docs.</p>
             <Button asChild className="w-full">
               <a href="http://localhost:8000/docs#/Tariffs/create_revision_tariffs_revision_post" target="_blank" rel="noopener noreferrer">Open API Docs</a>
             </Button>
@@ -565,8 +565,8 @@ function RequestsPanel() {
     <div className="space-y-4">
       <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
-          <h2 className="text-xl font-bold text-slate-900">Service Requests</h2>
-          <p className="text-sm text-slate-500">{activeCount} active - {completedCount} recently resolved</p>
+          <h2 className="text-xl font-bold text-slate-900 dark:text-foreground">Service Requests</h2>
+          <p className="text-sm text-slate-500 dark:text-muted-foreground">{activeCount} active - {completedCount} recently resolved</p>
         </div>
         <Button variant="outline" size="sm" onClick={() => qc.invalidateQueries({ queryKey: ["admin-requests"] })}>
           <RefreshCw className="h-4 w-4 mr-1.5" /> Refresh
@@ -579,7 +579,7 @@ function RequestsPanel() {
           className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
             tab === "active"
               ? "border-iesco-teal text-iesco-teal"
-              : "border-transparent text-slate-500 hover:text-slate-700"
+              : "border-transparent text-slate-500 dark:text-muted-foreground hover:text-slate-700 dark:text-foreground"
           }`}
         >
           Pending / Active ({activeCount})
@@ -589,7 +589,7 @@ function RequestsPanel() {
           className={`px-4 py-2 text-sm font-medium border-b-2 transition-colors ${
             tab === "completed"
               ? "border-iesco-teal text-iesco-teal"
-              : "border-transparent text-slate-500 hover:text-slate-700"
+              : "border-transparent text-slate-500 dark:text-muted-foreground hover:text-slate-700 dark:text-foreground"
           }`}
         >
           Recently Completed
@@ -615,7 +615,7 @@ function RequestsPanel() {
       </div>
 
       {isLoading ? (
-        <div className="py-12 text-center text-slate-400">Loading...</div>
+        <div className="py-12 text-center text-slate-400 dark:text-muted-foreground">Loading...</div>
       ) : (
         <Table
           headers={["Ticket", "Type", "Citizen", tab === "active" ? "Pending For" : "Resolved", "Status", "Notes", "Change Status"]}
@@ -623,15 +623,15 @@ function RequestsPanel() {
         >
           {rows.map(r => (
             <tr key={r.id} className="hover:bg-slate-50">
-              <td className="py-3 px-4 font-mono text-xs text-slate-600">{r.ticket_number}</td>
-              <td className="py-3 px-4 text-sm text-slate-700">{REQUEST_TYPE_LABELS[r.request_type] ?? r.request_type}</td>
+              <td className="py-3 px-4 font-mono text-xs text-slate-600 dark:text-muted-foreground">{r.ticket_number}</td>
+              <td className="py-3 px-4 text-sm text-slate-700 dark:text-foreground">{REQUEST_TYPE_LABELS[r.request_type] ?? r.request_type}</td>
               <td className="py-3 px-4">
-                <p className="font-medium text-sm text-slate-800">{r.full_name}</p>
-                <p className="text-xs text-slate-400">{r.phone}</p>
+                <p className="font-medium text-sm text-slate-800 dark:text-foreground">{r.full_name}</p>
+                <p className="text-xs text-slate-400 dark:text-muted-foreground">{r.phone}</p>
               </td>
-              <td className="py-3 px-4 text-sm text-slate-600">
+              <td className="py-3 px-4 text-sm text-slate-600 dark:text-muted-foreground">
                 <span className="inline-flex items-center gap-1">
-                  <Clock className="h-3 w-3 text-slate-400" />
+                  <Clock className="h-3 w-3 text-slate-400 dark:text-muted-foreground" />
                   {tab === "active" ? daysAgo(r.created_at) : daysAgo(r.updated_at)}
                 </span>
               </td>
@@ -648,7 +648,7 @@ function RequestsPanel() {
                   />
                 ) : (
                   <button
-                    className="text-xs text-slate-500 hover:text-iesco-teal text-left truncate max-w-48 block"
+                    className="text-xs text-slate-500 dark:text-muted-foreground hover:text-iesco-teal text-left truncate max-w-48 block"
                     onClick={() => startNotes(r)}
                   >
                     {r.admin_notes || "Add note..."}
@@ -709,8 +709,8 @@ function ServicesPanel() {
     <div className="space-y-4">
       <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
-          <h2 className="text-xl font-bold text-slate-900">Service Providers</h2>
-          <p className="text-sm text-slate-500">{providers.length} total · {providers.filter(p => p.is_verified).length} verified</p>
+          <h2 className="text-xl font-bold text-slate-900 dark:text-foreground">Service Providers</h2>
+          <p className="text-sm text-slate-500 dark:text-muted-foreground">{providers.length} total · {providers.filter(p => p.is_verified).length} verified</p>
         </div>
         <div className="flex gap-2">
           <Select value={filter} onValueChange={setFilter}>
@@ -727,19 +727,19 @@ function ServicesPanel() {
           <Button size="sm" onClick={() => setShowAdd(true)}><Plus className="h-4 w-4 mr-1.5" /> Add Provider</Button>
         </div>
       </div>
-      {isLoading ? <div className="py-12 text-center text-slate-400">Loading...</div> : (
+      {isLoading ? <div className="py-12 text-center text-slate-400 dark:text-muted-foreground">Loading...</div> : (
         <Table headers={["Name", "Type", "Area", "Phone", "Rating", "Verified", "Actions"]}>
           {filtered.map(p => (
             <tr key={p.id} className="hover:bg-slate-50">
               <td className="py-3 px-4">
-                <p className="font-medium text-sm text-slate-800">{p.name}</p>
-                {p.license_number && <p className="text-xs font-mono text-slate-400">{p.license_number}</p>}
+                <p className="font-medium text-sm text-slate-800 dark:text-foreground">{p.name}</p>
+                {p.license_number && <p className="text-xs font-mono text-slate-400 dark:text-muted-foreground">{p.license_number}</p>}
               </td>
-              <td className="py-3 px-4 text-xs text-slate-600">{p.provider_type.replace("_", " ")}</td>
-              <td className="py-3 px-4 text-xs text-slate-600 max-w-32 truncate">{p.area}</td>
+              <td className="py-3 px-4 text-xs text-slate-600 dark:text-muted-foreground">{p.provider_type.replace("_", " ")}</td>
+              <td className="py-3 px-4 text-xs text-slate-600 dark:text-muted-foreground max-w-32 truncate">{p.area}</td>
               <td className="py-3 px-4"><a href={`tel:${p.phone}`} className="text-xs font-mono text-blue-600 hover:underline">{p.phone}</a></td>
-              <td className="py-3 px-4 text-sm">{p.total_reviews > 0 ? <span className="text-amber-600 font-medium">★ {Number(p.rating).toFixed(1)}</span> : <span className="text-slate-400">-</span>}</td>
-              <td className="py-3 px-4">{p.is_verified ? <span className="inline-flex items-center gap-1 text-xs text-green-700"><CheckCircle className="h-3.5 w-3.5" /> Verified</span> : <span className="inline-flex items-center gap-1 text-xs text-slate-400"><XCircle className="h-3.5 w-3.5" /> Pending</span>}</td>
+              <td className="py-3 px-4 text-sm">{p.total_reviews > 0 ? <span className="text-amber-600 font-medium">★ {Number(p.rating).toFixed(1)}</span> : <span className="text-slate-400 dark:text-muted-foreground">-</span>}</td>
+              <td className="py-3 px-4">{p.is_verified ? <span className="inline-flex items-center gap-1 text-xs text-green-700"><CheckCircle className="h-3.5 w-3.5" /> Verified</span> : <span className="inline-flex items-center gap-1 text-xs text-slate-400 dark:text-muted-foreground"><XCircle className="h-3.5 w-3.5" /> Pending</span>}</td>
               <td className="py-3 px-4">
                 <div className="flex gap-1">
                   <Button size="sm" variant="ghost" className="h-7 px-2 text-xs" onClick={() => verifyMutation.mutate({ id: p.id, verify: !p.is_verified })}>{p.is_verified ? "Unverify" : "Verify"}</Button>
@@ -804,20 +804,20 @@ function LocationsPanel() {
     <div className="space-y-4">
       <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
-          <h2 className="text-xl font-bold text-slate-900">Location Directory</h2>
-          <p className="text-sm text-slate-500">{locations.length} locations · {Object.entries(byType).map(([k,v]) => `${v} ${AREA_LABELS[k] ?? k}s`).join(", ")}</p>
+          <h2 className="text-xl font-bold text-slate-900 dark:text-foreground">Location Directory</h2>
+          <p className="text-sm text-slate-500 dark:text-muted-foreground">{locations.length} locations · {Object.entries(byType).map(([k,v]) => `${v} ${AREA_LABELS[k] ?? k}s`).join(", ")}</p>
         </div>
       </div>
-      {isLoading ? <div className="py-12 text-center text-slate-400">Loading...</div> : (
+      {isLoading ? <div className="py-12 text-center text-slate-400 dark:text-muted-foreground">Loading...</div> : (
         <Table headers={["Name", "Type", "Office", "Phone", "Complaint Line", "Feeder"]}>
           {locations.map(l => (
             <tr key={l.id} className="hover:bg-slate-50">
-              <td className="py-3 px-4 font-medium text-sm text-slate-800">{l.name}</td>
-              <td className="py-3 px-4"><span className="text-xs bg-slate-100 text-slate-600 px-2 py-0.5 rounded">{AREA_LABELS[l.area_type] ?? l.area_type}</span></td>
-              <td className="py-3 px-4 text-xs text-slate-600">{l.office_name}</td>
+              <td className="py-3 px-4 font-medium text-sm text-slate-800 dark:text-foreground">{l.name}</td>
+              <td className="py-3 px-4"><span className="text-xs bg-slate-100 text-slate-600 dark:text-muted-foreground px-2 py-0.5 rounded">{AREA_LABELS[l.area_type] ?? l.area_type}</span></td>
+              <td className="py-3 px-4 text-xs text-slate-600 dark:text-muted-foreground">{l.office_name}</td>
               <td className="py-3 px-4"><a href={`tel:${l.office_phone}`} className="text-xs font-mono text-blue-600 hover:underline">{l.office_phone}</a></td>
               <td className="py-3 px-4"><a href={`tel:${l.complaint_phone}`} className="text-xs font-mono text-red-600 hover:underline">{l.complaint_phone}</a></td>
-              <td className="py-3 px-4">{l.feeders ? <StatusBadge status={l.feeders.status} /> : <span className="text-xs text-slate-400">Not linked</span>}</td>
+              <td className="py-3 px-4">{l.feeders ? <StatusBadge status={l.feeders.status} /> : <span className="text-xs text-slate-400 dark:text-muted-foreground">Not linked</span>}</td>
             </tr>
           ))}
         </Table>
@@ -885,26 +885,26 @@ function AnnouncementsPanel() {
     <div className="space-y-4">
       <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
-          <h2 className="text-xl font-bold text-slate-900">Announcements</h2>
-          <p className="text-sm text-slate-500">{announcements.length} total - shown in rotating order on the site banner</p>
+          <h2 className="text-xl font-bold text-slate-900 dark:text-foreground">Announcements</h2>
+          <p className="text-sm text-slate-500 dark:text-muted-foreground">{announcements.length} total - shown in rotating order on the site banner</p>
         </div>
         <Button size="sm" onClick={() => setShowForm(true)}><Plus className="h-4 w-4 mr-1.5" /> Add Announcement</Button>
       </div>
-      {isLoading ? <div className="py-12 text-center text-slate-400">Loading...</div> : (
+      {isLoading ? <div className="py-12 text-center text-slate-400 dark:text-muted-foreground">Loading...</div> : (
         <Table headers={["Order", "Type", "Text", "Link", "Active", "Actions"]} empty={announcements.length === 0 ? "No announcements yet" : null}>
           {announcements.map(a => (
             <tr key={a.id} className="hover:bg-slate-50">
-              <td className="py-3 px-4 text-sm text-slate-500">{a.sort_order}</td>
+              <td className="py-3 px-4 text-sm text-slate-500 dark:text-muted-foreground">{a.sort_order}</td>
               <td className="py-3 px-4">
                 <span className={`text-xs font-medium px-2 py-0.5 rounded-full border ${TYPE_COLORS[a.type] ?? TYPE_COLORS.info}`}>{a.type}</span>
               </td>
-              <td className="py-3 px-4 text-sm text-slate-700 max-w-sm truncate">{a.text}</td>
-              <td className="py-3 px-4 text-xs text-slate-500">{a.link || "-"}</td>
+              <td className="py-3 px-4 text-sm text-slate-700 dark:text-foreground max-w-sm truncate">{a.text}</td>
+              <td className="py-3 px-4 text-xs text-slate-500 dark:text-muted-foreground">{a.link || "-"}</td>
               <td className="py-3 px-4">
                 <button onClick={() => toggleActiveMutation.mutate({ id: a.id, is_active: !a.is_active })}>
                   {a.is_active
                     ? <span className="inline-flex items-center gap-1 text-xs text-green-700"><CheckCircle className="h-3.5 w-3.5" /> Active</span>
-                    : <span className="inline-flex items-center gap-1 text-xs text-slate-400"><XCircle className="h-3.5 w-3.5" /> Inactive</span>}
+                    : <span className="inline-flex items-center gap-1 text-xs text-slate-400 dark:text-muted-foreground"><XCircle className="h-3.5 w-3.5" /> Inactive</span>}
                 </button>
               </td>
               <td className="py-3 px-4">
@@ -994,23 +994,23 @@ function AdminsPanel() {
     <div className="space-y-4">
       <div className="flex items-center justify-between flex-wrap gap-3">
         <div>
-          <h2 className="text-xl font-bold text-slate-900">Admin Users</h2>
-          <p className="text-sm text-slate-500">{admins.length} admin accounts</p>
+          <h2 className="text-xl font-bold text-slate-900 dark:text-foreground">Admin Users</h2>
+          <p className="text-sm text-slate-500 dark:text-muted-foreground">{admins.length} admin accounts</p>
         </div>
         <Button size="sm" onClick={() => setShowAdd(true)}><UserPlus className="h-4 w-4 mr-1.5" /> Add Admin</Button>
       </div>
-      {isLoading ? <div className="py-12 text-center text-slate-400">Loading...</div> : (
+      {isLoading ? <div className="py-12 text-center text-slate-400 dark:text-muted-foreground">Loading...</div> : (
         <Table headers={["Email", "User ID", "Created"]} empty={admins.length === 0 ? "No admin users found" : null}>
           {admins.map(a => (
             <tr key={a.id} className="hover:bg-slate-50">
               <td className="py-3 px-4">
                 <div className="flex items-center gap-2">
                   <Shield className="h-3.5 w-3.5 text-iesco-teal flex-shrink-0" />
-                  <span className="font-medium text-sm text-slate-800">{a.email}</span>
+                  <span className="font-medium text-sm text-slate-800 dark:text-foreground">{a.email}</span>
                 </div>
               </td>
-              <td className="py-3 px-4 text-xs font-mono text-slate-400">{a.id}</td>
-              <td className="py-3 px-4 text-sm text-slate-600">{a.created_at ? new Date(a.created_at).toLocaleDateString("en-PK") : "-"}</td>
+              <td className="py-3 px-4 text-xs font-mono text-slate-400 dark:text-muted-foreground">{a.id}</td>
+              <td className="py-3 px-4 text-sm text-slate-600 dark:text-muted-foreground">{a.created_at ? new Date(a.created_at).toLocaleDateString("en-PK") : "-"}</td>
             </tr>
           ))}
         </Table>
@@ -1066,7 +1066,7 @@ function AdminSidebarContent({ user, onSignOut, onNavigate }) {
         </div>
         <div>
           <p className="text-white font-semibold text-sm">IESCO Admin</p>
-          <p className="text-slate-500 text-xs">Management Portal</p>
+          <p className="text-slate-500 dark:text-muted-foreground text-xs">Management Portal</p>
         </div>
       </div>
       <nav className="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto">
@@ -1074,7 +1074,7 @@ function AdminSidebarContent({ user, onSignOut, onNavigate }) {
           const Icon = item.icon
           return (
             <NavLink key={item.to} to={item.to} end={item.end} onClick={onNavigate}
-              className={({ isActive }) => `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-all ${isActive ? "bg-iesco-teal/15 text-iesco-teal font-medium border border-iesco-teal/20 shadow-sm" : "text-slate-400 hover:bg-white/8 hover:text-white"}`}>
+              className={({ isActive }) => `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-all ${isActive ? "bg-iesco-teal/15 text-iesco-teal font-medium border border-iesco-teal/20 shadow-sm" : "text-slate-400 dark:text-muted-foreground hover:bg-white dark:bg-card/8 hover:text-white"}`}>
               <Icon className="h-4 w-4 flex-shrink-0" />
               {item.label}
             </NavLink>
@@ -1082,11 +1082,11 @@ function AdminSidebarContent({ user, onSignOut, onNavigate }) {
         })}
       </nav>
       <div className="px-4 py-4 border-t border-white/10 space-y-2">
-        <p className="text-xs text-slate-500 truncate">{user?.email}</p>
-        <a href="/schedule" className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/8 transition-colors text-sm">
+        <p className="text-xs text-slate-500 dark:text-muted-foreground truncate">{user?.email}</p>
+        <a href="/schedule" className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-slate-400 dark:text-muted-foreground hover:text-white hover:bg-white dark:bg-card/8 transition-colors text-sm">
           <ArrowLeft className="h-4 w-4" />Back to site
         </a>
-        <button onClick={onSignOut} className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/8 transition-colors text-sm">
+        <button onClick={onSignOut} className="w-full flex items-center gap-2 px-3 py-2 rounded-xl text-slate-400 dark:text-muted-foreground hover:text-white hover:bg-white dark:bg-card/8 transition-colors text-sm">
           <LogOut className="h-4 w-4" />Sign out
         </button>
       </div>
@@ -1117,9 +1117,9 @@ export default function AdminPage() {
       </Sheet>
 
       <main className="flex-1 overflow-y-auto min-w-0">
-        <div className="border-b border-slate-200 bg-white px-4 md:px-6 py-3 flex items-center gap-2 text-xs text-slate-400 sticky top-0 z-10">
+        <div className="border-b border-slate-200 bg-white dark:bg-card px-4 md:px-6 py-3 flex items-center gap-2 text-xs text-slate-400 dark:text-muted-foreground sticky top-0 z-10">
           <button
-            className="md:hidden -ml-1 p-1.5 rounded-lg hover:bg-slate-100 text-slate-600 flex-shrink-0"
+            className="md:hidden -ml-1 p-1.5 rounded-lg hover:bg-slate-100 text-slate-600 dark:text-muted-foreground flex-shrink-0"
             onClick={() => setMobileNavOpen(true)}
             aria-label="Open admin menu"
           >
@@ -1127,7 +1127,7 @@ export default function AdminPage() {
           </button>
           <span className="hidden sm:inline">IESCO Portal</span>
           <ChevronRight className="h-3 w-3 hidden sm:inline" />
-          <span className="text-slate-600 font-medium">Admin</span>
+          <span className="text-slate-600 dark:text-muted-foreground font-medium">Admin</span>
         </div>
         <div className="p-4 md:p-6">
           <Routes>

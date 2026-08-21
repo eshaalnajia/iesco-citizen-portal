@@ -24,7 +24,7 @@ export function ProviderList({ providerType, area, search }) {
 
   if (isError) {
     return (
-      <div className="text-center py-12 text-slate-500">
+      <div className="text-center py-12 text-slate-500 dark:text-muted-foreground">
         <p className="text-sm">Could not load providers. Please try again.</p>
       </div>
     )
@@ -37,8 +37,8 @@ export function ProviderList({ providerType, area, search }) {
     return (
       <div className="text-center py-16 space-y-3">
         <Wrench className="h-10 w-10 text-slate-300 mx-auto" />
-        <p className="font-medium text-slate-600">{t("services.noProviders", "No providers found")}</p>
-        <p className="text-sm text-slate-400">
+        <p className="font-medium text-slate-600 dark:text-muted-foreground">{t("services.noProviders", "No providers found")}</p>
+        <p className="text-sm text-slate-400 dark:text-muted-foreground">
           {search
             ? t("services.noProvidersSearch", `No results for "${search}". Try a different search.`, { term: search })
             : area
@@ -52,7 +52,7 @@ export function ProviderList({ providerType, area, search }) {
 
   return (
     <div className="space-y-3">
-      <p className="text-xs text-slate-400">
+      <p className="text-xs text-slate-400 dark:text-muted-foreground">
         {t("services.providersCount", `${total} provider${total !== 1 ? "s" : ""}`, { count: total })}
         {providerType && ` - ${providerType.replaceAll("_", " ")}`}
         {area && ` in ${area}`}

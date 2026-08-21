@@ -23,7 +23,7 @@ export default function ServicesPage() {
     return {
       content: (
         <div className="space-y-4 p-1">
-          <h2 className="text-lg font-semibold text-slate-800 flex items-center gap-2">
+          <h2 className="text-lg font-semibold text-slate-800 dark:text-foreground flex items-center gap-2">
             <Icon className="h-5 w-5 text-iesco-teal" />
             {t(`services.${cat.labelKey}`)}
           </h2>
@@ -40,10 +40,10 @@ export default function ServicesPage() {
   return (
     <div className="space-y-5 max-w-3xl mx-auto">
       <div>
-        <h1 className="text-2xl font-bold text-slate-900">
+        <h1 className="text-2xl font-bold text-slate-900 dark:text-foreground">
           {t("services.title", "Services Directory")}
         </h1>
-        <p className="text-slate-500 mt-1 text-sm">
+        <p className="text-slate-500 dark:text-muted-foreground mt-1 text-sm">
           {t("services.subtitle")}
         </p>
       </div>

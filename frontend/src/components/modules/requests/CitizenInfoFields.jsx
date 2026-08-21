@@ -12,7 +12,7 @@ export function CitizenInfoFields({ values, onChange, errors = {} }) {
 
   return (
     <div className="space-y-4">
-      <h3 className="text-sm font-semibold text-slate-700 uppercase tracking-wide">
+      <h3 className="text-sm font-semibold text-slate-700 dark:text-foreground uppercase tracking-wide">
         Your information
       </h3>
 
@@ -40,7 +40,7 @@ export function CitizenInfoFields({ values, onChange, errors = {} }) {
           {errors.cnic && (
             <p className="text-xs text-red-500">{errors.cnic}</p>
           )}
-          <p className="text-xs text-slate-400">13 digits as printed on your card</p>
+          <p className="text-xs text-slate-400 dark:text-muted-foreground">13 digits as printed on your card</p>
         </div>
 
         <div className="space-y-1.5">
@@ -59,7 +59,7 @@ export function CitizenInfoFields({ values, onChange, errors = {} }) {
 
         <div className="space-y-1.5 sm:col-span-2">
           <Label htmlFor="email">
-            Email address <span className="text-slate-400 font-normal">(optional)</span>
+            Email address <span className="text-slate-400 dark:text-muted-foreground font-normal">(optional)</span>
           </Label>
           <Input
             id="email"
@@ -85,7 +85,7 @@ export function CitizenInfoFields({ values, onChange, errors = {} }) {
 
         <div className="space-y-1.5">
           <Label htmlFor="sector">
-            Sector / area <span className="text-slate-400 font-normal">(optional)</span>
+            Sector / area <span className="text-slate-400 dark:text-muted-foreground font-normal">(optional)</span>
           </Label>
           <Input
             id="sector"

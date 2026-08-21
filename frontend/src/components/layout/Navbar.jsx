@@ -1,13 +1,16 @@
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import { useTranslation } from "react-i18next"
+import { useTheme } from "next-themes"
+import { Switch } from "@base-ui/react/switch"
 import { useAuth } from "@/context/AuthContext"
-import { Menu, Settings, User, LogOut, ChevronDown, Wrench, Building2, ClipboardList, Bell } from "lucide-react"
+import { Menu, Settings, User, LogOut, ChevronDown, Wrench, Building2, ClipboardList, Bell, Moon, Sun, Globe } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Badge } from "@/components/ui/badge"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 import { SmartGridLogo } from "./SmartGridLogo"
 import { LanguageSwitcher } from "./LanguageSwitcher"
+import { ThemeToggle } from "./ThemeToggle"
 
 const PRIMARY_NAV = [
   { path: "/schedule", key: "nav.scheduleMap" },
@@ -22,7 +25,8 @@ const MORE_NAV = [
 ]
 
 export default function Navbar() {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
+  const { resolvedTheme, setTheme } = useTheme()
   const location = useLocation()
   const { isAdmin, isUser, user, signOut } = useAuth()
   const navigate = useNavigate()
@@ -68,7 +72,7 @@ export default function Navbar() {
                 return (
                   <DropdownMenuItem key={item.path} asChild>
                     <Link to={item.path} className="cursor-pointer flex items-center gap-2.5">
-                      <Icon className="h-4 w-4 text-slate-400" />
+                      <Icon className="h-4 w-4 text-slate-400 dark:text-muted-foreground" />
                       {t(item.key)}
                     </Link>
                   </DropdownMenuItem>
@@ -79,6 +83,7 @@ export default function Navbar() {
         </nav>
         <div className="flex items-center gap-2">
           <LanguageSwitcher className="hidden sm:flex" />
+          <ThemeToggle className="hidden sm:flex" />
          {isAdmin && (
             <Button variant="ghost" size="sm" asChild>
               <Link to="/admin" className="flex items-center gap-1.5">
@@ -97,17 +102,17 @@ export default function Navbar() {
                   <div className="w-6 h-6 rounded-full bg-iesco-teal/10 border border-iesco-teal/30 flex items-center justify-center">
                     <User className="h-3.5 w-3.5 text-iesco-teal" />
                   </div>
-                  <span className="text-sm text-slate-600 max-w-24 truncate hidden sm:block">
+                  <span className="text-sm text-slate-600 dark:text-muted-foreground max-w-24 truncate hidden sm:block">
                     {user?.user_metadata?.full_name?.split(" ")[0] ?? "Account"}
                   </span>
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-48">
                 <div className="px-3 py-2">
-                  <p className="text-sm font-medium text-slate-800 truncate">
+                  <p className="text-sm font-medium text-slate-800 dark:text-foreground truncate">
                     {user?.user_metadata?.full_name ?? "Citizen"}
                   </p>
-                  <p className="text-xs text-slate-500 truncate">{user?.email}</p>
+                  <p className="text-xs text-slate-500 dark:text-muted-foreground truncate">{user?.email}</p>
                 </div>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem asChild>
@@ -140,23 +145,51 @@ export default function Navbar() {
                 <div className="flex items-center gap-3">
                   <SmartGridLogo showText textClassName="text-white text-sm" />
                 </div>
-                <LanguageSwitcher compact className="!bg-white/10 !border-white/20 !text-white" />
+                
               </div>
               <nav className="flex flex-col gap-1">
                 {[...PRIMARY_NAV, ...MORE_NAV].map((link) => (
                   <Link
                     key={link.path}
                     to={link.path}
-                    className="text-slate-300 hover:text-white hover:bg-white/10 transition-colors text-sm font-medium px-3 py-3 rounded-lg block"
+                    className="text-slate-300 hover:text-white hover:bg-white dark:bg-card/10 transition-colors text-sm font-medium px-3 py-3 rounded-lg block"
                   >
                     {t(link.key)}
                   </Link>
                 ))}
                 {isAdmin && (
-                  <Link to="/admin" className="text-iesco-teal hover:text-white hover:bg-white/10 transition-colors text-sm font-medium px-3 py-3 rounded-lg block mt-2 border-t border-white/10 pt-4">
+                  <Link to="/admin" className="text-iesco-teal hover:text-white hover:bg-white dark:hover:bg-card/10 transition-colors text-sm font-medium px-3 py-3 rounded-lg block mt-2 border-t border-white/10 pt-4">
                     Admin Dashboard
                   </Link>
                 )}
+
+                <div className="mt-2 pt-4 border-t border-white/10 flex flex-col gap-1">
+                  <div className="flex items-center justify-between text-slate-300 text-sm font-medium px-3 py-3 rounded-lg">
+                    <span className="flex items-center gap-2.5">
+                      {resolvedTheme === "dark" ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
+                      Dark mode
+                    </span>
+                    <Switch.Root
+                      checked={resolvedTheme === "dark"}
+                      onCheckedChange={(checked) => setTheme(checked ? "dark" : "light")}
+                      className="flex h-5 w-9 shrink-0 rounded-full bg-white/20 p-0.5 transition-colors data-[checked]:bg-iesco-teal"
+                    >
+                      <Switch.Thumb className="h-4 w-4 rounded-full bg-white transition-transform data-[checked]:translate-x-4" />
+                    </Switch.Root>
+                  </div>
+                  <button
+                    onClick={() => i18n.changeLanguage(i18n.language === "ur" ? "en" : "ur")}
+                    className="flex items-center justify-between text-slate-300 hover:text-white hover:bg-white/5 transition-colors text-sm font-medium px-3 py-3 rounded-lg"
+                  >
+                    <span className="flex items-center gap-2.5">
+                      <Globe className="h-4 w-4" />
+                      Language
+                    </span>
+                    <span className="text-iesco-teal text-sm">
+                      {i18n.language === "ur" ? "English" : "اردو"}
+                    </span>
+                  </button>
+                </div>
               </nav>
             </SheetContent>
           </Sheet>

@@ -74,18 +74,18 @@ function ChannelCard({ channel }) {
         <div className={`w-8 h-8 rounded-lg ${channel.bg} flex items-center justify-center flex-shrink-0`}>
           <Icon className={`h-4 w-4 ${channel.color}`} />
         </div>
-        <span className="font-medium text-slate-800 flex-1">{channel.label}</span>
+        <span className="font-medium text-slate-800 dark:text-foreground flex-1">{channel.label}</span>
         {open
-          ? <ChevronUp   className="h-4 w-4 text-slate-400 flex-shrink-0 no-print" />
-          : <ChevronDown className="h-4 w-4 text-slate-400 flex-shrink-0 no-print" />
+          ? <ChevronUp   className="h-4 w-4 text-slate-400 dark:text-muted-foreground flex-shrink-0 no-print" />
+          : <ChevronDown className="h-4 w-4 text-slate-400 dark:text-muted-foreground flex-shrink-0 no-print" />
         }
       </button>
 
       <div className={open ? "px-4 pb-4 space-y-3 border-t border-slate-100" : "hidden print-channel-steps"}>
         <ol className="space-y-1.5 mt-3">
           {channel.steps.map((step, i) => (
-            <li key={i} className="flex items-start gap-2.5 text-sm text-slate-600">
-              <span className="flex-shrink-0 w-5 h-5 rounded-full bg-slate-100 text-slate-500 text-xs font-bold flex items-center justify-center mt-0.5">
+            <li key={i} className="flex items-start gap-2.5 text-sm text-slate-600 dark:text-muted-foreground">
+              <span className="flex-shrink-0 w-5 h-5 rounded-full bg-slate-100 text-slate-500 dark:text-muted-foreground text-xs font-bold flex items-center justify-center mt-0.5">
                 {i + 1}
               </span>
               {step}
@@ -94,7 +94,7 @@ function ChannelCard({ channel }) {
         </ol>
         <div className="flex flex-wrap gap-1.5 pt-1">
           {channel.banks.map((bank) => (
-            <span key={bank} className="text-xs bg-slate-100 text-slate-600 px-2 py-0.5 rounded">
+            <span key={bank} className="text-xs bg-slate-100 text-slate-600 dark:text-muted-foreground px-2 py-0.5 rounded">
               {bank}
             </span>
           ))}
@@ -137,7 +137,7 @@ export function BankTransferSlip({ bill }) {
 
       <div className="bg-slate-900 text-white rounded-2xl p-5 space-y-3 payment-slip-print">
         <div className="flex items-center justify-between">
-          <p className="text-slate-400 text-xs uppercase tracking-wider font-medium">
+          <p className="text-slate-400 dark:text-muted-foreground text-xs uppercase tracking-wider font-medium">
             IESCO Reference Number
           </p>
           <CopyButton value={bill.reference_number} />
@@ -145,7 +145,7 @@ export function BankTransferSlip({ bill }) {
         <p className="font-mono text-3xl font-bold tracking-widest text-white">
           {bill.reference_number.match(/.{1,4}/g)?.join(" ")}
         </p>
-        <p className="text-slate-400 text-xs">
+        <p className="text-slate-400 dark:text-muted-foreground text-xs">
           Present this number at any bank branch, ATM, or internet banking
         </p>
       </div>
@@ -158,8 +158,8 @@ export function BankTransferSlip({ bill }) {
           { label: "Due date",      value: bill.due_date ? new Date(bill.due_date).toLocaleDateString("en-PK", { day: "numeric", month: "long", year: "numeric" }) : "-" },
         ].filter((r) => r.value).map(({ label, value }) => (
           <div key={label} className="flex justify-between text-sm">
-            <span className="text-slate-500">{label}</span>
-            <span className="font-medium text-slate-800">{value}</span>
+            <span className="text-slate-500 dark:text-muted-foreground">{label}</span>
+            <span className="font-medium text-slate-800 dark:text-foreground">{value}</span>
           </div>
         ))}
         {bill.is_overdue && (
@@ -170,7 +170,7 @@ export function BankTransferSlip({ bill }) {
       </div>
 
       <div className="space-y-2">
-        <p className="text-sm font-semibold text-slate-700">
+        <p className="text-sm font-semibold text-slate-700 dark:text-foreground">
           Choose how to pay at a bank
         </p>
         {CHANNELS.map((ch) => (

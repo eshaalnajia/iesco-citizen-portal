@@ -26,7 +26,7 @@ export function InstallBanner() {
     <div className="bg-iesco-navy text-white px-4 py-3 flex items-center
                     justify-between gap-3">
       <div className="flex items-center gap-3 min-w-0">
-        <div className="w-8 h-8 rounded-lg bg-white/10 flex items-center
+        <div className="w-8 h-8 rounded-lg bg-white dark:bg-card/10 flex items-center
                         justify-center flex-shrink-0">
           <WifiOff className="h-4 w-4 text-iesco-teal" />
         </div>

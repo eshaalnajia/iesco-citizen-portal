@@ -28,14 +28,14 @@ function SignupSuccess({ email }) {
         <CheckCircle className="h-8 w-8 text-green-500" />
       </div>
       <div>
-        <h3 className="font-bold text-slate-900 text-lg">Account created!</h3>
-        <p className="text-slate-500 text-sm mt-1.5 max-w-xs mx-auto">
+        <h3 className="font-bold text-slate-900 dark:text-foreground text-lg">Account created!</h3>
+        <p className="text-slate-500 dark:text-muted-foreground text-sm mt-1.5 max-w-xs mx-auto">
           We've sent a confirmation email to{" "}
-          <span className="font-semibold text-slate-700">{email}</span>.
+          <span className="font-semibold text-slate-700 dark:text-foreground">{email}</span>.
           Click the link in the email to activate your account.
         </p>
       </div>
-      <p className="text-xs text-slate-400">
+      <p className="text-xs text-slate-400 dark:text-muted-foreground">
         Didn't receive it? Check your spam folder.
       </p>
       <Link to="/login"
@@ -90,7 +90,7 @@ function SignInForm({ onSuccess }) {
       <div className="space-y-1.5">
         <Label htmlFor="signin-email">Email address</Label>
         <div className="relative">
-          <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+          <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 dark:text-muted-foreground" />
           <Input id="signin-email" type="email" autoComplete="email"
             placeholder="you@example.com"
             value={email} onChange={e => setEmail(e.target.value)}
@@ -107,7 +107,7 @@ function SignInForm({ onSuccess }) {
           </Link>
         </div>
         <div className="relative">
-          <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+          <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 dark:text-muted-foreground" />
           <Input id="signin-password"
             type={showPw ? "text" : "password"}
             autoComplete="current-password"
@@ -116,7 +116,7 @@ function SignInForm({ onSuccess }) {
             className="pl-9 pr-9" required disabled={loading} />
           <button type="button"
             onClick={() => setShowPw(v => !v)}
-            className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600">
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-muted-foreground hover:text-slate-600 dark:text-muted-foreground">
             {showPw ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
           </button>
         </div>
@@ -195,7 +195,7 @@ function SignUpForm({ onSuccess }) {
       <div className="space-y-1.5">
         <Label htmlFor="name">Full name</Label>
         <div className="relative">
-          <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+          <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 dark:text-muted-foreground" />
           <Input id="name" placeholder="Muhammad Ahmed" {...field("name")}
             className="pl-9" required />
         </div>
@@ -205,7 +205,7 @@ function SignUpForm({ onSuccess }) {
         <div className="space-y-1.5">
           <Label htmlFor="email">Email</Label>
           <div className="relative">
-            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+            <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 dark:text-muted-foreground" />
             <Input id="email" type="email" placeholder="you@example.com"
               {...field("email")} className="pl-9" required />
           </div>
@@ -213,7 +213,7 @@ function SignUpForm({ onSuccess }) {
         <div className="space-y-1.5">
           <Label htmlFor="phone">Mobile number</Label>
           <div className="relative">
-            <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+            <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 dark:text-muted-foreground" />
             <Input id="phone" type="tel" placeholder="03XXXXXXXXX"
               {...field("phone")} className="pl-9 font-mono" />
           </div>
@@ -224,14 +224,14 @@ function SignUpForm({ onSuccess }) {
         <div className="space-y-1.5">
           <Label htmlFor="password">Password</Label>
           <div className="relative">
-            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+            <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 dark:text-muted-foreground" />
             <Input id="password"
               type={showPw ? "text" : "password"}
               placeholder="Min. 8 characters"
               {...field("password")} className="pl-9 pr-9" required />
             <button type="button"
               onClick={() => setShowPw(v => !v)}
-              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600">
+              className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 dark:text-muted-foreground hover:text-slate-600 dark:text-muted-foreground">
               {showPw ? <EyeOff className="h-3.5 w-3.5" /> : <Eye className="h-3.5 w-3.5" />}
             </button>
           </div>
@@ -252,7 +252,7 @@ function SignUpForm({ onSuccess }) {
         }
       </Button>
 
-      <p className="text-xs text-center text-slate-400">
+      <p className="text-xs text-center text-slate-400 dark:text-muted-foreground">
         By signing up you agree to SmartGrid's terms of service
       </p>
     </form>
@@ -303,7 +303,7 @@ export default function LoginPage() {
           </div>
           <div>
             <p className="text-white font-bold">SmartGrid+ Portal</p>
-            <p className="text-slate-500 text-xs">Smart Citizen Platform</p>
+            <p className="text-slate-500 dark:text-muted-foreground text-xs">Smart Citizen Platform</p>
           </div>
         </div>
 
@@ -313,7 +313,7 @@ export default function LoginPage() {
               Manage your electricity
               <span className="text-iesco-teal block">from your phone</span>
             </h1>
-            <p className="text-slate-400 leading-relaxed">
+            <p className="text-slate-400 dark:text-muted-foreground leading-relaxed">
               One account gives you access to everything SmartGrid+ offers digitally -
               schedules, bills, maps, and more.
             </p>
@@ -330,7 +330,7 @@ export default function LoginPage() {
         </div>
 
         <div className="relative">
-          <p className="text-slate-600 text-xs">
+          <p className="text-slate-600 dark:text-muted-foreground text-xs">
             SmartGrid+ Citizen Portal - Digital Transformation Initiative 2025
           </p>
         </div>
@@ -344,9 +344,9 @@ export default function LoginPage() {
               <div className="w-8 h-8 rounded-lg bg-iesco-navy flex items-center justify-center">
                 <Zap className="h-4 w-4 text-iesco-teal" />
               </div>
-              <span className="font-bold text-slate-900">SmartGrid+ Portal</span>
+              <span className="font-bold text-slate-900 dark:text-foreground">SmartGrid+ Portal</span>
             </div>
-            <Link to="/schedule" className="flex items-center gap-1.5 text-sm text-slate-500 hover:text-iesco-teal transition-colors ml-auto">
+            <Link to="/schedule" className="flex items-center gap-1.5 text-sm text-slate-500 dark:text-muted-foreground hover:text-iesco-teal transition-colors ml-auto">
               <ArrowLeft className="h-3.5 w-3.5" /> Back to site
             </Link>
           </div>
@@ -356,8 +356,8 @@ export default function LoginPage() {
           ) : (
             <div className="space-y-6">
               <div>
-                <h2 className="text-2xl font-bold text-slate-900">Welcome back</h2>
-                <p className="text-slate-500 text-sm mt-1">
+                <h2 className="text-2xl font-bold text-slate-900 dark:text-foreground">Welcome back</h2>
+                <p className="text-slate-500 dark:text-muted-foreground text-sm mt-1">
                   Sign in to your SmartGrid+ citizen account
                 </p>
               </div>
@@ -378,7 +378,7 @@ export default function LoginPage() {
               </Tabs>
 
               <div className="pt-2 border-t border-slate-200">
-                <p className="text-xs text-center text-slate-400">
+                <p className="text-xs text-center text-slate-400 dark:text-muted-foreground">
                   SmartGrid+ staff?{" "}
                   <Link to="/admin/login"
                     className="text-iesco-teal hover:underline font-medium">

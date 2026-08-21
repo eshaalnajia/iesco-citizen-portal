@@ -49,7 +49,7 @@ export function ZoneSearch({ map }) {
       className="fixed top-20 left-1/2 -translate-x-1/2 z-50 w-72"
     >
       <div className="relative">
-        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 pointer-events-none" />
+        <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 dark:text-muted-foreground pointer-events-none" />
         <input
           ref={inputRef}
           type="text"
@@ -60,12 +60,12 @@ export function ZoneSearch({ map }) {
             setOpen(true)
           }}
           onFocus={() => setOpen(true)}
-          className="w-full pl-9 pr-8 py-2 text-sm rounded-xl bg-white/95 backdrop-blur-sm border border-slate-200 shadow-md focus:outline-none focus:ring-2 focus:ring-iesco-teal/40 focus:border-iesco-teal placeholder:text-slate-400"
+          className="w-full pl-9 pr-8 py-2 text-sm rounded-xl bg-white dark:bg-card/95 backdrop-blur-sm border border-slate-200 shadow-md focus:outline-none focus:ring-2 focus:ring-iesco-teal/40 focus:border-iesco-teal placeholder:text-slate-400 dark:text-muted-foreground"
         />
         {query && (
           <button
             onClick={handleClear}
-            className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+            className="absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-400 dark:text-muted-foreground hover:text-slate-600 dark:text-muted-foreground"
           >
             <X className="h-3.5 w-3.5" />
           </button>
@@ -73,15 +73,15 @@ export function ZoneSearch({ map }) {
       </div>
 
       {open && query.length >= 2 && results.length > 0 && (
-        <div className="absolute top-full left-0 right-0 mt-1 bg-white rounded-xl border border-slate-200 shadow-xl overflow-hidden">
+        <div className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-card rounded-xl border border-slate-200 shadow-xl overflow-hidden">
           {results.map((loc) => (
             <button
               key={loc.id}
               onClick={() => handleSelect(loc)}
               className="w-full text-left px-4 py-2.5 text-sm hover:bg-slate-50 border-b border-slate-100 last:border-0 flex items-center justify-between gap-2"
             >
-              <span className="font-medium text-slate-800">{loc.name}</span>
-              <span className="text-xs text-slate-400 flex-shrink-0">
+              <span className="font-medium text-slate-800 dark:text-foreground">{loc.name}</span>
+              <span className="text-xs text-slate-400 dark:text-muted-foreground flex-shrink-0">
                 {loc.area_type?.replace("_", " ")}
                 {loc.feeders?.status && (
                   <span className={cn(
@@ -98,7 +98,7 @@ export function ZoneSearch({ map }) {
       )}
 
       {open && query.length >= 2 && results.length === 0 && (
-        <div className="absolute top-full left-0 right-0 mt-1 bg-white rounded-xl border border-slate-200 shadow-xl px-4 py-3 text-sm text-slate-500">
+        <div className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-card rounded-xl border border-slate-200 shadow-xl px-4 py-3 text-sm text-slate-500 dark:text-muted-foreground">
           No areas found for "{query}"
         </div>
       )}

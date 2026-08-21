@@ -20,7 +20,7 @@ export function AreaTypeTabs({ value, onChange }) {
             "transition-colors border",
             value === type.value
               ? "bg-iesco-navy text-white border-iesco-navy"
-              : "bg-white text-slate-600 border-slate-200 hover:border-slate-300"
+              : "bg-white dark:bg-card text-slate-600 dark:text-muted-foreground border-slate-200 hover:border-slate-300"
           )}
         >
           {type.label}

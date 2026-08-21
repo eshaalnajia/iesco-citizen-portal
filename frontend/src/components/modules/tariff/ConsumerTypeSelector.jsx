@@ -44,21 +44,21 @@ export function ConsumerTypeSelector({ value, onChange }) {
               "text-center transition-all duration-150",
               selected
                 ? "border-iesco-teal bg-iesco-teal/5 text-iesco-teal"
-                : "border-slate-200 bg-white text-slate-600 hover:border-slate-300"
+                : "border-slate-200 bg-white dark:bg-card text-slate-600 dark:text-muted-foreground hover:border-slate-300"
             )}
           >
             <Icon className={cn(
               "h-6 w-6",
-              selected ? "text-iesco-teal" : "text-slate-400"
+              selected ? "text-iesco-teal" : "text-slate-400 dark:text-muted-foreground"
             )} />
             <div>
               <p className={cn(
                 "text-sm font-medium",
-                selected ? "text-iesco-teal" : "text-slate-700"
+                selected ? "text-iesco-teal" : "text-slate-700 dark:text-foreground"
               )}>
                 {type.label}
               </p>
-              <p className="text-xs text-slate-400 mt-0.5">
+              <p className="text-xs text-slate-400 dark:text-muted-foreground mt-0.5">
                 {type.sublabel}
               </p>
             </div>

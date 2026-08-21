@@ -12,7 +12,7 @@ const RESULT_CONFIG = {
   },
   cancelled: {
     icon:     XCircle,
-    iconCls:  "text-slate-400",
+    iconCls:  "text-slate-400 dark:text-muted-foreground",
     bgCls:    "bg-slate-50",
     title:    "Payment cancelled",
     subtitle: "You cancelled the payment. Your bill has not been paid.",
@@ -63,17 +63,17 @@ export default function PaymentCompletePage() {
     <div className="max-w-md mx-auto py-12 space-y-6">
       <div className={`${config.bgCls} rounded-2xl p-8 text-center space-y-4`}>
         <div className="flex justify-center">
-          <div className="w-16 h-16 rounded-full bg-white flex items-center
+          <div className="w-16 h-16 rounded-full bg-white dark:bg-card flex items-center
                           justify-center shadow-sm">
             <Icon className={`h-9 w-9 ${config.iconCls}`} />
           </div>
         </div>
 
         <div>
-          <h1 className="text-xl font-bold text-slate-900">{config.title}</h1>
-          <p className="text-sm text-slate-500 mt-1">{config.subtitle}</p>
+          <h1 className="text-xl font-bold text-slate-900 dark:text-foreground">{config.title}</h1>
+          <p className="text-sm text-slate-500 dark:text-muted-foreground mt-1">{config.subtitle}</p>
           {message && (
-            <p className="text-sm text-slate-600 mt-2 bg-white/60
+            <p className="text-sm text-slate-600 dark:text-muted-foreground mt-2 bg-white dark:bg-card/60
                           rounded-lg px-3 py-2">
               {decodeURIComponent(message)}
             </p>
@@ -83,8 +83,8 @@ export default function PaymentCompletePage() {
 
       {/* Receipt details - shown on success */}
       {status === "paid" && (txnRef || orderRef) && (
-        <div className="bg-white border border-slate-200 rounded-xl p-5 space-y-3">
-          <h2 className="font-semibold text-slate-800">Payment receipt</h2>
+        <div className="bg-white dark:bg-card border border-slate-200 rounded-xl p-5 space-y-3">
+          <h2 className="font-semibold text-slate-800 dark:text-foreground">Payment receipt</h2>
           <div className="space-y-2">
             {[
               { label: "Transaction ref",   value: txnRef },
@@ -96,14 +96,14 @@ export default function PaymentCompletePage() {
               .filter((r) => r.value)
               .map(({ label, value }) => (
                 <div key={label} className="flex justify-between text-sm">
-                  <span className="text-slate-500">{label}</span>
-                  <span className="font-mono text-slate-800 text-right max-w-[60%] break-all">
+                  <span className="text-slate-500 dark:text-muted-foreground">{label}</span>
+                  <span className="font-mono text-slate-800 dark:text-foreground text-right max-w-[60%] break-all">
                     {value}
                   </span>
                 </div>
               ))}
           </div>
-          <p className="text-xs text-slate-400 pt-1">
+          <p className="text-xs text-slate-400 dark:text-muted-foreground pt-1">
             Screenshot this receipt for your records
           </p>
         </div>

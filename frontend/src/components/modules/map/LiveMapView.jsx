@@ -37,8 +37,8 @@ function RealtimeIndicator({ status }) {
 
   return (
     <div className="absolute top-4 right-14 z-10 flex items-center gap-1.5
-                    bg-white/90 backdrop-blur-sm border border-slate-200
-                    rounded-full px-2.5 py-1 text-xs text-slate-500 shadow-sm">
+                    bg-white dark:bg-card/90 backdrop-blur-sm border border-slate-200
+                    rounded-full px-2.5 py-1 text-xs text-slate-500 dark:text-muted-foreground shadow-sm">
       <span className={`w-1.5 h-1.5 rounded-full flex-shrink-0 ${config.dot}`} />
       {config.label}
     </div>
@@ -139,7 +139,7 @@ export function LiveMapView({ embedded = false }) {
 
   if (error) {
     return (
-      <div className="flex items-center justify-center h-96 text-slate-500">
+      <div className="flex items-center justify-center h-96 text-slate-500 dark:text-muted-foreground">
         <p className="text-sm">{t("common.error")}</p>
       </div>
     )
@@ -153,7 +153,7 @@ export function LiveMapView({ embedded = false }) {
 
       {(!ready || loading) && (
         <div className="absolute inset-0 z-30 flex items-center justify-center bg-slate-100">
-          <div className="flex flex-col items-center gap-3 text-slate-500">
+          <div className="flex flex-col items-center gap-3 text-slate-500 dark:text-muted-foreground">
             <Loader2 className="h-8 w-8 animate-spin text-iesco-teal" />
             <p className="text-sm">{t("map.loading")}</p>
           </div>

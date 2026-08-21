@@ -23,7 +23,7 @@ const METHODS = [
     label:    "Bank / ATM",
     sublabel: "Any bank channel",
     icon:     Building2,
-    color:    "border-slate-200 bg-slate-50 text-slate-700",
+    color:    "border-slate-200 bg-slate-50 text-slate-700 dark:text-foreground",
     selected: "border-slate-400 bg-slate-50 ring-2 ring-slate-200",
   },
 ]
@@ -41,17 +41,17 @@ export function PaymentMethodSelector({ value, onChange }) {
             className={cn(
               "flex flex-col items-center gap-1.5 p-3 rounded-xl border-2",
               "transition-all text-center",
-              isActive ? m.selected : "border-slate-200 bg-white hover:border-slate-300"
+              isActive ? m.selected : "border-slate-200 bg-white dark:bg-card hover:border-slate-300"
             )}
           >
-            <Icon className={cn("h-5 w-5", isActive ? m.color.split(" ")[2] : "text-slate-400")} />
+            <Icon className={cn("h-5 w-5", isActive ? m.color.split(" ")[2] : "text-slate-400 dark:text-muted-foreground")} />
             <span className={cn(
               "text-xs font-semibold",
-              isActive ? m.color.split(" ")[2] : "text-slate-700"
+              isActive ? m.color.split(" ")[2] : "text-slate-700 dark:text-foreground"
             )}>
               {m.label}
             </span>
-            <span className="text-[10px] text-slate-400">{m.sublabel}</span>
+            <span className="text-[10px] text-slate-400 dark:text-muted-foreground">{m.sublabel}</span>
           </button>
         )
       })}

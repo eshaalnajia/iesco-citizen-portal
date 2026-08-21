@@ -13,7 +13,7 @@ export function LocationSearch({ value, onChange }) {
   return (
     <div className="relative">
       <Search className="absolute left-3 top-1/2 -translate-y-1/2
-                         h-4 w-4 text-slate-400 pointer-events-none" />
+                         h-4 w-4 text-slate-400 dark:text-muted-foreground pointer-events-none" />
       <Input
         ref={inputRef}
         type="search"
@@ -26,7 +26,7 @@ export function LocationSearch({ value, onChange }) {
         <button
           onClick={handleClear}
           className="absolute right-3 top-1/2 -translate-y-1/2
-                     text-slate-400 hover:text-slate-600"
+                     text-slate-400 dark:text-muted-foreground hover:text-slate-600 dark:text-muted-foreground"
           aria-label="Clear search"
         >
           <X className="h-4 w-4" />

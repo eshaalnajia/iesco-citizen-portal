@@ -35,7 +35,7 @@ export function WeekView({ sector }) {
 
   if (!sector) {
     return (
-      <p className="text-sm text-slate-400 py-4">
+      <p className="text-sm text-slate-400 dark:text-muted-foreground py-4">
         {t("schedule.selectArea")}
       </p>
     )
@@ -67,19 +67,19 @@ export function WeekView({ sector }) {
                 "flex-1 min-w-[64px] rounded-lg border p-2 text-center space-y-1.5",
                 isToday
                   ? "border-iesco-teal bg-iesco-teal/5"
-                  : "border-slate-200 bg-white"
+                  : "border-slate-200 bg-white dark:bg-card"
               )}
             >
               <p className={cn(
                 "text-xs font-medium",
-                isToday ? "text-iesco-teal" : "text-slate-500"
+                isToday ? "text-iesco-teal" : "text-slate-500 dark:text-muted-foreground"
               )}>
                 {isToday ? t("schedule.today") : DAY_NAMES[day.getDay()]}
               </p>
 
               <p className={cn(
                 "text-lg font-bold leading-none",
-                isToday ? "text-iesco-teal" : "text-slate-800"
+                isToday ? "text-iesco-teal" : "text-slate-800 dark:text-foreground"
               )}>
                 {day.getDate()}
               </p>
@@ -96,7 +96,7 @@ export function WeekView({ sector }) {
                       title={`${e.start_time}-${e.end_time}`}
                     />
                   ))}
-                  <p className="text-[10px] text-slate-500 mt-1">
+                  <p className="text-[10px] text-slate-500 dark:text-muted-foreground mt-1">
                     {t("schedule.cuts", { count: entries.length })}
                   </p>
                 </div>
@@ -110,7 +110,7 @@ export function WeekView({ sector }) {
         })}
       </div>
 
-      <div className="flex gap-4 text-xs text-slate-500">
+      <div className="flex gap-4 text-xs text-slate-500 dark:text-muted-foreground">
         <span className="flex items-center gap-1.5">
           <span className="w-2.5 h-2.5 rounded-full bg-blue-400" />
           {t("schedule.types.scheduled")}

@@ -18,9 +18,9 @@ function formatPKR(amount) {
 
 function BillRow({ label, amount, muted = false, bold = false }) {
   return (
-    <div className={`flex justify-between items-baseline py-1.5 ${muted ? "text-slate-400" : "text-slate-700"}`}>
-      <span className={`text-sm ${bold ? "font-semibold text-slate-900" : ""}`}>{label}</span>
-      <span className={`text-sm font-mono ${bold ? "font-bold text-slate-900" : ""} ${muted ? "text-slate-400" : ""}`}>
+    <div className={`flex justify-between items-baseline py-1.5 ${muted ? "text-slate-400 dark:text-muted-foreground" : "text-slate-700 dark:text-foreground"}`}>
+      <span className={`text-sm ${bold ? "font-semibold text-slate-900 dark:text-foreground" : ""}`}>{label}</span>
+      <span className={`text-sm font-mono ${bold ? "font-bold text-slate-900 dark:text-foreground" : ""} ${muted ? "text-slate-400 dark:text-muted-foreground" : ""}`}>
         {typeof amount === "number" ? formatPKR(amount) : amount}
       </span>
     </div>
@@ -32,12 +32,12 @@ function SlabBreakdownRow({ slab }) {
     <div className="py-2 border-b border-slate-100 last:border-0">
       <div className="flex justify-between items-start">
         <div>
-          <p className="text-sm font-medium text-slate-700">{slab.slab_label}</p>
-          <p className="text-xs text-slate-400 mt-0.5">
+          <p className="text-sm font-medium text-slate-700 dark:text-foreground">{slab.slab_label}</p>
+          <p className="text-xs text-slate-400 dark:text-muted-foreground mt-0.5">
             {slab.units_in_slab} unit{slab.units_in_slab !== 1 ? "s" : ""} · {slab.peak_units} peak + {slab.offpeak_units} off-peak
           </p>
         </div>
-        <span className="text-sm font-mono font-medium text-slate-700">{formatPKR(slab.slab_total)}</span>
+        <span className="text-sm font-mono font-medium text-slate-700 dark:text-foreground">{formatPKR(slab.slab_total)}</span>
       </div>
     </div>
   )
@@ -68,11 +68,11 @@ export function BillCalculator({ consumerType, onUnitsChange }) {
     <div className="space-y-5">
 
       <div className="space-y-2">
-        <Label htmlFor={inputId} className="text-sm font-medium text-slate-700">
+        <Label htmlFor={inputId} className="text-sm font-medium text-slate-700 dark:text-foreground">
           Units consumed this month
         </Label>
         <div className="relative">
-          <Zap className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+          <Zap className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 dark:text-muted-foreground" />
           <Input
             id={inputId}
             type="text"
@@ -84,14 +84,14 @@ export function BillCalculator({ consumerType, onUnitsChange }) {
             maxLength={6}
           />
         </div>
-        <p className="text-xs text-slate-400">
+        <p className="text-xs text-slate-400 dark:text-muted-foreground">
           Read the number of units from your last electricity meter reading
         </p>
       </div>
 
       <div className="space-y-2">
         <div className="flex justify-between items-center">
-          <Label className="text-sm font-medium text-slate-700">
+          <Label className="text-sm font-medium text-slate-700 dark:text-foreground">
             Estimated peak hour usage
           </Label>
           <span className="text-sm font-mono font-semibold text-iesco-teal">{peakPct}%</span>
@@ -105,18 +105,18 @@ export function BillCalculator({ consumerType, onUnitsChange }) {
           step={5}
           className="w-full accent-iesco-teal"
         />
-        <div className="flex justify-between text-xs text-slate-400">
+        <div className="flex justify-between text-xs text-slate-400 dark:text-muted-foreground">
           <span>All off-peak</span>
           <span>Half peak</span>
           <span>All peak</span>
         </div>
-        <p className="text-xs text-slate-400">
+        <p className="text-xs text-slate-400 dark:text-muted-foreground">
           Peak hours are typically 5 PM - 11 PM. If you mostly use appliances in the evening, increase this.
         </p>
       </div>
 
       {!validUnits && (
-        <div className="rounded-xl border-2 border-dashed border-slate-200 py-10 text-center text-slate-400">
+        <div className="rounded-xl border-2 border-dashed border-slate-200 py-10 text-center text-slate-400 dark:text-muted-foreground">
           <Calculator className="h-8 w-8 mx-auto mb-2 opacity-50" />
           <p className="text-sm">Enter units above to see your estimated bill</p>
         </div>
@@ -132,10 +132,10 @@ export function BillCalculator({ consumerType, onUnitsChange }) {
         <div className="rounded-xl border border-slate-200 overflow-hidden">
           <button
             onClick={() => setShowSlab((v) => !v)}
-            className="w-full flex items-center justify-between px-4 py-3 bg-slate-50 border-b border-slate-200 text-sm font-medium text-slate-600 hover:bg-slate-100 transition"
+            className="w-full flex items-center justify-between px-4 py-3 bg-slate-50 border-b border-slate-200 text-sm font-medium text-slate-600 dark:text-muted-foreground hover:bg-slate-100 transition"
           >
             <span>Slab breakdown - {data.units_consumed} units</span>
-            <span className="text-xs text-slate-400">{showSlab ? "Hide" : "Show"}</span>
+            <span className="text-xs text-slate-400 dark:text-muted-foreground">{showSlab ? "Hide" : "Show"}</span>
           </button>
 
           {showSlab && (
@@ -162,8 +162,8 @@ export function BillCalculator({ consumerType, onUnitsChange }) {
             <BillRow label="Total payable" amount={data.total_payable} bold />
 
             <div className="pt-2 pb-1">
-              <p className="text-xs text-slate-400">
-                Average rate: <span className="font-mono font-medium text-slate-600">PKR {data.average_rate?.toFixed(2)} / unit</span>
+              <p className="text-xs text-slate-400 dark:text-muted-foreground">
+                Average rate: <span className="font-mono font-medium text-slate-600 dark:text-muted-foreground">PKR {data.average_rate?.toFixed(2)} / unit</span>
                 {" · "}{peakPct}% peak consumption assumed
               </p>
             </div>

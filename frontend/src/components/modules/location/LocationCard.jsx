@@ -19,15 +19,15 @@ function TodaysSchedulePreview({ schedule }) {
   return (
     <div className="space-y-0.5">
       {schedule.slice(0, 2).map((s, i) => (
-        <p key={i} className="text-xs text-slate-500 font-mono">
+        <p key={i} className="text-xs text-slate-500 dark:text-muted-foreground font-mono">
           {s.start_time} - {s.end_time}
-          <span className="font-sans text-slate-400 ml-1">
+          <span className="font-sans text-slate-400 dark:text-muted-foreground ml-1">
             ({s.duration_hours}h)
           </span>
         </p>
       ))}
       {schedule.length > 2 && (
-        <p className="text-xs text-slate-400">
+        <p className="text-xs text-slate-400 dark:text-muted-foreground">
           +{schedule.length - 2} more today
         </p>
       )}
@@ -52,22 +52,22 @@ function LocationDetail({ locationId }) {
   return (
     <div className="pt-3 border-t border-slate-100 space-y-3">
       {data.office_address && (
-        <div className="flex gap-2 text-xs text-slate-500">
-          <MapPin className="h-3.5 w-3.5 flex-shrink-0 mt-0.5 text-slate-400" />
+        <div className="flex gap-2 text-xs text-slate-500 dark:text-muted-foreground">
+          <MapPin className="h-3.5 w-3.5 flex-shrink-0 mt-0.5 text-slate-400 dark:text-muted-foreground" />
           <span>{data.office_address}</span>
         </div>
       )}
       {data.office_hours && (
-        <div className="flex gap-2 text-xs text-slate-500">
-          <Clock className="h-3.5 w-3.5 flex-shrink-0 mt-0.5 text-slate-400" />
+        <div className="flex gap-2 text-xs text-slate-500 dark:text-muted-foreground">
+          <Clock className="h-3.5 w-3.5 flex-shrink-0 mt-0.5 text-slate-400 dark:text-muted-foreground" />
           <span>{data.office_hours}</span>
         </div>
       )}
       {data.feeders && (
         <div className="space-y-1">
           <div className="flex items-center gap-1.5">
-            <Zap className="h-3.5 w-3.5 text-slate-400" />
-            <span className="text-xs font-medium text-slate-600">
+            <Zap className="h-3.5 w-3.5 text-slate-400 dark:text-muted-foreground" />
+            <span className="text-xs font-medium text-slate-600 dark:text-muted-foreground">
               Today's load shedding
             </span>
           </div>
@@ -85,7 +85,7 @@ export function LocationCard({ location, distance }) {
   return (
     <div
       className={[
-        "bg-white rounded-xl border transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md",
+        "bg-white dark:bg-card rounded-xl border transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md",
         expanded
           ? "border-iesco-teal/30 shadow-sm"
           : "border-slate-200 hover:border-iesco-teal/40",
@@ -98,10 +98,10 @@ export function LocationCard({ location, distance }) {
         <div className="flex items-start justify-between gap-3">
           <div className="flex-1 min-w-0 space-y-1.5">
             <div className="flex items-center gap-2 flex-wrap">
-              <h3 className="font-semibold text-slate-900 text-sm">
+              <h3 className="font-semibold text-slate-900 dark:text-foreground text-sm">
                 {location.name}
               </h3>
-              <span className="text-xs text-slate-400 bg-slate-100 px-1.5 py-0.5 rounded">
+              <span className="text-xs text-slate-400 dark:text-muted-foreground bg-slate-100 px-1.5 py-0.5 rounded">
                 {AREA_TYPE_LABELS[location.area_type] ?? location.area_type}
               </span>
               {distance !== undefined && (
@@ -112,7 +112,7 @@ export function LocationCard({ location, distance }) {
             </div>
 
             {location.office_name && (
-              <p className="text-xs text-slate-500">{location.office_name}</p>
+              <p className="text-xs text-slate-500 dark:text-muted-foreground">{location.office_name}</p>
             )}
 
             <div className="flex flex-wrap gap-3">

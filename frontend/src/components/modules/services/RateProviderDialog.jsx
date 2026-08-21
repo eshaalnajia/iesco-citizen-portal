@@ -47,8 +47,8 @@ export function RateProviderDialog({ provider, open, onOpenChange }) {
         {done ? (
           <div className="text-center py-6 space-y-3">
             <CheckCircle className="h-10 w-10 text-green-500 mx-auto" />
-            <p className="font-medium text-slate-800">Thank you for your rating</p>
-            <p className="text-sm text-slate-500">
+            <p className="font-medium text-slate-800 dark:text-foreground">Thank you for your rating</p>
+            <p className="text-sm text-slate-500 dark:text-muted-foreground">
               Your feedback helps other citizens find quality providers.
             </p>
             <Button className="w-full" onClick={handleClose}>Close</Button>
@@ -57,7 +57,7 @@ export function RateProviderDialog({ provider, open, onOpenChange }) {
           <div className="space-y-4 pt-2">
 
             <div className="space-y-2">
-              <p className="text-sm text-slate-600 font-medium">Your rating</p>
+              <p className="text-sm text-slate-600 dark:text-muted-foreground font-medium">Your rating</p>
               <div className="flex justify-center py-2">
                 <StarRating
                   value={selectedRating}
@@ -74,8 +74,8 @@ export function RateProviderDialog({ provider, open, onOpenChange }) {
             </div>
 
             <div className="space-y-1.5">
-              <p className="text-sm text-slate-600 font-medium">
-                Comment <span className="text-slate-400 font-normal">(optional)</span>
+              <p className="text-sm text-slate-600 dark:text-muted-foreground font-medium">
+                Comment <span className="text-slate-400 dark:text-muted-foreground font-normal">(optional)</span>
               </p>
               <Textarea
                 placeholder="Describe your experience..."
@@ -85,7 +85,7 @@ export function RateProviderDialog({ provider, open, onOpenChange }) {
                 rows={3}
                 className="resize-none"
               />
-              <p className="text-xs text-slate-400 text-right">
+              <p className="text-xs text-slate-400 dark:text-muted-foreground text-right">
                 {comment.length}/500
               </p>
             </div>

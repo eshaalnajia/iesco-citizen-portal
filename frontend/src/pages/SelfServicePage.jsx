@@ -122,8 +122,8 @@ export default function SelfServicePage() {
   return (
     <div className="space-y-6 max-w-2xl mx-auto">
       <div>
-        <h1 className="text-2xl font-bold text-slate-900">{t("selfService.title")}</h1>
-        <p className="text-slate-500 mt-1 text-sm">
+        <h1 className="text-2xl font-bold text-slate-900 dark:text-foreground">{t("selfService.title")}</h1>
+        <p className="text-slate-500 dark:text-muted-foreground mt-1 text-sm">
           {t("selfService.subtitle")}
         </p>
       </div>
@@ -151,12 +151,12 @@ export default function SelfServicePage() {
                               rounded-xl border-2 text-center transition
                               ${selected
                                 ? "border-iesco-teal bg-iesco-teal/5"
-                                : "border-slate-200 bg-white hover:border-slate-300"
+                                : "border-slate-200 bg-white dark:bg-card hover:border-slate-300"
                               }`}
                 >
-                  <Icon className={`h-5 w-5 ${selected ? "text-iesco-teal" : "text-slate-400"}`} />
+                  <Icon className={`h-5 w-5 ${selected ? "text-iesco-teal" : "text-slate-400 dark:text-muted-foreground"}`} />
                   <span className={`text-xs font-medium
-                                   ${selected ? "text-iesco-teal" : "text-slate-700"}`}>
+                                   ${selected ? "text-iesco-teal" : "text-slate-700 dark:text-foreground"}`}>
                     {t(type.tKey)}
                   </span>
                 </button>
@@ -168,15 +168,15 @@ export default function SelfServicePage() {
             <div className="bg-green-50 border border-green-200 rounded-2xl p-6 space-y-4 text-center">
               <CheckCircle className="h-12 w-12 text-green-500 mx-auto" />
               <div>
-                <p className="font-bold text-lg text-slate-900">{t("selfService.successTitle")}</p>
-                <p className="text-slate-500 text-sm mt-1">{submitted.message}</p>
+                <p className="font-bold text-lg text-slate-900 dark:text-foreground">{t("selfService.successTitle")}</p>
+                <p className="text-slate-500 dark:text-muted-foreground text-sm mt-1">{submitted.message}</p>
               </div>
-              <div className="bg-white rounded-xl p-4 space-y-2">
-                <p className="text-xs text-slate-400">{t("selfService.ticketLabel")}</p>
+              <div className="bg-white dark:bg-card rounded-xl p-4 space-y-2">
+                <p className="text-xs text-slate-400 dark:text-muted-foreground">{t("selfService.ticketLabel")}</p>
                 <p className="font-mono text-2xl font-bold text-iesco-teal">
                   {submitted.ticket_number}
                 </p>
-                <p className="text-xs text-slate-500">{t("selfService.estimatedTime")}: {submitted.estimated_time}</p>
+                <p className="text-xs text-slate-500 dark:text-muted-foreground">{t("selfService.estimatedTime")}: {submitted.estimated_time}</p>
               </div>
               <Button
                 variant="outline"
@@ -209,7 +209,7 @@ export default function SelfServicePage() {
 
         <TabsContent value="track" className="mt-4">
           <div className="space-y-2 mb-4">
-            <p className="text-sm text-slate-600">
+            <p className="text-sm text-slate-600 dark:text-muted-foreground">
               Enter the ticket number from your submission confirmation to check
               the current status of your request.
             </p>

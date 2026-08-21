@@ -37,15 +37,15 @@ function SlabRow({ slab, isHighlighted }) {
     )}>
       <td className="py-3 px-4">
         <div className="flex items-center gap-2">
-          <span className="text-sm font-medium text-slate-800">
+          <span className="text-sm font-medium text-slate-800 dark:text-foreground">
             {unitRangeLabel(slab)}
           </span>
           {isHighlighted && <UsageBadge />}
         </div>
       </td>
-      <td className="py-3 px-4 text-sm font-mono text-slate-700">{formatPKR(slab.peak_rate)}</td>
-      <td className="py-3 px-4 text-sm font-mono text-slate-700">{formatPKR(slab.offpeak_rate)}</td>
-      <td className="py-3 px-4 text-sm font-mono text-slate-500">{formatPKR(slab.fixed_charge)}</td>
+      <td className="py-3 px-4 text-sm font-mono text-slate-700 dark:text-foreground">{formatPKR(slab.peak_rate)}</td>
+      <td className="py-3 px-4 text-sm font-mono text-slate-700 dark:text-foreground">{formatPKR(slab.offpeak_rate)}</td>
+      <td className="py-3 px-4 text-sm font-mono text-slate-500 dark:text-muted-foreground">{formatPKR(slab.fixed_charge)}</td>
     </tr>
   )
 }
@@ -58,23 +58,23 @@ function SlabCard({ slab, isHighlighted }) {
       isHighlighted ? "bg-iesco-teal/5" : ""
     )}>
       <div className="flex items-center justify-between gap-2 mb-3">
-        <span className="text-sm font-semibold text-slate-800">
+        <span className="text-sm font-semibold text-slate-800 dark:text-foreground">
           {unitRangeLabel(slab)}
         </span>
         {isHighlighted && <UsageBadge />}
       </div>
       <div className="grid grid-cols-3 gap-2 text-xs">
         <div>
-          <p className="text-slate-400 uppercase tracking-wide mb-1">Peak</p>
-          <p className="font-mono text-slate-700">{formatPKR(slab.peak_rate)}</p>
+          <p className="text-slate-400 dark:text-muted-foreground uppercase tracking-wide mb-1">Peak</p>
+          <p className="font-mono text-slate-700 dark:text-foreground">{formatPKR(slab.peak_rate)}</p>
         </div>
         <div>
-          <p className="text-slate-400 uppercase tracking-wide mb-1">Off-peak</p>
-          <p className="font-mono text-slate-700">{formatPKR(slab.offpeak_rate)}</p>
+          <p className="text-slate-400 dark:text-muted-foreground uppercase tracking-wide mb-1">Off-peak</p>
+          <p className="font-mono text-slate-700 dark:text-foreground">{formatPKR(slab.offpeak_rate)}</p>
         </div>
         <div>
-          <p className="text-slate-400 uppercase tracking-wide mb-1">Fixed</p>
-          <p className="font-mono text-slate-500">{formatPKR(slab.fixed_charge)}</p>
+          <p className="text-slate-400 dark:text-muted-foreground uppercase tracking-wide mb-1">Fixed</p>
+          <p className="font-mono text-slate-500 dark:text-muted-foreground">{formatPKR(slab.fixed_charge)}</p>
         </div>
       </div>
     </div>
@@ -95,7 +95,7 @@ export function RateSlabTable({ consumerType, highlightUnits = null }) {
   }
 
   if (isError) {
-    return <p className="text-sm text-slate-500 py-4">Could not load tariff rates. Please try again.</p>
+    return <p className="text-sm text-slate-500 dark:text-muted-foreground py-4">Could not load tariff rates. Please try again.</p>
   }
 
   const slabs = data?.data ?? []
@@ -128,30 +128,30 @@ export function RateSlabTable({ consumerType, highlightUnits = null }) {
         <table className="w-full text-sm">
           <thead className="bg-slate-50 border-b border-slate-200">
             <tr>
-              <th className="text-left text-xs font-semibold text-slate-500 uppercase tracking-wide py-3 px-4">Unit range</th>
-              <th className="text-left text-xs font-semibold text-slate-500 uppercase tracking-wide py-3 px-4">
+              <th className="text-left text-xs font-semibold text-slate-500 dark:text-muted-foreground uppercase tracking-wide py-3 px-4">Unit range</th>
+              <th className="text-left text-xs font-semibold text-slate-500 dark:text-muted-foreground uppercase tracking-wide py-3 px-4">
                 <div className="flex items-center gap-1">
                   Peak rate
                   <TooltipProvider>
                     <Tooltip>
-                      <TooltipTrigger><InfoIcon className="h-3 w-3 text-slate-400" /></TooltipTrigger>
+                      <TooltipTrigger><InfoIcon className="h-3 w-3 text-slate-400 dark:text-muted-foreground" /></TooltipTrigger>
                       <TooltipContent><p className="text-xs">Usually 5 PM - 11 PM</p></TooltipContent>
                     </Tooltip>
                   </TooltipProvider>
                 </div>
               </th>
-              <th className="text-left text-xs font-semibold text-slate-500 uppercase tracking-wide py-3 px-4">
+              <th className="text-left text-xs font-semibold text-slate-500 dark:text-muted-foreground uppercase tracking-wide py-3 px-4">
                 <div className="flex items-center gap-1">
                   Off-peak rate
                   <TooltipProvider>
                     <Tooltip>
-                      <TooltipTrigger><InfoIcon className="h-3 w-3 text-slate-400" /></TooltipTrigger>
+                      <TooltipTrigger><InfoIcon className="h-3 w-3 text-slate-400 dark:text-muted-foreground" /></TooltipTrigger>
                       <TooltipContent><p className="text-xs">11 PM - 5 PM next day</p></TooltipContent>
                     </Tooltip>
                   </TooltipProvider>
                 </div>
               </th>
-              <th className="text-left text-xs font-semibold text-slate-500 uppercase tracking-wide py-3 px-4">Fixed charge / month</th>
+              <th className="text-left text-xs font-semibold text-slate-500 dark:text-muted-foreground uppercase tracking-wide py-3 px-4">Fixed charge / month</th>
             </tr>
           </thead>
           <tbody>
@@ -168,7 +168,7 @@ export function RateSlabTable({ consumerType, highlightUnits = null }) {
 
       {slabs.length > 0 && (
         <div className="px-4 py-2.5 bg-slate-50 border-t border-slate-200">
-          <p className="text-xs text-slate-400">
+          <p className="text-xs text-slate-400 dark:text-muted-foreground">
             Rates effective {data?.effective_from ?? "-"} &middot; Approved by NEPRA &middot; 17% GST applies to the total bill
           </p>
         </div>

@@ -71,7 +71,7 @@ export function EasypaisaButton({ bill }) {
           "Pay with EasyPaisa"
         )}
       </Button>
-      <p className="text-xs text-center text-slate-400">
+      <p className="text-xs text-center text-slate-400 dark:text-muted-foreground">
         You will be redirected to EasyPaisa's secure payment page
       </p>
     </div>

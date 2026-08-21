@@ -54,7 +54,7 @@ export function JazzCashForm({ bill, onSuccess }) {
   if (step === "mobile") {
     return (
       <div className="space-y-4">
-        <div className="flex items-center gap-2 text-sm text-slate-600">
+        <div className="flex items-center gap-2 text-sm text-slate-600 dark:text-muted-foreground">
           <Smartphone className="h-4 w-4 text-iesco-teal" />
           <span>Pay with your JazzCash mobile account</span>
         </div>
@@ -70,7 +70,7 @@ export function JazzCashForm({ bill, onSuccess }) {
             maxLength={11}
             className="font-mono"
           />
-          <p className="text-xs text-slate-400">
+          <p className="text-xs text-slate-400 dark:text-muted-foreground">
             Must be the Jazz or Warid number registered with your JazzCash account
           </p>
         </div>
@@ -83,12 +83,12 @@ export function JazzCashForm({ bill, onSuccess }) {
 
         <div className="bg-slate-50 rounded-lg p-3 space-y-1">
           <div className="flex justify-between text-sm">
-            <span className="text-slate-500">Bill reference</span>
-            <span className="font-mono text-slate-700">{bill.reference_number}</span>
+            <span className="text-slate-500 dark:text-muted-foreground">Bill reference</span>
+            <span className="font-mono text-slate-700 dark:text-foreground">{bill.reference_number}</span>
           </div>
           <div className="flex justify-between text-sm">
-            <span className="text-slate-500">Amount payable</span>
-            <span className="font-bold text-slate-900">
+            <span className="text-slate-500 dark:text-muted-foreground">Amount payable</span>
+            <span className="font-bold text-slate-900 dark:text-foreground">
               PKR {Number(bill.total_payable).toLocaleString("en-PK", {
                 minimumFractionDigits: 2
               })}
@@ -159,7 +159,7 @@ export function JazzCashForm({ bill, onSuccess }) {
 
         <button
           onClick={() => { setStep("mobile"); setOtp(""); initiateM.reset() }}
-          className="w-full text-sm text-slate-400 hover:text-slate-600"
+          className="w-full text-sm text-slate-400 dark:text-muted-foreground hover:text-slate-600 dark:text-muted-foreground"
         >
           Use a different number
         </button>
@@ -178,8 +178,8 @@ export function JazzCashForm({ bill, onSuccess }) {
         </div>
 
         <div>
-          <p className="font-bold text-lg text-slate-900">Payment successful</p>
-          <p className="text-sm text-slate-500 mt-1">
+          <p className="font-bold text-lg text-slate-900 dark:text-foreground">Payment successful</p>
+          <p className="text-sm text-slate-500 dark:text-muted-foreground mt-1">
             Your IESCO bill has been paid via JazzCash
           </p>
         </div>
@@ -193,13 +193,13 @@ export function JazzCashForm({ bill, onSuccess }) {
             { label: "Bill reference",   value: receipt?.reference_number },
           ].map(({ label, value }) => (
             <div key={label} className="flex justify-between text-sm">
-              <span className="text-slate-500">{label}</span>
-              <span className="font-mono font-medium text-slate-800">{value}</span>
+              <span className="text-slate-500 dark:text-muted-foreground">{label}</span>
+              <span className="font-mono font-medium text-slate-800 dark:text-foreground">{value}</span>
             </div>
           ))}
         </div>
 
-        <p className="text-xs text-slate-400">
+        <p className="text-xs text-slate-400 dark:text-muted-foreground">
           Save the transaction reference for your records. Your bill status will
           update within a few minutes.
         </p>

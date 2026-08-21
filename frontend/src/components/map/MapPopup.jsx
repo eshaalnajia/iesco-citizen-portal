@@ -15,20 +15,20 @@ export function MapPopup({ feeder, onClose }) {
   return (
     <div
       className="absolute bottom-24 left-1/2 -translate-x-1/2 z-10
-                 bg-white rounded-xl shadow-xl border border-slate-200
+                 bg-white dark:bg-card rounded-xl shadow-xl border border-slate-200
                  w-72 p-4 space-y-3"
     >
       <div className="flex items-start justify-between gap-2">
         <div>
-          <p className="text-xs text-slate-400 font-mono">{feeder.feeder_code}</p>
-          <h3 className="font-semibold text-slate-900 leading-tight">
+          <p className="text-xs text-slate-400 dark:text-muted-foreground font-mono">{feeder.feeder_code}</p>
+          <h3 className="font-semibold text-slate-900 dark:text-foreground leading-tight">
             {feeder.name}
           </h3>
-          <p className="text-xs text-slate-500">{feeder.sector} sector</p>
+          <p className="text-xs text-slate-500 dark:text-muted-foreground">{feeder.sector} sector</p>
         </div>
         <button
           onClick={onClose}
-          className="text-slate-400 hover:text-slate-600 flex-shrink-0 mt-0.5"
+          className="text-slate-400 dark:text-muted-foreground hover:text-slate-600 dark:text-muted-foreground flex-shrink-0 mt-0.5"
           aria-label="Close popup"
         >
           <X className="h-4 w-4" />
@@ -36,14 +36,14 @@ export function MapPopup({ feeder, onClose }) {
       </div>
 
       <div className="flex items-center justify-between">
-        <span className="text-xs text-slate-500">Current status</span>
+        <span className="text-xs text-slate-500 dark:text-muted-foreground">Current status</span>
         <FeederStatusBadge status={feeder.status} />
       </div>
 
       <div className="space-y-1">
         <div className="flex justify-between text-xs">
-          <span className="text-slate-500">Reliability score</span>
-          <span className="font-medium text-slate-700">
+          <span className="text-slate-500 dark:text-muted-foreground">Reliability score</span>
+          <span className="font-medium text-slate-700 dark:text-foreground">
             {feeder.reliability ?? "—"} / 100
           </span>
         </div>
@@ -62,7 +62,7 @@ export function MapPopup({ feeder, onClose }) {
         </div>
       </div>
 
-      <p className="text-xs text-slate-400">
+      <p className="text-xs text-slate-400 dark:text-muted-foreground">
         Last updated: {formatDate(feeder.last_updated)}
       </p>
     </div>

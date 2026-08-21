@@ -19,7 +19,7 @@ export function AreaSearch({ value, onChange }) {
     <div className="space-y-2">
       <div className="relative">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2
-                           h-4 w-4 text-slate-400 pointer-events-none" />
+                           h-4 w-4 text-slate-400 dark:text-muted-foreground pointer-events-none" />
         <Input
           ref={inputRef}
           type="search"
@@ -32,7 +32,7 @@ export function AreaSearch({ value, onChange }) {
           <button
             onClick={handleClear}
             className="absolute right-3 top-1/2 -translate-y-1/2
-                       text-slate-400 hover:text-slate-600"
+                       text-slate-400 dark:text-muted-foreground hover:text-slate-600 dark:text-muted-foreground"
           >
             <X className="h-4 w-4" />
           </button>
@@ -45,11 +45,11 @@ export function AreaSearch({ value, onChange }) {
             <button
               key={area}
               onClick={() => onChange(area)}
-              className="flex-shrink-0 text-xs bg-slate-100 text-slate-600
+              className="flex-shrink-0 text-xs bg-slate-100 text-slate-600 dark:text-muted-foreground
                          hover:bg-slate-200 px-2.5 py-1 rounded-full transition"
             >
               {area}
-              <span className="ml-1 text-slate-400">({count})</span>
+              <span className="ml-1 text-slate-400 dark:text-muted-foreground">({count})</span>
             </button>
           ))}
         </div>

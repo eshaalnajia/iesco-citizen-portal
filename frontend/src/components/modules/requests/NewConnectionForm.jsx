@@ -13,7 +13,7 @@ export function NewConnectionForm({ values, onChange, errors = {} }) {
       <CitizenInfoFields values={values} onChange={onChange} errors={errors} />
 
       <div className="space-y-4">
-        <h3 className="text-sm font-semibold text-slate-700 uppercase tracking-wide">
+        <h3 className="text-sm font-semibold text-slate-700 dark:text-foreground uppercase tracking-wide">
           Connection details
         </h3>
 
@@ -49,7 +49,7 @@ export function NewConnectionForm({ values, onChange, errors = {} }) {
               value={values.load_required_kw || ""}
               onChange={(e) => onChange("load_required_kw", e.target.value)}
             />
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-slate-400 dark:text-muted-foreground">
               Typical home: 5-10 kW - Shop: 10-20 kW
             </p>
           </div>

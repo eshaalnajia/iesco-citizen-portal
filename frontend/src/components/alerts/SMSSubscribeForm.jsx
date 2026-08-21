@@ -54,13 +54,13 @@ export function SMSSubscribeForm({ feeders = [] }) {
   }
 
   return (
-    <div className="bg-white border border-slate-200 rounded-xl p-5 space-y-4">
+    <div className="bg-white dark:bg-card border border-slate-200 rounded-xl p-5 space-y-4">
       <div className="flex items-center gap-2">
         <Bell className="h-5 w-5 text-iesco-teal" />
-        <h3 className="font-semibold text-slate-800">{t("alerts.title")}</h3>
+        <h3 className="font-semibold text-slate-800 dark:text-foreground">{t("alerts.title")}</h3>
       </div>
 
-      <p className="text-sm text-slate-500">
+      <p className="text-sm text-slate-500 dark:text-muted-foreground">
         {t("alerts.subtitle")} {t("alerts.freeService")}
       </p>
 
@@ -109,7 +109,7 @@ export function SMSSubscribeForm({ feeders = [] }) {
         </Button>
       </div>
 
-      <p className="text-xs text-slate-400">
+      <p className="text-xs text-slate-400 dark:text-muted-foreground">
         {t("alerts.freeService")}
       </p>
     </div>

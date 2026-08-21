@@ -37,26 +37,26 @@ export default function ForgotPasswordPage() {
       <div className="w-full max-w-sm space-y-6">
 
         <Link to="/login"
-          className="flex items-center gap-1.5 text-slate-400 hover:text-slate-700
+          className="flex items-center gap-1.5 text-slate-400 dark:text-muted-foreground hover:text-slate-700 dark:text-foreground
                      transition-colors text-sm w-fit">
           <ArrowLeft className="h-3.5 w-3.5" /> Back to sign in
         </Link>
 
-        <div className="bg-white border border-slate-200 rounded-2xl p-7 space-y-6 shadow-sm">
+        <div className="bg-white dark:bg-card border border-slate-200 rounded-2xl p-7 space-y-6 shadow-sm">
           {/* Logo */}
           <div className="flex items-center gap-2.5">
             <div className="w-9 h-9 rounded-xl bg-iesco-navy flex items-center justify-center">
               <Zap className="h-4 w-4 text-iesco-teal" />
             </div>
-            <span className="font-bold text-slate-900">IESCO Portal</span>
+            <span className="font-bold text-slate-900 dark:text-foreground">IESCO Portal</span>
           </div>
 
           {sent ? (
             <div className="text-center space-y-3 py-2">
               <CheckCircle className="h-10 w-10 text-green-500 mx-auto" />
               <div>
-                <p className="font-semibold text-slate-900">Email sent</p>
-                <p className="text-sm text-slate-500 mt-1">
+                <p className="font-semibold text-slate-900 dark:text-foreground">Email sent</p>
+                <p className="text-sm text-slate-500 dark:text-muted-foreground mt-1">
                   Check <span className="font-medium">{email}</span> for
                   a password reset link. It expires in 1 hour.
                 </p>
@@ -69,8 +69,8 @@ export default function ForgotPasswordPage() {
           ) : (
             <>
               <div>
-                <h2 className="text-xl font-bold text-slate-900">Forgot password?</h2>
-                <p className="text-slate-500 text-sm mt-1">
+                <h2 className="text-xl font-bold text-slate-900 dark:text-foreground">Forgot password?</h2>
+                <p className="text-slate-500 dark:text-muted-foreground text-sm mt-1">
                   Enter your email and we'll send a reset link.
                 </p>
               </div>
@@ -85,7 +85,7 @@ export default function ForgotPasswordPage() {
                 <div className="space-y-1.5">
                   <Label htmlFor="reset-email">Email address</Label>
                   <div className="relative">
-                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                    <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400 dark:text-muted-foreground" />
                     <Input id="reset-email" type="email"
                       placeholder="you@example.com"
                       value={email} onChange={e => setEmail(e.target.value)}

@@ -16,8 +16,8 @@ export default function TariffsPage() {
       content: (
         <div className="space-y-3 p-1">
           <div className="flex items-center justify-between">
-            <h2 className="text-base font-semibold text-slate-800">{t("tariffs.currentRates")}</h2>
-            <span className="text-xs text-slate-400">{t("tariffs.perUnit")}</span>
+            <h2 className="text-base font-semibold text-slate-800 dark:text-foreground">{t("tariffs.currentRates")}</h2>
+            <span className="text-xs text-slate-400 dark:text-muted-foreground">{t("tariffs.perUnit")}</span>
           </div>
           <RateSlabTable consumerType={consumerType} highlightUnits={calcUnits} />
         </div>
@@ -26,7 +26,7 @@ export default function TariffsPage() {
     {
       content: (
         <div className="space-y-3 p-1">
-          <h2 className="text-base font-semibold text-slate-800">{t("tariffs.calculator")}</h2>
+          <h2 className="text-base font-semibold text-slate-800 dark:text-foreground">{t("tariffs.calculator")}</h2>
           <BillCalculator consumerType={consumerType} onUnitsChange={setCalcUnits} />
         </div>
       ),
@@ -35,8 +35,8 @@ export default function TariffsPage() {
       content: (
         <div className="space-y-3 p-1">
           <div>
-            <h2 className="text-base font-semibold text-slate-800">{t("tariffs.rateHistory")}</h2>
-            <p className="text-xs text-slate-400 mt-0.5">
+            <h2 className="text-base font-semibold text-slate-800 dark:text-foreground">{t("tariffs.rateHistory")}</h2>
+            <p className="text-xs text-slate-400 dark:text-muted-foreground mt-0.5">
               {t("tariffs.effectiveFrom", { date: consumerType })}
             </p>
           </div>
@@ -49,16 +49,16 @@ export default function TariffsPage() {
   return (
     <div className="space-y-5 max-w-3xl mx-auto">
       <div>
-        <h1 className="text-2xl font-bold text-slate-900">
+        <h1 className="text-2xl font-bold text-slate-900 dark:text-foreground">
           {t("tariffs.title", "Electricity Tariff Rates")}
         </h1>
-        <p className="text-slate-500 mt-1 text-sm">
+        <p className="text-slate-500 dark:text-muted-foreground mt-1 text-sm">
           Swipe to switch between consumer types
         </p>
       </div>
 
       <div className="space-y-3">
-        <h2 className="text-sm font-semibold text-slate-600 uppercase tracking-wide">
+        <h2 className="text-sm font-semibold text-slate-600 dark:text-muted-foreground uppercase tracking-wide">
           {t("tariffs.selectType")}
         </h2>
         <ConsumerTypeSelector value={consumerType} onChange={setConsumerType} />

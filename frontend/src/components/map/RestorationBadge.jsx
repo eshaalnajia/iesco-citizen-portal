@@ -29,8 +29,8 @@ const CONFIG = {
   },
   no_data: {
     icon:    HelpCircle,
-    classes: "bg-slate-50 border-slate-200 text-slate-600",
-    iconCls: "text-slate-400",
+    classes: "bg-slate-50 border-slate-200 text-slate-600 dark:text-muted-foreground",
+    iconCls: "text-slate-400 dark:text-muted-foreground",
   },
 }
 

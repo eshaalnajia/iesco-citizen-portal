@@ -21,7 +21,7 @@ export function LocationList({ search, areaType }) {
 
   if (isError) {
     return (
-      <div className="text-center py-12 text-slate-500">
+      <div className="text-center py-12 text-slate-500 dark:text-muted-foreground">
         <p className="text-sm">Could not load locations. Please try again.</p>
       </div>
     )
@@ -34,9 +34,9 @@ export function LocationList({ search, areaType }) {
     return (
       <div className="text-center py-16 space-y-3">
         <Building2 className="h-10 w-10 text-slate-300 mx-auto" />
-        <p className="font-medium text-slate-600">No locations found</p>
+        <p className="font-medium text-slate-600 dark:text-muted-foreground">No locations found</p>
         {search && (
-          <p className="text-sm text-slate-400">
+          <p className="text-sm text-slate-400 dark:text-muted-foreground">
             No results for "{search}". Try a different search term.
           </p>
         )}
@@ -47,7 +47,7 @@ export function LocationList({ search, areaType }) {
   return (
     <div className="space-y-3">
       <div className="flex items-center justify-between">
-        <p className="text-xs text-slate-400">
+        <p className="text-xs text-slate-400 dark:text-muted-foreground">
           {total} location{total !== 1 ? "s" : ""}
           {search && ` matching "${search}"`}
           {areaType && ` · ${areaType.replace("_", " ")}`}

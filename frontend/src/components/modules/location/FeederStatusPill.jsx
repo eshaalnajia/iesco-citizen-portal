@@ -31,7 +31,7 @@
   },
   no_data: {
     dot:   "bg-slate-400",
-    text:  "text-slate-500",
+    text:  "text-slate-500 dark:text-muted-foreground",
     bg:    "bg-slate-50 border-slate-200",
     label: "No data",
   },
