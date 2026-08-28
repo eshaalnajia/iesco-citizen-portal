@@ -1,9 +1,10 @@
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import { useTranslation } from "react-i18next"
 import { useTheme } from "next-themes"
+import { useInstallPrompt } from "@/hooks/useInstallPrompt"
 import { Switch } from "@base-ui/react/switch"
 import { useAuth } from "@/context/AuthContext"
-import { Menu, Settings, User, LogOut, ChevronDown, Wrench, Building2, ClipboardList, Bell, Moon, Sun, Globe } from "lucide-react"
+import { Menu, Settings, User, LogOut, ChevronDown, Wrench, Building2, ClipboardList, Bell, Moon, Sun, Globe, Download } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 import { Badge } from "@/components/ui/badge"
@@ -27,6 +28,7 @@ const MORE_NAV = [
 export default function Navbar() {
   const { t, i18n } = useTranslation()
   const { resolvedTheme, setTheme } = useTheme()
+  const { canInstall, promptInstall } = useInstallPrompt()
   const location = useLocation()
   const { isAdmin, isUser, user, signOut } = useAuth()
   const navigate = useNavigate()
@@ -189,6 +191,17 @@ export default function Navbar() {
                       {i18n.language === "ur" ? "English" : "اردو"}
                     </span>
                   </button>
+                  {canInstall && (
+                    <button
+                      onClick={promptInstall}
+                      className="flex items-center justify-between text-slate-300 hover:text-white hover:bg-white/5 transition-colors text-sm font-medium px-3 py-3 rounded-lg"
+                    >
+                      <span className="flex items-center gap-2.5">
+                        <Download className="h-4 w-4" />
+                        Install app
+                      </span>
+                    </button>
+                  )}
                 </div>
               </nav>
             </SheetContent>
