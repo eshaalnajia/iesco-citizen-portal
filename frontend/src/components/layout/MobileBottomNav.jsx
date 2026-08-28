@@ -32,7 +32,7 @@ export function MobileBottomNav() {
           <Link
             key={tab.path}
             to={tab.path}
-            className={`flex-1 flex flex-col items-center justify-center gap-0.5 py-2
+            className={`flex-1 flex flex-col items-center justify-center gap-1 py-3
                         transition-colors
                         ${active ? "text-iesco-teal" : "text-slate-500 dark:text-muted-foreground"}`}
           >
@@ -45,7 +45,7 @@ export function MobileBottomNav() {
       <Sheet>
         <SheetTrigger asChild>
           <button
-            className="flex-1 flex flex-col items-center justify-center gap-0.5 py-2 text-slate-500 dark:text-muted-foreground"
+            className="flex-1 flex flex-col items-center justify-center gap-1 py-3 text-slate-500 dark:text-muted-foreground"
             aria-label="More"
           >
             <Menu className="h-5 w-5" />
